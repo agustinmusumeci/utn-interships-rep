@@ -12,6 +12,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.0.6"
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "astro": "^6.0.6",
+    "puppeteer": "^24.39.1"
+  },
+  "devDependencies": {
+    "prisma": "^7.5.0",
+    "tsx": "^4.21.0"
   }
 }
