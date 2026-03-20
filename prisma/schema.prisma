@@ -13,14 +13,47 @@ datasource db {
 }
 
 model Intership {
-  id        Int     @id @default(autoincrement())
-  company   String
-  degree    String
-  knowledge String
-  timetable String
-  position  String
-  workplace String
-  payment   String
-  link      String
-  mode      String
+  id                  Int     @id @default(autoincrement())
+  arm                 String  @unique
+  company_id          String
+  city                String
+  rrhh                String
+  interview_timetable String
+  knowledge           String
+  requirements        String
+  payment             Int
+  timetable           String
+  position            String
+  benefits            String
+  interns             Int
+  workplace           String
+  modality            String
+  link                String
+  mail                String?
+  Company             Company @relation(fields: [company_id], references: [id])  
+
+  intershipCareers IntershipCareer[]
+}
+
+model Career {
+  id        String     @id
+  name      String
+
+  intershipCareers IntershipCareer[]
+}
+
+model IntershipCareer {
+  intership_id Int
+  career_id    String 
+  Intership Intership @relation(fields: [intership_id], references: [id])  
+  Career Career @relation(fields: [career_id], references: [id])  
+
+  @@id([intership_id, career_id]) 
+}
+
+model Company {
+  id   String @id
+  name String
+
+  interships Intership[]
 }
