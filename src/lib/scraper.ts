@@ -8,21 +8,24 @@ export class Scraper {
     const browser = await puppeteer.launch({ headless: headless });
     const page = await browser.newPage();
 
-    await page.setViewport({ width: 1080, height: 1024 });
+    // await page.setViewport({ width: 1080, height: 1024 });
 
     this.#browser = browser;
     this.#page = page;
   }
 
-  async navigate(url: string) {
+  async navigate(url: string, selector?: string) {
     if (!this.#page || !this.#browser) {
       throw new Error("Page or Browser should be initialized first");
     }
 
     await this.#page.goto(url, { waitUntil: "networkidle0" });
+
+    if (selector) {
+      await this.#page.waitForSelector(selector);
+    }
   }
 
-  // EnlaceAccesoAutogestion;
   async click(selector: string) {
     await this.#page?.waitForSelector(selector, { timeout: 5000 });
 
@@ -35,14 +38,18 @@ export class Scraper {
     await this.#page?.type(selector, text);
   }
 
-  async select(selector: string, value: string) {
-    await this.#page?.waitForSelector(selector, { timeout: 5000 });
-
-    await this.#page?.select(selector, value);
-  }
-
   async refresh() {
     await this.#page?.reload();
+  }
+
+  async evaluate(callback: () => any, ...args: any[]) {
+    if (!callback) {
+      throw new Error("extract() must be implemented");
+    }
+
+    const data = await this.#page?.evaluate(callback, ...args);
+
+    return data;
   }
 
   async catchPetition() {
@@ -61,10 +68,6 @@ export class Scraper {
     });
   }
 
-  getUrl(): string | undefined {
-    return this.#page?.url();
-  }
-
   async wait() {
     await this.#page?.waitForNavigation({ waitUntil: "networkidle2" });
   }
@@ -79,5 +82,9 @@ export class Scraper {
 
   getPage() {
     return this.#page;
+  }
+
+  getUrl(): string | undefined {
+    return this.#page?.url();
   }
 }

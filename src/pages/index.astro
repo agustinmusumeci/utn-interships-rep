@@ -1,9 +1,10 @@
 ---
 
 import Layout from '../layouts/Layout.astro';
-import prisma from '../lib/prisma';
+import IntershipService from '../services/intership.service';
 
-const interships = await prisma.intership.findMany();
+await IntershipService.scrapeInterships()
+const interships = await IntershipService.getInterships()
 ---
 
 <Layout>
@@ -12,6 +13,9 @@ const interships = await prisma.intership.findMany();
 			<div>
 				{
 					intership.id
+				}
+				{
+					intership.arm
 				}
 			</div>
 		))
