@@ -1,4 +1,5 @@
 import type { Intership } from "../../prisma/generated/client";
+import { careers } from "../constants/careers";
 
 class UTNParser {
   fieldMap: Array<{ key: string; labels: Array<string> }>;
@@ -6,11 +7,11 @@ class UTNParser {
 
   constructor() {
     this.fieldMap = [
-      { key: "company_name", labels: ["NOMBRE DE LA EMPRESA/ORGANISMO", "NOMBRE DE LA EMPRESA"] },
+      { key: "company_id", labels: ["NOMBRE DE LA EMPRESA/ORGANISMO", "NOMBRE DE LA EMPRESA"] },
       { key: "city", labels: ["CIUDAD"] },
       { key: "rrhh", labels: ["REFERENTE DE RRHH", "FUNCIONARIO ACTUANTE"] },
       { key: "interview_timetable", labels: ["HORARIO PARA ENTREVISTA"] },
-      { key: "careers_raw", labels: ["ESTUDIANTE DE LA CARRERA", "ESTUDIANTE"] },
+      { key: "careers_id", labels: ["ESTUDIANTE DE LA CARRERA", "ESTUDIANTE"] },
       { key: "knowledge", labels: ["CONOCIMIENTOS"] },
       { key: "requirements", labels: ["OTROS REQUISITOS"] },
       { key: "raw_payment", labels: ["ASIGNACIÓN ESTÍMULO", "ASIGNACION ESTIMULO"] },
@@ -70,11 +71,11 @@ class UTNParser {
 
     const raw = {
       arm: "",
-      company_name: "",
+      company_id: "",
       city: "",
       rrhh: "",
       interview_timetable: "",
-      careers_raw: "",
+      careers_id: "",
       knowledge: "",
       requirements: "",
       raw_payment: "",
@@ -174,6 +175,23 @@ class UTNParser {
     return parts.map((b) => b.trim()).filter(Boolean);
   }
 
+  checkCareers(raw: string) {
+    const text = this.normalize(raw);
+    const matchCareers = [];
+
+    for (let i = 0; i < careers.length; i++) {
+      const career = careers[i];
+
+      const regexCareer = new RegExp(`\\b${career}\\b`);
+
+      if (regexCareer.test(text)) {
+        matchCareers.push(career);
+      }
+    }
+
+    return matchCareers;
+  }
+
   parseInternships(rawText: string) {
     const blocks = this.splitIntoBlocks(rawText);
 
@@ -182,9 +200,8 @@ class UTNParser {
       const { mail, link } = this.extractContact(raw.send_cv, raw.link_raw);
 
       return {
-        // ── Campos del modelo Prisma ──────────────────────────────────────────
         arm: raw.arm,
-        // company_id:        resolver con company_name (ver abajo)
+        // company_id:
         city: raw.city,
         rrhh: raw.rrhh,
         interview_timetable: raw.interview_timetable,
@@ -200,9 +217,9 @@ class UTNParser {
         link,
         mail,
 
-        // ── Campos auxiliares para relaciones ────────────────────────────────
-        company_name: raw.company_name,
-        careers_raw: raw.careers_raw,
+        // Relaciones
+        company_id: this.normalize(raw.company_id),
+        careers_id: this.checkCareers(raw.careers_id),
       };
     });
   }
