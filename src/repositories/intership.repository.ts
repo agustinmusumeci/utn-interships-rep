@@ -1,6 +1,7 @@
+import { GeminiAgent } from "../agents/gemini.agent";
 import prisma from "../lib/prisma";
 import { Scraper } from "../lib/scraper";
-import utnParser from "../lib/utn.parser";
+// import utnParser from "../lib/utn.parser";
 
 class IntershipRepository {
   url: string;
@@ -26,7 +27,7 @@ class IntershipRepository {
 
     await scraper.close();
 
-    const res = utnParser.parseInternships(raw);
+    const res = new GeminiAgent().sumbitContent(raw);
 
     return res;
   }
@@ -35,7 +36,7 @@ class IntershipRepository {
     return await prisma.intership.findMany();
   }
 
-  async createOrUpdateInterships(interships: any) {}
+  async createInterships(interships: any) {}
 }
 
 export default new IntershipRepository();

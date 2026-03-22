@@ -1,23 +1,17 @@
 ---
 
+import Card from '../components/card.astro';
 import Layout from '../layouts/Layout.astro';
 import IntershipService from '../services/intership.service';
 
-await IntershipService.scrapeInterships()
 const interships = await IntershipService.getInterships()
+
 ---
 
 <Layout>
 	{
 		interships.map((intership) => (
-			<div>
-				{
-					intership.id
-				}
-				{
-					intership.arm
-				}
-			</div>
+			<Card intership={intership} />
 		))
 	}
 </Layout>

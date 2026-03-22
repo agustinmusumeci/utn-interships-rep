@@ -8,6 +8,11 @@ generator client {
   output   = "./generated"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+  output   = "./zod" // carpeta donde se generan los schemas
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -30,6 +35,7 @@ model Intership {
   modality            String
   link                String
   mail                String?
+  observations        String?
   Company             Company @relation(fields: [company_id], references: [id])  
 
   intershipCareers IntershipCareer[]
