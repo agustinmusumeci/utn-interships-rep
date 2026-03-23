@@ -1,16 +1,10 @@
 ---
-
-import Card from '../components/card.astro';
 import Layout from '../layouts/Layout.astro';
-import internshipService from '../services/internship.service';
+import "../styles/global.css"
+import Internships from './internships.astro';
 
-const interships= await internshipService.getInternships()
 ---
 
 <Layout>
-	{
-		interships?.map((intership) => (
-			<Card intership={intership} />
-		))
-	}
+	<Internships />
 </Layout>

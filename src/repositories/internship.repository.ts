@@ -37,10 +37,24 @@ class InternshipRepository {
   }
 
   async getInternships() {
-    return await prisma.internship.findMany();
+    return await prisma.internship.findMany({
+      // relationLoadStrategy: "join",
+      include: {
+        Company: true,
+        internshipCareers: {
+          include: {
+            Career: true,
+          },
+        },
+      },
+    });
   }
 
-  async uploadInterships(
+  async getInternship(id: number) {
+    return await prisma.internship.findFirst({ where: { id: id } });
+  }
+
+  async uploadInternships(
     internships: Array<
       Internship & {
         careers: Array<string>;

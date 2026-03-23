@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  @apply max-w-[95dvw] lg:max-w-[1280px] mx-auto;
+}

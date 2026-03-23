@@ -1,0 +1,13 @@
+---
+import internshipService from "../../services/internship.service";
+
+const {id} = Astro.params
+
+const internship = await internshipService.getInternship(Number(id))
+
+if (!internship) return Astro.redirect("/404");
+---
+
+<div>
+    {id}
+</div>

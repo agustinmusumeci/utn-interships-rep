@@ -1,8 +1,26 @@
 ---
 
-const {intership} = Astro.props
+import type { Internship } from "../../prisma/zod"
+import Careers, { type CareersProps } from "./careers.astro"
+
+type Card = {
+    internship: Internship & {careers: CareersProps} & {company: {id: string, name: string}}
+    styles?: string
+}
+
+
+const {internship, styles=""} = Astro.props as Card
+
 
 ---
-<article>
-    {intership.arm}
-</article>
+<a href=`/internship/${internship.id}`>
+    <article class={`flex flex-col gap-2 p-4 border rounded-xl ${styles}`}>
+        <p>
+            A.R.M {internship.arm}
+        </p>
+        <p>
+            {internship.position}
+        </p>
+        <Careers careers={internship.careers}/>
+    </article>
+</a>
