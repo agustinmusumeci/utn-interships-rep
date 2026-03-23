@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from "../prisma/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { careers } from "../src/constants/careers";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -16,14 +17,7 @@ const companiesData: Prisma.CompanyCreateInput[] = [
   },
 ];
 
-const careersData: Prisma.CareerCreateInput[] = [
-  {
-    id: "sistemas",
-    name: "Ingenería en Sistemas de Información",
-  },
-];
-
-const intershipsData: Prisma.IntershipCreateInput[] = [
+const internshipsData: Prisma.InternshipCreateInput[] = [
   {
     arm: "24/26",
     company_id: "mercadolibre",
@@ -44,10 +38,10 @@ const intershipsData: Prisma.IntershipCreateInput[] = [
   },
 ];
 
-const intershipCareersData: Prisma.IntershipCaree[] = [
+const internshipCareersData: Prisma.InternshipCareerCreateInput[] = [
   {
-    intership_id: 1,
-    career_id: "sistemas",
+    internship_id: 1,
+    career_id: "SISTEMAS",
   },
 ];
 
@@ -58,16 +52,17 @@ export async function main() {
     await prisma.company.create({ data: i });
   }
 
-  for (const i of careersData) {
-    await prisma.career.create({ data: i });
+  for (const i of careers) {
+    const created = await prisma.career.create({ data: { id: i, name: i } });
   }
 
-  for (const i of intershipsData) {
-    await prisma.intership.create({ data: i });
+  for (const i of internshipsData) {
+    await prisma.internship.create({ data: i });
   }
 
-  for (const i of intershipCareersData) {
-    await prisma.intershipCareer.create({ data: i });
+  // El problema es que el "internship_id" se esta tomando como "1"
+  for (const i of internshipCareersData) {
+    await prisma.internshipCareer.create({ data: i });
   }
 
   console.log("Seeding finished.");

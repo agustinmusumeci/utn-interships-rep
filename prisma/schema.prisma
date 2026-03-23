@@ -17,7 +17,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model Intership {
+model Internship {
   id                  Int     @id @default(autoincrement())
   arm                 String  @unique
   company_id          String
@@ -38,28 +38,28 @@ model Intership {
   observations        String?
   Company             Company @relation(fields: [company_id], references: [id])  
 
-  intershipCareers IntershipCareer[]
+  internshipCareers InternshipCareer[]
 }
 
 model Career {
   id        String     @id
   name      String
 
-  intershipCareers IntershipCareer[]
+  internshipCareers InternshipCareer[]
 }
 
-model IntershipCareer {
-  intership_id Int
+model InternshipCareer {
+  internship_id Int
   career_id    String 
-  Intership Intership @relation(fields: [intership_id], references: [id])  
+  Internship Internship @relation(fields: [internship_id], references: [id])  
   Career Career @relation(fields: [career_id], references: [id])  
 
-  @@id([intership_id, career_id]) 
+  @@id([internship_id, career_id]) 
 }
 
 model Company {
   id   String @id
   name String
 
-  interships Intership[]
+  internships Internship[]
 }

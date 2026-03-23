@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import type { GoogleGenAI as GoogleGenAIType } from "@google/genai";
 import { INTERSHIP_RESPONSE_SCHEMA } from "../schemas/intership.response.schema";
-import { Agent } from "./agents";
+import { Agent } from "./agent";
 
 export class GeminiAgent extends Agent {
   #ai: GoogleGenAIType;

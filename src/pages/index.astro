@@ -1,16 +1,17 @@
 ---
 
 import Card from '../components/card.astro';
+import { UploadController } from '../controllers/upload.controller';
 import Layout from '../layouts/Layout.astro';
-import IntershipService from '../services/intership.service';
 
-const interships = await IntershipService.getInterships()
-
+const uploader = new UploadController()
+await uploader.uploadData()
+const interships= []
 ---
 
 <Layout>
 	{
-		interships.map((intership) => (
+		interships?.map((intership) => (
 			<Card intership={intership} />
 		))
 	}
