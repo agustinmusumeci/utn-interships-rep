@@ -2,7 +2,6 @@ import type { Internship } from "../../prisma/zod";
 import { GeminiAgent } from "../agents/gemini.agent";
 import prisma from "../lib/prisma";
 import { Scraper } from "../lib/scraper";
-import { POPULATED_MOCK } from "../mock/populated";
 import dotenv from "dotenv";
 dotenv.config({ path: "/.env" });
 
@@ -10,7 +9,7 @@ class InternshipRepository {
   url: string;
 
   constructor() {
-    this.url = process.env.SCRAPER_URL;
+    this.url = (typeof process !== "undefined" && process.env.SCRAPER_URL) || (import.meta as any).env?.SCRAPER_URL;
   }
 
   async scrapeInternships(): Promise<{ internships: Array<Internship> }> {

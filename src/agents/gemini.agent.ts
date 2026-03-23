@@ -11,7 +11,7 @@ export class GeminiAgent extends Agent {
 
   constructor() {
     super();
-    this.#ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    this.#ai = new GoogleGenAI({ apiKey: (typeof process !== "undefined" && process.env.GEMINI_API_KEY) || (import.meta as any).env?.GEMINI_API_KEY });
   }
 
   async sumbitContent(content: string): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
