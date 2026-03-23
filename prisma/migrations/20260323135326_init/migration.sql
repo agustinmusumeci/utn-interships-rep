@@ -26,6 +26,7 @@ CREATE TABLE "Internship" (
 CREATE TABLE "Career" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
 
     CONSTRAINT "Career_pkey" PRIMARY KEY ("id")
 );

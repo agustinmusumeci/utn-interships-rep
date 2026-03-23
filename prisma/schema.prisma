@@ -44,6 +44,7 @@ model Internship {
 model Career {
   id        String     @id
   name      String
+  color     String
 
   internshipCareers InternshipCareer[]
 }

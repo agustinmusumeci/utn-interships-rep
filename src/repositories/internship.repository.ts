@@ -1,24 +1,26 @@
-import type { Intership } from "../../prisma/zod";
+import type { Internship } from "../../prisma/zod";
 import { GeminiAgent } from "../agents/gemini.agent";
 import prisma from "../lib/prisma";
 import { Scraper } from "../lib/scraper";
 import { POPULATED_MOCK } from "../mock/populated";
+import dotenv from "dotenv";
+dotenv.config({ path: "/.env" });
 
 class InternshipRepository {
   url: string;
 
   constructor() {
-    this.url = import.meta.env.SCRAPER_URL;
+    this.url = process.env.SCRAPER_URL;
   }
 
-  async scrapeInternships(): Promise<{ internships: Array<Intership> }> {
+  async scrapeInternships(): Promise<{ internships: Array<Internship> }> {
     const scraper = new Scraper();
 
     await scraper.init(true);
 
     await scraper.navigate(this.url);
 
-    const raw: Promise<{ interships: Array<Intership> }> = await scraper.evaluate(() => {
+    const raw: Promise<{ interships: Array<Internship> }> = await scraper.evaluate(() => {
       const container = document.getElementById("a60492");
 
       const content = container?.querySelector(".show-hide")?.textContent;
@@ -28,8 +30,9 @@ class InternshipRepository {
 
     await scraper.close();
 
-    // const res = new GeminiAgent().sumbitContent(raw);
-    const res: { internships: Array<Intership> } = POPULATED_MOCK;
+    const agent = new GeminiAgent();
+
+    const res = await agent.sumbitContent(raw);
 
     return res;
   }
@@ -38,10 +41,17 @@ class InternshipRepository {
     return await prisma.internship.findMany();
   }
 
-  async uploadInterships(internships: Array<Intership>) {
+  async uploadInterships(
+    internships: Array<
+      Internship & {
+        careers: Array<string>;
+      }
+    >,
+  ) {
     await prisma.$transaction(async (tx) => {
       await tx.internship.createMany({
         data: internships.map(({ careers, ...rest }) => rest),
+        skipDuplicates: true,
       });
 
       const created = await tx.internship.findMany({
@@ -59,6 +69,7 @@ class InternshipRepository {
 
       await tx.internshipCareer.createMany({
         data: internshipCareerData,
+        skipDuplicates: true,
       });
     });
   }

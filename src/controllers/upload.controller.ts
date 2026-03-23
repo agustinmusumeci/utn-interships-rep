@@ -7,13 +7,10 @@ export class UploadController {
 
     const internships = [];
     const companiesHash = new Set();
-    const internshipCareers = [];
 
     for (let i = 0; i < rawData?.internships?.length; i++) {
       const internship = rawData?.internships[i];
       const companyId = internship?.company_id;
-
-      // const careers = internship?.careers ?? [];
 
       internships.push(internship);
 

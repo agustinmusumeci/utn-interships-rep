@@ -8,7 +8,7 @@ class InternshipService {
     return await internshipRepository.scrapeInternships();
   }
 
-  async uploadInternships(internships: Array<Internship>) {
+  async uploadInternships(internships: Array<Internship & { careers: Array<string> }>) {
     return await internshipRepository.uploadInterships(internships);
   }
 

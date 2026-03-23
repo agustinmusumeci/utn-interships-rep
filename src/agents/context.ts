@@ -29,7 +29,7 @@ export const CONTEXT = `
     - Careers required → company_id (DO NOT add a careers field, match them from the list below and store as uppercase comma-separated string in position field — wait, see note)
 
     CAREERS: Match the required careers from this list (write uppercase, no accents, no "Ingeniería"/"Lic." prefix):
-    ${careers.join(", ")}
+    ${careers.map((c) => c.id).join(", ")}
 
     If a field has no data in the source text, use:
     - "" for string fields
