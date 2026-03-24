@@ -37,9 +37,9 @@ model Internship {
   mail                String?
   observations        String?
   created_at DateTime @default(now())
-  Company             Company @relation(fields: [company_id], references: [id])  
 
-  internshipCareers InternshipCareer[]
+  Company             Company @relation(fields: [company_id], references: [id])  
+  internshipCareers   InternshipCareer[]
 }
 
 model Career {
@@ -48,6 +48,7 @@ model Career {
   color     String
 
   internshipCareers InternshipCareer[]
+  userCareers UserCareer[]
 }
 
 model InternshipCareer {
@@ -64,4 +65,23 @@ model Company {
   name String
 
   internships Internship[]
+}
+
+model User {
+  id         String @id
+  name       String
+  mail       String
+  suscripted Boolean @default(false)
+
+  userCareers UserCareer[]
+}
+
+model UserCareer {
+  user_id   String
+  career_id String
+
+  User User @relation(fields: [user_id], references: [id])  
+  Career Career @relation(fields: [career_id], references: [id])  
+
+  @@id([user_id, career_id]) 
 }

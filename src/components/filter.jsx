@@ -39,13 +39,13 @@ export default function Filter({ careers = [], text, time, page }) {
   }, [form]);
 
   return (
-    <div className="flex flex-row gap-5 mt-5">
+    <div className="flex flex-col gap-5 mt-5 mx-2">
       <form
         className="flex flex-col gap-5"
         id="internships-filter"
         method="get"
       >
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2 w-full">
             <label for="page" />
             <input
@@ -55,7 +55,7 @@ export default function Filter({ careers = [], text, time, page }) {
             />
             <label for="text">Buscar</label>
             <input
-              className="border border-gray-200 px-3 py-1 rounded-full"
+              className="border border-gray-200 px-3 py-1 rounded-full font-light"
               name="text"
               id="text"
               type="text"
@@ -64,33 +64,40 @@ export default function Filter({ careers = [], text, time, page }) {
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            <label for="careers">Especialidad</label>
-            <div className="flex flex-row flex-wrap gap-3">
+            <label
+              for="careers"
+              className="text-lg"
+            >
+              Especialidad
+            </label>
+            <div className="flex flex-col flex-wrap gap-3">
               <input
                 type="hidden"
                 name="careers"
                 value={form.careers.length > 0 ? form.careers.join(",") : "*"}
               />
               {CAREERS.map((c) => (
-                <label
-                  key={c.id}
-                  className="flex items-center gap-1 cursor-pointer"
-                >
+                <div className="flex flex-row gap-2 font-light">
+                  <label
+                    key={c.id}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    {c.name}
+                  </label>
                   <input
                     type="checkbox"
                     value={c.id}
                     checked={form?.careers?.includes(c.id)}
                     onChange={() => onCareerToggle(c.id)}
                   />
-                  {c.name}
-                </label>
+                </div>
               ))}
             </div>
           </div>
           <div className="flex flex-col gap-2 w-full">
             <label for="time">Fecha</label>
             <select
-              className="border border-gray-200 px-3 py-1 rounded-full"
+              className="border border-gray-200 px-3 py-1 rounded-full font-light"
               name="time"
               id="time"
               value={form.time}
@@ -103,7 +110,7 @@ export default function Filter({ careers = [], text, time, page }) {
         </div>
         <div>
           <button
-            className="px-4 py-1 border border-gray-200 rounded-full cursor-pointer"
+            className="px-4 py-1 bg-stone-500 text-white rounded-full cursor-pointer"
             type="submit"
           >
             Filtrar

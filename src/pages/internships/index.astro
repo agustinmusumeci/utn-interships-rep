@@ -14,7 +14,7 @@ const filterCareers = careers?.split(",");
 
 <Layout>
     <main>
-        <section class="flex flex-col gap-10 mb-10">
+        <section class="flex flex-col md:flex-row gap-10 h-full mb-20">
             <Filter careers={filterCareers} text={text} time={time} page={page} client:only/>
             
             <Internships careers={filterCareers} text={text} time={time} page={page} server:defer>

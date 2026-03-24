@@ -1,14 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const user = await Astro.locals.currentUser()
+const name = user?.fullName
 ---
 
 <Layout>
 	<main>
-		<div>
-			<h1 class="text-3xl mb-5">UTN REP | Pasantías</h1>
-			<a href="/internships" class="border px-4 py-2 rounded-full">
+		<section>
+			<div class="mb-5">
+				<h1 class="text-3xl ">UTN REP PASANTIAS</h1>
+				{
+					user && <p>¡Bienvenido {name}!</p>
+				}
+			</div>
+			<a href="/internships" class="bg-stone-500 text-[#eee] px-10 py-2 rounded-full">
 				Ver pasantías
 			</a>
-		</div>
+		</section>
 	</main>
 </Layout>

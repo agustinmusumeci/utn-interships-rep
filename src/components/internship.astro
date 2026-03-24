@@ -9,7 +9,6 @@ const internship = await internshipService.getInternship(Number(id))
 if (!internship) return Astro.redirect("/404");
 
 ---
-<main>
     <section class="max-w-prose flex flex-col gap-3">
             <div class="mb-3">
                 <div class="flex flex-row gap-10">
@@ -46,4 +45,3 @@ if (!internship) return Astro.redirect("/404");
                 <p>Referente: {internship.rrhh}</p>
             </div>
     </section>
-</main>

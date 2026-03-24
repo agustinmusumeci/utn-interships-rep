@@ -1,0 +1,21 @@
+---
+import Notification from "../../components/notification";
+import Layout from "../../layouts/Layout.astro";
+import userService from "../../services/user.service";
+
+const { isAuthenticated} = Astro.locals.auth()
+
+const loggedUser = await Astro.locals.currentUser()
+
+if (loggedUser && isAuthenticated) {
+	const userId = loggedUser?.id
+
+    var user = await userService.getUser(userId)
+}
+---
+
+<Layout>
+    <main>
+        <Notification user={user} client:load/>
+    </main>
+</Layout>

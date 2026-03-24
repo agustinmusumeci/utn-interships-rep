@@ -1,15 +1,28 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { Show, SignInButton, SignUpButton } from '@clerk/astro/components'
 import "../styles/global.css"
+import userService from "../services/user.service";
 
 type Props = {
 	title?: string
 }
 
 const {title = "UTN Rep | Pasantias"} = Astro.props as Props
+
+
+const user = await Astro.locals.currentUser()
+
+if (user) {
+	const userId = user?.id
+	const name = user?.fullName ?? "";
+	const mail = user?.primaryEmailAddress?.emailAddress ?? ""
+	
+	await userService.syncUser(userId, mail, name)
+}
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -19,6 +32,27 @@ const {title = "UTN Rep | Pasantias"} = Astro.props as Props
 		<ClientRouter />
 	</head>
 	<body>
+		<header class="h-20 flex flex-row justify-between items-center mb-10">
+			<a href="/notifications">
+				<button class="px-3 py-1 border border-gray-200 rounded-full cursor-pointer">
+					Notificaciones
+				</button>
+			</a>
+
+			<Show when="signed-out">
+				<div class="">
+					<SignInButton class="px-3 py-1 border border-gray-200 rounded-full cursor-pointer" mode="modal" >
+						Inicia Sesión
+					</SignInButton>
+						
+					<SignUpButton class="px-3 py-1 border border-gray-200 bg-gray-200 rounded-full cursor-pointer" mode="modal" >
+						Registrate
+					</SignUpButton>
+				</div>
+			</Show>
+			
+			
+		</header>
 		<slot />
 	</body>
 </html>

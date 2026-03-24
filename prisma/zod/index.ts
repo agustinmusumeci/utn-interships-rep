@@ -20,6 +20,10 @@ export const InternshipCareerScalarFieldEnumSchema = z.enum(['internship_id','ca
 
 export const CompanyScalarFieldEnumSchema = z.enum(['id','name']);
 
+export const UserScalarFieldEnumSchema = z.enum(['id','name','mail','suscripted']);
+
+export const UserCareerScalarFieldEnumSchema = z.enum(['user_id','career_id']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -92,6 +96,30 @@ export const CompanySchema = z.object({
 export type Company = z.infer<typeof CompanySchema>
 
 /////////////////////////////////////////
+// USER SCHEMA
+/////////////////////////////////////////
+
+export const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean(),
+})
+
+export type User = z.infer<typeof UserSchema>
+
+/////////////////////////////////////////
+// USER CAREER SCHEMA
+/////////////////////////////////////////
+
+export const UserCareerSchema = z.object({
+  user_id: z.string(),
+  career_id: z.string(),
+})
+
+export type UserCareer = z.infer<typeof UserCareerSchema>
+
+/////////////////////////////////////////
 // SELECT & INCLUDE
 /////////////////////////////////////////
 
@@ -147,6 +175,7 @@ export const InternshipSelectSchema: z.ZodType<Prisma.InternshipSelect> = z.obje
 
 export const CareerIncludeSchema: z.ZodType<Prisma.CareerInclude> = z.object({
   internshipCareers: z.union([z.boolean(),z.lazy(() => InternshipCareerFindManyArgsSchema)]).optional(),
+  userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => CareerCountOutputTypeArgsSchema)]).optional(),
 }).strict();
 
@@ -161,6 +190,7 @@ export const CareerCountOutputTypeArgsSchema: z.ZodType<Prisma.CareerCountOutput
 
 export const CareerCountOutputTypeSelectSchema: z.ZodType<Prisma.CareerCountOutputTypeSelect> = z.object({
   internshipCareers: z.boolean().optional(),
+  userCareers: z.boolean().optional(),
 }).strict();
 
 export const CareerSelectSchema: z.ZodType<Prisma.CareerSelect> = z.object({
@@ -168,6 +198,7 @@ export const CareerSelectSchema: z.ZodType<Prisma.CareerSelect> = z.object({
   name: z.boolean().optional(),
   color: z.boolean().optional(),
   internshipCareers: z.union([z.boolean(),z.lazy(() => InternshipCareerFindManyArgsSchema)]).optional(),
+  userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => CareerCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -217,6 +248,56 @@ export const CompanySelectSchema: z.ZodType<Prisma.CompanySelect> = z.object({
   name: z.boolean().optional(),
   internships: z.union([z.boolean(),z.lazy(() => InternshipFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => CompanyCountOutputTypeArgsSchema)]).optional(),
+}).strict()
+
+// USER
+//------------------------------------------------------
+
+export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z.object({
+  userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
+  _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
+}).strict();
+
+export const UserArgsSchema: z.ZodType<Prisma.UserDefaultArgs> = z.object({
+  select: z.lazy(() => UserSelectSchema).optional(),
+  include: z.lazy(() => UserIncludeSchema).optional(),
+}).strict();
+
+export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputTypeDefaultArgs> = z.object({
+  select: z.lazy(() => UserCountOutputTypeSelectSchema).nullish(),
+}).strict();
+
+export const UserCountOutputTypeSelectSchema: z.ZodType<Prisma.UserCountOutputTypeSelect> = z.object({
+  userCareers: z.boolean().optional(),
+}).strict();
+
+export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  mail: z.boolean().optional(),
+  suscripted: z.boolean().optional(),
+  userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
+  _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
+}).strict()
+
+// USER CAREER
+//------------------------------------------------------
+
+export const UserCareerIncludeSchema: z.ZodType<Prisma.UserCareerInclude> = z.object({
+  User: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
+  Career: z.union([z.boolean(),z.lazy(() => CareerArgsSchema)]).optional(),
+}).strict();
+
+export const UserCareerArgsSchema: z.ZodType<Prisma.UserCareerDefaultArgs> = z.object({
+  select: z.lazy(() => UserCareerSelectSchema).optional(),
+  include: z.lazy(() => UserCareerIncludeSchema).optional(),
+}).strict();
+
+export const UserCareerSelectSchema: z.ZodType<Prisma.UserCareerSelect> = z.object({
+  user_id: z.boolean().optional(),
+  career_id: z.boolean().optional(),
+  User: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
+  Career: z.union([z.boolean(),z.lazy(() => CareerArgsSchema)]).optional(),
 }).strict()
 
 
@@ -374,6 +455,7 @@ export const CareerWhereInputSchema: z.ZodType<Prisma.CareerWhereInput> = z.stri
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   color: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
+  userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
 });
 
 export const CareerOrderByWithRelationInputSchema: z.ZodType<Prisma.CareerOrderByWithRelationInput> = z.strictObject({
@@ -381,6 +463,7 @@ export const CareerOrderByWithRelationInputSchema: z.ZodType<Prisma.CareerOrderB
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
   internshipCareers: z.lazy(() => InternshipCareerOrderByRelationAggregateInputSchema).optional(),
+  userCareers: z.lazy(() => UserCareerOrderByRelationAggregateInputSchema).optional(),
 });
 
 export const CareerWhereUniqueInputSchema: z.ZodType<Prisma.CareerWhereUniqueInput> = z.object({
@@ -394,6 +477,7 @@ export const CareerWhereUniqueInputSchema: z.ZodType<Prisma.CareerWhereUniqueInp
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   color: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
+  userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
 }));
 
 export const CareerOrderByWithAggregationInputSchema: z.ZodType<Prisma.CareerOrderByWithAggregationInput> = z.strictObject({
@@ -504,6 +588,106 @@ export const CompanyScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Compa
   NOT: z.union([ z.lazy(() => CompanyScalarWhereWithAggregatesInputSchema), z.lazy(() => CompanyScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+});
+
+export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserWhereInputSchema), z.lazy(() => UserWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserWhereInputSchema), z.lazy(() => UserWhereInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  mail: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  suscripted: z.union([ z.lazy(() => BoolFilterSchema), z.boolean() ]).optional(),
+  userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
+});
+
+export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWithRelationInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  mail: z.lazy(() => SortOrderSchema).optional(),
+  suscripted: z.lazy(() => SortOrderSchema).optional(),
+  userCareers: z.lazy(() => UserCareerOrderByRelationAggregateInputSchema).optional(),
+});
+
+export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> = z.object({
+  id: z.string(),
+})
+.and(z.strictObject({
+  id: z.string().optional(),
+  AND: z.union([ z.lazy(() => UserWhereInputSchema), z.lazy(() => UserWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserWhereInputSchema), z.lazy(() => UserWhereInputSchema).array() ]).optional(),
+  name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  mail: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  suscripted: z.union([ z.lazy(() => BoolFilterSchema), z.boolean() ]).optional(),
+  userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
+}));
+
+export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderByWithAggregationInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  mail: z.lazy(() => SortOrderSchema).optional(),
+  suscripted: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => UserCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => UserMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => UserMinOrderByAggregateInputSchema).optional(),
+});
+
+export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScalarWhereWithAggregatesInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema), z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema), z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  mail: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  suscripted: z.union([ z.lazy(() => BoolWithAggregatesFilterSchema), z.boolean() ]).optional(),
+});
+
+export const UserCareerWhereInputSchema: z.ZodType<Prisma.UserCareerWhereInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserCareerWhereInputSchema), z.lazy(() => UserCareerWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserCareerWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserCareerWhereInputSchema), z.lazy(() => UserCareerWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  career_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  User: z.union([ z.lazy(() => UserScalarRelationFilterSchema), z.lazy(() => UserWhereInputSchema) ]).optional(),
+  Career: z.union([ z.lazy(() => CareerScalarRelationFilterSchema), z.lazy(() => CareerWhereInputSchema) ]).optional(),
+});
+
+export const UserCareerOrderByWithRelationInputSchema: z.ZodType<Prisma.UserCareerOrderByWithRelationInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  career_id: z.lazy(() => SortOrderSchema).optional(),
+  User: z.lazy(() => UserOrderByWithRelationInputSchema).optional(),
+  Career: z.lazy(() => CareerOrderByWithRelationInputSchema).optional(),
+});
+
+export const UserCareerWhereUniqueInputSchema: z.ZodType<Prisma.UserCareerWhereUniqueInput> = z.object({
+  user_id_career_id: z.lazy(() => UserCareerUser_idCareer_idCompoundUniqueInputSchema),
+})
+.and(z.strictObject({
+  user_id_career_id: z.lazy(() => UserCareerUser_idCareer_idCompoundUniqueInputSchema).optional(),
+  AND: z.union([ z.lazy(() => UserCareerWhereInputSchema), z.lazy(() => UserCareerWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserCareerWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserCareerWhereInputSchema), z.lazy(() => UserCareerWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  career_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  User: z.union([ z.lazy(() => UserScalarRelationFilterSchema), z.lazy(() => UserWhereInputSchema) ]).optional(),
+  Career: z.union([ z.lazy(() => CareerScalarRelationFilterSchema), z.lazy(() => CareerWhereInputSchema) ]).optional(),
+}));
+
+export const UserCareerOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserCareerOrderByWithAggregationInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  career_id: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => UserCareerCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => UserCareerMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => UserCareerMinOrderByAggregateInputSchema).optional(),
+});
+
+export const UserCareerScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserCareerScalarWhereWithAggregatesInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema), z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema), z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  career_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
 });
 
 export const InternshipCreateInputSchema: z.ZodType<Prisma.InternshipCreateInput> = z.strictObject({
@@ -665,6 +849,7 @@ export const CareerCreateInputSchema: z.ZodType<Prisma.CareerCreateInput> = z.st
   name: z.string(),
   color: z.string(),
   internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutCareerInputSchema).optional(),
+  userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
 export const CareerUncheckedCreateInputSchema: z.ZodType<Prisma.CareerUncheckedCreateInput> = z.strictObject({
@@ -672,6 +857,7 @@ export const CareerUncheckedCreateInputSchema: z.ZodType<Prisma.CareerUncheckedC
   name: z.string(),
   color: z.string(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
 export const CareerUpdateInputSchema: z.ZodType<Prisma.CareerUpdateInput> = z.strictObject({
@@ -679,6 +865,7 @@ export const CareerUpdateInputSchema: z.ZodType<Prisma.CareerUpdateInput> = z.st
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
+  userCareers: z.lazy(() => UserCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
 export const CareerUncheckedUpdateInputSchema: z.ZodType<Prisma.CareerUncheckedUpdateInput> = z.strictObject({
@@ -686,6 +873,7 @@ export const CareerUncheckedUpdateInputSchema: z.ZodType<Prisma.CareerUncheckedU
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
 export const CareerCreateManyInputSchema: z.ZodType<Prisma.CareerCreateManyInput> = z.strictObject({
@@ -776,6 +964,92 @@ export const CompanyUpdateManyMutationInputSchema: z.ZodType<Prisma.CompanyUpdat
 export const CompanyUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CompanyUncheckedUpdateManyInput> = z.strictObject({
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+  userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutUserInputSchema).optional(),
+});
+
+export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreateInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
+});
+
+export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUpdateManyWithoutUserNestedInputSchema).optional(),
+});
+
+export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdateInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
+});
+
+export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+});
+
+export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyMutationInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedUpdateManyInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerCreateInputSchema: z.ZodType<Prisma.UserCareerCreateInput> = z.strictObject({
+  User: z.lazy(() => UserCreateNestedOneWithoutUserCareersInputSchema),
+  Career: z.lazy(() => CareerCreateNestedOneWithoutUserCareersInputSchema),
+});
+
+export const UserCareerUncheckedCreateInputSchema: z.ZodType<Prisma.UserCareerUncheckedCreateInput> = z.strictObject({
+  user_id: z.string(),
+  career_id: z.string(),
+});
+
+export const UserCareerUpdateInputSchema: z.ZodType<Prisma.UserCareerUpdateInput> = z.strictObject({
+  User: z.lazy(() => UserUpdateOneRequiredWithoutUserCareersNestedInputSchema).optional(),
+  Career: z.lazy(() => CareerUpdateOneRequiredWithoutUserCareersNestedInputSchema).optional(),
+});
+
+export const UserCareerUncheckedUpdateInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerCreateManyInputSchema: z.ZodType<Prisma.UserCareerCreateManyInput> = z.strictObject({
+  user_id: z.string(),
+  career_id: z.string(),
+});
+
+export const UserCareerUpdateManyMutationInputSchema: z.ZodType<Prisma.UserCareerUpdateManyMutationInput> = z.strictObject({
+});
+
+export const UserCareerUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const IntFilterSchema: z.ZodType<Prisma.IntFilter> = z.strictObject({
@@ -994,6 +1268,16 @@ export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAg
   _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
 });
 
+export const UserCareerListRelationFilterSchema: z.ZodType<Prisma.UserCareerListRelationFilter> = z.strictObject({
+  every: z.lazy(() => UserCareerWhereInputSchema).optional(),
+  some: z.lazy(() => UserCareerWhereInputSchema).optional(),
+  none: z.lazy(() => UserCareerWhereInputSchema).optional(),
+});
+
+export const UserCareerOrderByRelationAggregateInputSchema: z.ZodType<Prisma.UserCareerOrderByRelationAggregateInput> = z.strictObject({
+  _count: z.lazy(() => SortOrderSchema).optional(),
+});
+
 export const CareerCountOrderByAggregateInputSchema: z.ZodType<Prisma.CareerCountOrderByAggregateInput> = z.strictObject({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
@@ -1073,6 +1357,65 @@ export const CompanyMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CompanyMaxO
 export const CompanyMinOrderByAggregateInputSchema: z.ZodType<Prisma.CompanyMinOrderByAggregateInput> = z.strictObject({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const BoolFilterSchema: z.ZodType<Prisma.BoolFilter> = z.strictObject({
+  equals: z.boolean().optional(),
+  not: z.union([ z.boolean(),z.lazy(() => NestedBoolFilterSchema) ]).optional(),
+});
+
+export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  mail: z.lazy(() => SortOrderSchema).optional(),
+  suscripted: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  mail: z.lazy(() => SortOrderSchema).optional(),
+  suscripted: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  mail: z.lazy(() => SortOrderSchema).optional(),
+  suscripted: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const BoolWithAggregatesFilterSchema: z.ZodType<Prisma.BoolWithAggregatesFilter> = z.strictObject({
+  equals: z.boolean().optional(),
+  not: z.union([ z.boolean(),z.lazy(() => NestedBoolWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedBoolFilterSchema).optional(),
+  _max: z.lazy(() => NestedBoolFilterSchema).optional(),
+});
+
+export const UserScalarRelationFilterSchema: z.ZodType<Prisma.UserScalarRelationFilter> = z.strictObject({
+  is: z.lazy(() => UserWhereInputSchema).optional(),
+  isNot: z.lazy(() => UserWhereInputSchema).optional(),
+});
+
+export const UserCareerUser_idCareer_idCompoundUniqueInputSchema: z.ZodType<Prisma.UserCareerUser_idCareer_idCompoundUniqueInput> = z.strictObject({
+  user_id: z.string(),
+  career_id: z.string(),
+});
+
+export const UserCareerCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCareerCountOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  career_id: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserCareerMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserCareerMaxOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  career_id: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserCareerMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserCareerMinOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  career_id: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const CompanyCreateNestedOneWithoutInternshipsInputSchema: z.ZodType<Prisma.CompanyCreateNestedOneWithoutInternshipsInput> = z.strictObject({
@@ -1158,11 +1501,25 @@ export const InternshipCareerCreateNestedManyWithoutCareerInputSchema: z.ZodType
   connect: z.union([ z.lazy(() => InternshipCareerWhereUniqueInputSchema), z.lazy(() => InternshipCareerWhereUniqueInputSchema).array() ]).optional(),
 });
 
+export const UserCareerCreateNestedManyWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerCreateNestedManyWithoutCareerInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyCareerInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+});
+
 export const InternshipCareerUncheckedCreateNestedManyWithoutCareerInputSchema: z.ZodType<Prisma.InternshipCareerUncheckedCreateNestedManyWithoutCareerInput> = z.strictObject({
   create: z.union([ z.lazy(() => InternshipCareerCreateWithoutCareerInputSchema), z.lazy(() => InternshipCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => InternshipCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => InternshipCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => InternshipCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => InternshipCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
   createMany: z.lazy(() => InternshipCareerCreateManyCareerInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => InternshipCareerWhereUniqueInputSchema), z.lazy(() => InternshipCareerWhereUniqueInputSchema).array() ]).optional(),
+});
+
+export const UserCareerUncheckedCreateNestedManyWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUncheckedCreateNestedManyWithoutCareerInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyCareerInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
 });
 
 export const InternshipCareerUpdateManyWithoutCareerNestedInputSchema: z.ZodType<Prisma.InternshipCareerUpdateManyWithoutCareerNestedInput> = z.strictObject({
@@ -1179,6 +1536,20 @@ export const InternshipCareerUpdateManyWithoutCareerNestedInputSchema: z.ZodType
   deleteMany: z.union([ z.lazy(() => InternshipCareerScalarWhereInputSchema), z.lazy(() => InternshipCareerScalarWhereInputSchema).array() ]).optional(),
 });
 
+export const UserCareerUpdateManyWithoutCareerNestedInputSchema: z.ZodType<Prisma.UserCareerUpdateManyWithoutCareerNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutCareerInputSchema), z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutCareerInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyCareerInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutCareerInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutCareerInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutCareerInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutCareerInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
 export const InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema: z.ZodType<Prisma.InternshipCareerUncheckedUpdateManyWithoutCareerNestedInput> = z.strictObject({
   create: z.union([ z.lazy(() => InternshipCareerCreateWithoutCareerInputSchema), z.lazy(() => InternshipCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => InternshipCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => InternshipCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => InternshipCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => InternshipCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
@@ -1191,6 +1562,20 @@ export const InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema: 
   update: z.union([ z.lazy(() => InternshipCareerUpdateWithWhereUniqueWithoutCareerInputSchema), z.lazy(() => InternshipCareerUpdateWithWhereUniqueWithoutCareerInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => InternshipCareerUpdateManyWithWhereWithoutCareerInputSchema), z.lazy(() => InternshipCareerUpdateManyWithWhereWithoutCareerInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => InternshipCareerScalarWhereInputSchema), z.lazy(() => InternshipCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserCareerUncheckedUpdateManyWithoutCareerNestedInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyWithoutCareerNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerCreateWithoutCareerInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutCareerInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutCareerInputSchema), z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutCareerInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyCareerInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutCareerInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutCareerInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutCareerInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutCareerInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
 });
 
 export const InternshipCreateNestedOneWithoutInternshipCareersInputSchema: z.ZodType<Prisma.InternshipCreateNestedOneWithoutInternshipCareersInput> = z.strictObject({
@@ -1261,6 +1646,80 @@ export const InternshipUncheckedUpdateManyWithoutCompanyNestedInputSchema: z.Zod
   update: z.union([ z.lazy(() => InternshipUpdateWithWhereUniqueWithoutCompanyInputSchema), z.lazy(() => InternshipUpdateWithWhereUniqueWithoutCompanyInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => InternshipUpdateManyWithWhereWithoutCompanyInputSchema), z.lazy(() => InternshipUpdateManyWithWhereWithoutCompanyInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => InternshipScalarWhereInputSchema), z.lazy(() => InternshipScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserCareerCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserCareerCreateNestedManyWithoutUserInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerCreateWithoutUserInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyUserInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+});
+
+export const UserCareerUncheckedCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUncheckedCreateNestedManyWithoutUserInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerCreateWithoutUserInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyUserInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+});
+
+export const BoolFieldUpdateOperationsInputSchema: z.ZodType<Prisma.BoolFieldUpdateOperationsInput> = z.strictObject({
+  set: z.boolean().optional(),
+});
+
+export const UserCareerUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserCareerUpdateManyWithoutUserNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerCreateWithoutUserInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyUserInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyWithoutUserNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerCreateWithoutUserInputSchema).array(), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpsertWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserCareerCreateManyUserInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserCreateNestedOneWithoutUserCareersInputSchema: z.ZodType<Prisma.UserCreateNestedOneWithoutUserCareersInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCreateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserCareersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UserCreateOrConnectWithoutUserCareersInputSchema).optional(),
+  connect: z.lazy(() => UserWhereUniqueInputSchema).optional(),
+});
+
+export const CareerCreateNestedOneWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerCreateNestedOneWithoutUserCareersInput> = z.strictObject({
+  create: z.union([ z.lazy(() => CareerCreateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedCreateWithoutUserCareersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => CareerCreateOrConnectWithoutUserCareersInputSchema).optional(),
+  connect: z.lazy(() => CareerWhereUniqueInputSchema).optional(),
+});
+
+export const UserUpdateOneRequiredWithoutUserCareersNestedInputSchema: z.ZodType<Prisma.UserUpdateOneRequiredWithoutUserCareersNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCreateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserCareersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UserCreateOrConnectWithoutUserCareersInputSchema).optional(),
+  upsert: z.lazy(() => UserUpsertWithoutUserCareersInputSchema).optional(),
+  connect: z.lazy(() => UserWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => UserUpdateToOneWithWhereWithoutUserCareersInputSchema), z.lazy(() => UserUpdateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserCareersInputSchema) ]).optional(),
+});
+
+export const CareerUpdateOneRequiredWithoutUserCareersNestedInputSchema: z.ZodType<Prisma.CareerUpdateOneRequiredWithoutUserCareersNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => CareerCreateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedCreateWithoutUserCareersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => CareerCreateOrConnectWithoutUserCareersInputSchema).optional(),
+  upsert: z.lazy(() => CareerUpsertWithoutUserCareersInputSchema).optional(),
+  connect: z.lazy(() => CareerWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => CareerUpdateToOneWithWhereWithoutUserCareersInputSchema), z.lazy(() => CareerUpdateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedUpdateWithoutUserCareersInputSchema) ]).optional(),
 });
 
 export const NestedIntFilterSchema: z.ZodType<Prisma.NestedIntFilter> = z.strictObject({
@@ -1399,6 +1858,19 @@ export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDa
   _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
 });
 
+export const NestedBoolFilterSchema: z.ZodType<Prisma.NestedBoolFilter> = z.strictObject({
+  equals: z.boolean().optional(),
+  not: z.union([ z.boolean(),z.lazy(() => NestedBoolFilterSchema) ]).optional(),
+});
+
+export const NestedBoolWithAggregatesFilterSchema: z.ZodType<Prisma.NestedBoolWithAggregatesFilter> = z.strictObject({
+  equals: z.boolean().optional(),
+  not: z.union([ z.boolean(),z.lazy(() => NestedBoolWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedBoolFilterSchema).optional(),
+  _max: z.lazy(() => NestedBoolFilterSchema).optional(),
+});
+
 export const CompanyCreateWithoutInternshipsInputSchema: z.ZodType<Prisma.CompanyCreateWithoutInternshipsInput> = z.strictObject({
   id: z.string(),
   name: z.string(),
@@ -1495,6 +1967,24 @@ export const InternshipCareerCreateManyCareerInputEnvelopeSchema: z.ZodType<Pris
   skipDuplicates: z.boolean().optional(),
 });
 
+export const UserCareerCreateWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerCreateWithoutCareerInput> = z.strictObject({
+  User: z.lazy(() => UserCreateNestedOneWithoutUserCareersInputSchema),
+});
+
+export const UserCareerUncheckedCreateWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUncheckedCreateWithoutCareerInput> = z.strictObject({
+  user_id: z.string(),
+});
+
+export const UserCareerCreateOrConnectWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerCreateOrConnectWithoutCareerInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema) ]),
+});
+
+export const UserCareerCreateManyCareerInputEnvelopeSchema: z.ZodType<Prisma.UserCareerCreateManyCareerInputEnvelope> = z.strictObject({
+  data: z.union([ z.lazy(() => UserCareerCreateManyCareerInputSchema), z.lazy(() => UserCareerCreateManyCareerInputSchema).array() ]),
+  skipDuplicates: z.boolean().optional(),
+});
+
 export const InternshipCareerUpsertWithWhereUniqueWithoutCareerInputSchema: z.ZodType<Prisma.InternshipCareerUpsertWithWhereUniqueWithoutCareerInput> = z.strictObject({
   where: z.lazy(() => InternshipCareerWhereUniqueInputSchema),
   update: z.union([ z.lazy(() => InternshipCareerUpdateWithoutCareerInputSchema), z.lazy(() => InternshipCareerUncheckedUpdateWithoutCareerInputSchema) ]),
@@ -1509,6 +1999,30 @@ export const InternshipCareerUpdateWithWhereUniqueWithoutCareerInputSchema: z.Zo
 export const InternshipCareerUpdateManyWithWhereWithoutCareerInputSchema: z.ZodType<Prisma.InternshipCareerUpdateManyWithWhereWithoutCareerInput> = z.strictObject({
   where: z.lazy(() => InternshipCareerScalarWhereInputSchema),
   data: z.union([ z.lazy(() => InternshipCareerUpdateManyMutationInputSchema), z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerInputSchema) ]),
+});
+
+export const UserCareerUpsertWithWhereUniqueWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUpsertWithWhereUniqueWithoutCareerInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedUpdateWithoutCareerInputSchema) ]),
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutCareerInputSchema) ]),
+});
+
+export const UserCareerUpdateWithWhereUniqueWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUpdateWithWhereUniqueWithoutCareerInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => UserCareerUpdateWithoutCareerInputSchema), z.lazy(() => UserCareerUncheckedUpdateWithoutCareerInputSchema) ]),
+});
+
+export const UserCareerUpdateManyWithWhereWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUpdateManyWithWhereWithoutCareerInput> = z.strictObject({
+  where: z.lazy(() => UserCareerScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => UserCareerUpdateManyMutationInputSchema), z.lazy(() => UserCareerUncheckedUpdateManyWithoutCareerInputSchema) ]),
+});
+
+export const UserCareerScalarWhereInputSchema: z.ZodType<Prisma.UserCareerScalarWhereInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserCareerScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  career_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
 });
 
 export const InternshipCreateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.InternshipCreateWithoutInternshipCareersInput> = z.strictObject({
@@ -1563,12 +2077,14 @@ export const CareerCreateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.C
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
 export const CareerUncheckedCreateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.CareerUncheckedCreateWithoutInternshipCareersInput> = z.strictObject({
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
 export const CareerCreateOrConnectWithoutInternshipCareersInputSchema: z.ZodType<Prisma.CareerCreateOrConnectWithoutInternshipCareersInput> = z.strictObject({
@@ -1645,12 +2161,14 @@ export const CareerUpdateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.C
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
 export const CareerUncheckedUpdateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.CareerUncheckedUpdateWithoutInternshipCareersInput> = z.strictObject({
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
 export const InternshipCreateWithoutCompanyInputSchema: z.ZodType<Prisma.InternshipCreateWithoutCompanyInput> = z.strictObject({
@@ -1747,6 +2265,128 @@ export const InternshipScalarWhereInputSchema: z.ZodType<Prisma.InternshipScalar
   created_at: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
 });
 
+export const UserCareerCreateWithoutUserInputSchema: z.ZodType<Prisma.UserCareerCreateWithoutUserInput> = z.strictObject({
+  Career: z.lazy(() => CareerCreateNestedOneWithoutUserCareersInputSchema),
+});
+
+export const UserCareerUncheckedCreateWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUncheckedCreateWithoutUserInput> = z.strictObject({
+  career_id: z.string(),
+});
+
+export const UserCareerCreateOrConnectWithoutUserInputSchema: z.ZodType<Prisma.UserCareerCreateOrConnectWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema) ]),
+});
+
+export const UserCareerCreateManyUserInputEnvelopeSchema: z.ZodType<Prisma.UserCareerCreateManyUserInputEnvelope> = z.strictObject({
+  data: z.union([ z.lazy(() => UserCareerCreateManyUserInputSchema), z.lazy(() => UserCareerCreateManyUserInputSchema).array() ]),
+  skipDuplicates: z.boolean().optional(),
+});
+
+export const UserCareerUpsertWithWhereUniqueWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUpsertWithWhereUniqueWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => UserCareerUpdateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedUpdateWithoutUserInputSchema) ]),
+  create: z.union([ z.lazy(() => UserCareerCreateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedCreateWithoutUserInputSchema) ]),
+});
+
+export const UserCareerUpdateWithWhereUniqueWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUpdateWithWhereUniqueWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserCareerWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => UserCareerUpdateWithoutUserInputSchema), z.lazy(() => UserCareerUncheckedUpdateWithoutUserInputSchema) ]),
+});
+
+export const UserCareerUpdateManyWithWhereWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUpdateManyWithWhereWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserCareerScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => UserCareerUpdateManyMutationInputSchema), z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserInputSchema) ]),
+});
+
+export const UserCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserCreateWithoutUserCareersInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+});
+
+export const UserUncheckedCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutUserCareersInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+});
+
+export const UserCreateOrConnectWithoutUserCareersInputSchema: z.ZodType<Prisma.UserCreateOrConnectWithoutUserCareersInput> = z.strictObject({
+  where: z.lazy(() => UserWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UserCreateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserCareersInputSchema) ]),
+});
+
+export const CareerCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerCreateWithoutUserCareersInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  color: z.string(),
+  internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutCareerInputSchema).optional(),
+});
+
+export const CareerUncheckedCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerUncheckedCreateWithoutUserCareersInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  color: z.string(),
+  internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
+});
+
+export const CareerCreateOrConnectWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerCreateOrConnectWithoutUserCareersInput> = z.strictObject({
+  where: z.lazy(() => CareerWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => CareerCreateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedCreateWithoutUserCareersInputSchema) ]),
+});
+
+export const UserUpsertWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUpsertWithoutUserCareersInput> = z.strictObject({
+  update: z.union([ z.lazy(() => UserUpdateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserCareersInputSchema) ]),
+  create: z.union([ z.lazy(() => UserCreateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserCareersInputSchema) ]),
+  where: z.lazy(() => UserWhereInputSchema).optional(),
+});
+
+export const UserUpdateToOneWithWhereWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUpdateToOneWithWhereWithoutUserCareersInput> = z.strictObject({
+  where: z.lazy(() => UserWhereInputSchema).optional(),
+  data: z.union([ z.lazy(() => UserUpdateWithoutUserCareersInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserCareersInputSchema) ]),
+});
+
+export const UserUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUpdateWithoutUserCareersInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserUncheckedUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutUserCareersInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const CareerUpsertWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerUpsertWithoutUserCareersInput> = z.strictObject({
+  update: z.union([ z.lazy(() => CareerUpdateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedUpdateWithoutUserCareersInputSchema) ]),
+  create: z.union([ z.lazy(() => CareerCreateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedCreateWithoutUserCareersInputSchema) ]),
+  where: z.lazy(() => CareerWhereInputSchema).optional(),
+});
+
+export const CareerUpdateToOneWithWhereWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerUpdateToOneWithWhereWithoutUserCareersInput> = z.strictObject({
+  where: z.lazy(() => CareerWhereInputSchema).optional(),
+  data: z.union([ z.lazy(() => CareerUpdateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedUpdateWithoutUserCareersInputSchema) ]),
+});
+
+export const CareerUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerUpdateWithoutUserCareersInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
+});
+
+export const CareerUncheckedUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerUncheckedUpdateWithoutUserCareersInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
+});
+
 export const InternshipCareerCreateManyInternshipInputSchema: z.ZodType<Prisma.InternshipCareerCreateManyInternshipInput> = z.strictObject({
   career_id: z.string(),
 });
@@ -1767,6 +2407,10 @@ export const InternshipCareerCreateManyCareerInputSchema: z.ZodType<Prisma.Inter
   internship_id: z.number().int(),
 });
 
+export const UserCareerCreateManyCareerInputSchema: z.ZodType<Prisma.UserCareerCreateManyCareerInput> = z.strictObject({
+  user_id: z.string(),
+});
+
 export const InternshipCareerUpdateWithoutCareerInputSchema: z.ZodType<Prisma.InternshipCareerUpdateWithoutCareerInput> = z.strictObject({
   Internship: z.lazy(() => InternshipUpdateOneRequiredWithoutInternshipCareersNestedInputSchema).optional(),
 });
@@ -1777,6 +2421,18 @@ export const InternshipCareerUncheckedUpdateWithoutCareerInputSchema: z.ZodType<
 
 export const InternshipCareerUncheckedUpdateManyWithoutCareerInputSchema: z.ZodType<Prisma.InternshipCareerUncheckedUpdateManyWithoutCareerInput> = z.strictObject({
   internship_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerUpdateWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUpdateWithoutCareerInput> = z.strictObject({
+  User: z.lazy(() => UserUpdateOneRequiredWithoutUserCareersNestedInputSchema).optional(),
+});
+
+export const UserCareerUncheckedUpdateWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateWithoutCareerInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerUncheckedUpdateManyWithoutCareerInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyWithoutCareerInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const InternshipCreateManyCompanyInputSchema: z.ZodType<Prisma.InternshipCreateManyCompanyInput> = z.strictObject({
@@ -1862,6 +2518,22 @@ export const InternshipUncheckedUpdateManyWithoutCompanyInputSchema: z.ZodType<P
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerCreateManyUserInputSchema: z.ZodType<Prisma.UserCareerCreateManyUserInput> = z.strictObject({
+  career_id: z.string(),
+});
+
+export const UserCareerUpdateWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUpdateWithoutUserInput> = z.strictObject({
+  Career: z.lazy(() => CareerUpdateOneRequiredWithoutUserCareersNestedInputSchema).optional(),
+});
+
+export const UserCareerUncheckedUpdateWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateWithoutUserInput> = z.strictObject({
+  career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserCareerUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyWithoutUserInput> = z.strictObject({
+  career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 /////////////////////////////////////////
@@ -2116,6 +2788,130 @@ export const CompanyFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.CompanyFindUni
   where: CompanyWhereUniqueInputSchema, 
 }).strict();
 
+export const UserFindFirstArgsSchema: z.ZodType<Prisma.UserFindFirstArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereInputSchema.optional(), 
+  orderBy: z.union([ UserOrderByWithRelationInputSchema.array(), UserOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema, UserScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserFindFirstOrThrowArgsSchema: z.ZodType<Prisma.UserFindFirstOrThrowArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereInputSchema.optional(), 
+  orderBy: z.union([ UserOrderByWithRelationInputSchema.array(), UserOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema, UserScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserFindManyArgsSchema: z.ZodType<Prisma.UserFindManyArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereInputSchema.optional(), 
+  orderBy: z.union([ UserOrderByWithRelationInputSchema.array(), UserOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema, UserScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserAggregateArgsSchema: z.ZodType<Prisma.UserAggregateArgs> = z.object({
+  where: UserWhereInputSchema.optional(), 
+  orderBy: z.union([ UserOrderByWithRelationInputSchema.array(), UserOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserGroupByArgsSchema: z.ZodType<Prisma.UserGroupByArgs> = z.object({
+  where: UserWhereInputSchema.optional(), 
+  orderBy: z.union([ UserOrderByWithAggregationInputSchema.array(), UserOrderByWithAggregationInputSchema ]).optional(),
+  by: UserScalarFieldEnumSchema.array(), 
+  having: UserScalarWhereWithAggregatesInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserFindUniqueArgsSchema: z.ZodType<Prisma.UserFindUniqueArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereUniqueInputSchema, 
+}).strict();
+
+export const UserFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UserFindUniqueOrThrowArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereUniqueInputSchema, 
+}).strict();
+
+export const UserCareerFindFirstArgsSchema: z.ZodType<Prisma.UserCareerFindFirstArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereInputSchema.optional(), 
+  orderBy: z.union([ UserCareerOrderByWithRelationInputSchema.array(), UserCareerOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserCareerWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserCareerScalarFieldEnumSchema, UserCareerScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserCareerFindFirstOrThrowArgsSchema: z.ZodType<Prisma.UserCareerFindFirstOrThrowArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereInputSchema.optional(), 
+  orderBy: z.union([ UserCareerOrderByWithRelationInputSchema.array(), UserCareerOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserCareerWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserCareerScalarFieldEnumSchema, UserCareerScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserCareerFindManyArgsSchema: z.ZodType<Prisma.UserCareerFindManyArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereInputSchema.optional(), 
+  orderBy: z.union([ UserCareerOrderByWithRelationInputSchema.array(), UserCareerOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserCareerWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserCareerScalarFieldEnumSchema, UserCareerScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserCareerAggregateArgsSchema: z.ZodType<Prisma.UserCareerAggregateArgs> = z.object({
+  where: UserCareerWhereInputSchema.optional(), 
+  orderBy: z.union([ UserCareerOrderByWithRelationInputSchema.array(), UserCareerOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserCareerWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserCareerGroupByArgsSchema: z.ZodType<Prisma.UserCareerGroupByArgs> = z.object({
+  where: UserCareerWhereInputSchema.optional(), 
+  orderBy: z.union([ UserCareerOrderByWithAggregationInputSchema.array(), UserCareerOrderByWithAggregationInputSchema ]).optional(),
+  by: UserCareerScalarFieldEnumSchema.array(), 
+  having: UserCareerScalarWhereWithAggregatesInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserCareerFindUniqueArgsSchema: z.ZodType<Prisma.UserCareerFindUniqueArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereUniqueInputSchema, 
+}).strict();
+
+export const UserCareerFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UserCareerFindUniqueOrThrowArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereUniqueInputSchema, 
+}).strict();
+
 export const InternshipCreateArgsSchema: z.ZodType<Prisma.InternshipCreateArgs> = z.object({
   select: InternshipSelectSchema.optional(),
   include: InternshipIncludeSchema.optional(),
@@ -2329,5 +3125,113 @@ export const CompanyUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.CompanyUpdat
 
 export const CompanyDeleteManyArgsSchema: z.ZodType<Prisma.CompanyDeleteManyArgs> = z.object({
   where: CompanyWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  data: z.union([ UserCreateInputSchema, UserUncheckedCreateInputSchema ]),
+}).strict();
+
+export const UserUpsertArgsSchema: z.ZodType<Prisma.UserUpsertArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereUniqueInputSchema, 
+  create: z.union([ UserCreateInputSchema, UserUncheckedCreateInputSchema ]),
+  update: z.union([ UserUpdateInputSchema, UserUncheckedUpdateInputSchema ]),
+}).strict();
+
+export const UserCreateManyArgsSchema: z.ZodType<Prisma.UserCreateManyArgs> = z.object({
+  data: z.union([ UserCreateManyInputSchema, UserCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserCreateManyAndReturnArgsSchema: z.ZodType<Prisma.UserCreateManyAndReturnArgs> = z.object({
+  data: z.union([ UserCreateManyInputSchema, UserCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserDeleteArgsSchema: z.ZodType<Prisma.UserDeleteArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  where: UserWhereUniqueInputSchema, 
+}).strict();
+
+export const UserUpdateArgsSchema: z.ZodType<Prisma.UserUpdateArgs> = z.object({
+  select: UserSelectSchema.optional(),
+  include: UserIncludeSchema.optional(),
+  data: z.union([ UserUpdateInputSchema, UserUncheckedUpdateInputSchema ]),
+  where: UserWhereUniqueInputSchema, 
+}).strict();
+
+export const UserUpdateManyArgsSchema: z.ZodType<Prisma.UserUpdateManyArgs> = z.object({
+  data: z.union([ UserUpdateManyMutationInputSchema, UserUncheckedUpdateManyInputSchema ]),
+  where: UserWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.UserUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ UserUpdateManyMutationInputSchema, UserUncheckedUpdateManyInputSchema ]),
+  where: UserWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserDeleteManyArgsSchema: z.ZodType<Prisma.UserDeleteManyArgs> = z.object({
+  where: UserWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserCareerCreateArgsSchema: z.ZodType<Prisma.UserCareerCreateArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  data: z.union([ UserCareerCreateInputSchema, UserCareerUncheckedCreateInputSchema ]),
+}).strict();
+
+export const UserCareerUpsertArgsSchema: z.ZodType<Prisma.UserCareerUpsertArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereUniqueInputSchema, 
+  create: z.union([ UserCareerCreateInputSchema, UserCareerUncheckedCreateInputSchema ]),
+  update: z.union([ UserCareerUpdateInputSchema, UserCareerUncheckedUpdateInputSchema ]),
+}).strict();
+
+export const UserCareerCreateManyArgsSchema: z.ZodType<Prisma.UserCareerCreateManyArgs> = z.object({
+  data: z.union([ UserCareerCreateManyInputSchema, UserCareerCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserCareerCreateManyAndReturnArgsSchema: z.ZodType<Prisma.UserCareerCreateManyAndReturnArgs> = z.object({
+  data: z.union([ UserCareerCreateManyInputSchema, UserCareerCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserCareerDeleteArgsSchema: z.ZodType<Prisma.UserCareerDeleteArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  where: UserCareerWhereUniqueInputSchema, 
+}).strict();
+
+export const UserCareerUpdateArgsSchema: z.ZodType<Prisma.UserCareerUpdateArgs> = z.object({
+  select: UserCareerSelectSchema.optional(),
+  include: UserCareerIncludeSchema.optional(),
+  data: z.union([ UserCareerUpdateInputSchema, UserCareerUncheckedUpdateInputSchema ]),
+  where: UserCareerWhereUniqueInputSchema, 
+}).strict();
+
+export const UserCareerUpdateManyArgsSchema: z.ZodType<Prisma.UserCareerUpdateManyArgs> = z.object({
+  data: z.union([ UserCareerUpdateManyMutationInputSchema, UserCareerUncheckedUpdateManyInputSchema ]),
+  where: UserCareerWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserCareerUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.UserCareerUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ UserCareerUpdateManyMutationInputSchema, UserCareerUncheckedUpdateManyInputSchema ]),
+  where: UserCareerWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserCareerDeleteManyArgsSchema: z.ZodType<Prisma.UserCareerDeleteManyArgs> = z.object({
+  where: UserCareerWhereInputSchema.optional(), 
   limit: z.number().optional(),
 }).strict();

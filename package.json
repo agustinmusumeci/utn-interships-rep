@@ -14,6 +14,8 @@
   "dependencies": {
     "@astrojs/preact": "^5.0.2",
     "@astrojs/vercel": "^10.0.2",
+    "@clerk/astro": "^3.0.6",
+    "@clerk/localizations": "^4.2.3",
     "@google/genai": "^1.46.0",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
