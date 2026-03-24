@@ -22,6 +22,9 @@ export class UploadController {
       name: c,
     }));
 
+    await companyService.uploadCompanies(companies);
+    await internshipService.uploadInternships(internships);
+
     console.log("Updated data succesfully");
   }
 }

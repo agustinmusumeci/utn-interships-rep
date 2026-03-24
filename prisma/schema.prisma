@@ -36,6 +36,7 @@ model Internship {
   link                String
   mail                String?
   observations        String?
+  created_at DateTime @default(now())
   Company             Company @relation(fields: [company_id], references: [id])  
 
   internshipCareers InternshipCareer[]

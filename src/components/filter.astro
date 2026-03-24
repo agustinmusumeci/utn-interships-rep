@@ -1,0 +1,30 @@
+---
+import { careers } from "../constants/careers";
+
+const selectedCareers = []
+---
+
+<div class="mt-5">
+  <form action="">
+    <div>
+      <label for="career_id">Especialidad</label>
+      <select
+        name="career_id"
+        id="career_id"
+      >
+        <option value="*">Todas</option>
+        {careers.map((c) => (
+          <option value={c.id}>{c.name}</option>
+        ))}
+      </select>
+    </div>
+  </form>
+  <div>
+    {selectedCareers.map((c) => (
+      <div class="px-2 py-1 border rounded-lg">{c?.name}</div>
+    ))}
+  </div>
+</div>
+<script>
+
+</script>

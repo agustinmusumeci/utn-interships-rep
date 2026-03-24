@@ -1,0 +1,51 @@
+---
+import Careers from "../../components/careers.astro";
+import Layout from "../../layouts/Layout.astro";
+import internshipService from "../../services/internship.service";
+
+const {id} = Astro.params
+
+const internship = await internshipService.getInternship(Number(id))
+
+console.log(internship)
+
+if (!internship) return Astro.redirect("/404");
+---
+
+<Layout title={`${internship?.position} | UTN Pasantías`}>
+    <section class="max-w-prose flex flex-col gap-3">
+        <div class="mb-3">
+            <div class="flex flex-row gap-10">
+                <p class="mb-3">A.R.M {internship.arm}</p>
+                <p>{new Date(internship.created_at).toLocaleDateString()}</p>
+            </div>
+            <Careers careers={internship?.careers}/>
+        </div>
+        <div>
+            <p>Empresa: {internship.company.name}</p>
+            <p>Posición: {internship.position}</p>
+            <p>Cantidad pasantes: {internship.interns}</p>
+        </div>
+        <div>
+            <p>Requisitos: {internship.requirements} {internship.knowledge}</p>
+        </div>
+        <div>
+            <p>Horario entreviste: {internship.interview_timetable}</p>
+            <p>Horarios: {internship.timetable}</p>
+            <p>Modalidad: {internship?.modality}</p>
+            <p>Lugar de trabajo: {internship?.workplace}</p>
+        </div>
+        <div>
+            <p>Pago: {typeof internship.payment === "number" ? `$${internship.payment.toLocaleString()}` : ""}</p>
+        </div>
+        <div>
+            <p>Beneficios: {internship.benefits}</p>
+            <p>Observaciones: {internship.observations} </p>
+        </div>
+        <div>
+            <p>Mail: {internship.mail}</p>
+            <p>Link: <a href={internship.link} target="_blank">{internship.link}</a></p>
+            <p>Referente: {internship.rrhh}</p>
+        </div>
+    </section>
+</Layout>

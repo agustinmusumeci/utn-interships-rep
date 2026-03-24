@@ -36,12 +36,39 @@ class InternshipRepository {
     return res;
   }
 
-  async getInternships() {
+  async getInternships(careers: Array<string>, text: string, time: string) {
+    let whereText = {};
+    let whereCareers = {};
+    let orderByTime = {};
+
+    if (text) {
+      whereText["OR"] = [
+        { knowledge: { contains: text, mode: "insensitive" } },
+        { modality: { contains: text, mode: "insensitive" } },
+        { position: { contains: text, mode: "insensitive" } },
+        { requirements: { contains: text, mode: "insensitive" } },
+      ];
+    }
+
+    if (careers && careers?.length > 0) {
+      whereCareers["OR"] = careers.map((c) => ({
+        career_id: c,
+      }));
+    }
+
+    if (time) {
+      orderByTime = {
+        created_at: time?.toLocaleLowerCase(),
+      };
+    }
+
     return await prisma.internship.findMany({
-      // relationLoadStrategy: "join",
+      where: whereText,
+      orderBy: orderByTime,
       include: {
         Company: true,
         internshipCareers: {
+          where: whereCareers,
           include: {
             Career: true,
           },
@@ -51,7 +78,17 @@ class InternshipRepository {
   }
 
   async getInternship(id: number) {
-    return await prisma.internship.findFirst({ where: { id: id } });
+    return await prisma.internship.findFirst({
+      where: { id: id },
+      include: {
+        Company: true,
+        internshipCareers: {
+          include: {
+            Career: true,
+          },
+        },
+      },
+    });
   }
 
   async uploadInternships(

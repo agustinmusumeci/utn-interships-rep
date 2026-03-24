@@ -1,0 +1,32 @@
+---
+import Card from "../../components/card.astro"
+import Filter from "../../components/filter.astro"
+import Layout from "../../layouts/Layout.astro"
+import internshipService from "../../services/internship.service"
+
+const PARAMS = ["careers", "text", "time"]
+
+const searchParams = Astro.url.searchParams
+
+const { careers = "", text = "", time = "" } = Object.fromEntries(
+  PARAMS.map((key) => [key, searchParams.get(key)])
+)
+
+const filterCareers = careers?.split(",")
+
+const internships = await internshipService.getInternships(filterCareers, text, time)
+---
+<Layout>
+    <main>
+        <section class="flex flex-col gap-10">
+            <Filter />
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {
+                    internships?.map((internship) => (
+                        <Card internship={internship} />
+                    ))
+                }
+            </div>
+        </section>
+    </main>
+</Layout>

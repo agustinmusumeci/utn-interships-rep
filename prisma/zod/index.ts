@@ -12,7 +12,7 @@ import type { Prisma } from '../generated/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const InternshipScalarFieldEnumSchema = z.enum(['id','arm','company_id','city','rrhh','interview_timetable','knowledge','requirements','payment','timetable','position','benefits','interns','workplace','modality','link','mail','observations']);
+export const InternshipScalarFieldEnumSchema = z.enum(['id','arm','company_id','city','rrhh','interview_timetable','knowledge','requirements','payment','timetable','position','benefits','interns','workplace','modality','link','mail','observations','created_at']);
 
 export const CareerScalarFieldEnumSchema = z.enum(['id','name','color']);
 
@@ -52,6 +52,7 @@ export const InternshipSchema = z.object({
   link: z.string(),
   mail: z.string().nullable(),
   observations: z.string().nullable(),
+  created_at: z.coerce.date(),
 })
 
 export type Internship = z.infer<typeof InternshipSchema>
@@ -135,6 +136,7 @@ export const InternshipSelectSchema: z.ZodType<Prisma.InternshipSelect> = z.obje
   link: z.boolean().optional(),
   mail: z.boolean().optional(),
   observations: z.boolean().optional(),
+  created_at: z.boolean().optional(),
   Company: z.union([z.boolean(),z.lazy(() => CompanyArgsSchema)]).optional(),
   internshipCareers: z.union([z.boolean(),z.lazy(() => InternshipCareerFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => InternshipCountOutputTypeArgsSchema)]).optional(),
@@ -244,6 +246,7 @@ export const InternshipWhereInputSchema: z.ZodType<Prisma.InternshipWhereInput> 
   link: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   mail: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
   observations: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
+  created_at: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
   Company: z.union([ z.lazy(() => CompanyScalarRelationFilterSchema), z.lazy(() => CompanyWhereInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
 });
@@ -267,6 +270,7 @@ export const InternshipOrderByWithRelationInputSchema: z.ZodType<Prisma.Internsh
   link: z.lazy(() => SortOrderSchema).optional(),
   mail: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   observations: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
   Company: z.lazy(() => CompanyOrderByWithRelationInputSchema).optional(),
   internshipCareers: z.lazy(() => InternshipCareerOrderByRelationAggregateInputSchema).optional(),
 });
@@ -305,6 +309,7 @@ export const InternshipWhereUniqueInputSchema: z.ZodType<Prisma.InternshipWhereU
   link: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   mail: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
   observations: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
+  created_at: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
   Company: z.union([ z.lazy(() => CompanyScalarRelationFilterSchema), z.lazy(() => CompanyWhereInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
 }));
@@ -328,6 +333,7 @@ export const InternshipOrderByWithAggregationInputSchema: z.ZodType<Prisma.Inter
   link: z.lazy(() => SortOrderSchema).optional(),
   mail: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
   observations: z.union([ z.lazy(() => SortOrderSchema), z.lazy(() => SortOrderInputSchema) ]).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => InternshipCountOrderByAggregateInputSchema).optional(),
   _avg: z.lazy(() => InternshipAvgOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => InternshipMaxOrderByAggregateInputSchema).optional(),
@@ -357,6 +363,7 @@ export const InternshipScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.In
   link: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   mail: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema), z.string() ]).optional().nullable(),
   observations: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema), z.string() ]).optional().nullable(),
+  created_at: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date() ]).optional(),
 });
 
 export const CareerWhereInputSchema: z.ZodType<Prisma.CareerWhereInput> = z.strictObject({
@@ -516,6 +523,7 @@ export const InternshipCreateInputSchema: z.ZodType<Prisma.InternshipCreateInput
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
   Company: z.lazy(() => CompanyCreateNestedOneWithoutInternshipsInputSchema),
   internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutInternshipInputSchema).optional(),
 });
@@ -539,6 +547,7 @@ export const InternshipUncheckedCreateInputSchema: z.ZodType<Prisma.InternshipUn
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutInternshipInputSchema).optional(),
 });
 
@@ -559,6 +568,7 @@ export const InternshipUpdateInputSchema: z.ZodType<Prisma.InternshipUpdateInput
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   Company: z.lazy(() => CompanyUpdateOneRequiredWithoutInternshipsNestedInputSchema).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutInternshipNestedInputSchema).optional(),
 });
@@ -582,6 +592,7 @@ export const InternshipUncheckedUpdateInputSchema: z.ZodType<Prisma.InternshipUn
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutInternshipNestedInputSchema).optional(),
 });
 
@@ -604,6 +615,7 @@ export const InternshipCreateManyInputSchema: z.ZodType<Prisma.InternshipCreateM
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
 });
 
 export const InternshipUpdateManyMutationInputSchema: z.ZodType<Prisma.InternshipUpdateManyMutationInput> = z.strictObject({
@@ -623,6 +635,7 @@ export const InternshipUpdateManyMutationInputSchema: z.ZodType<Prisma.Internshi
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const InternshipUncheckedUpdateManyInputSchema: z.ZodType<Prisma.InternshipUncheckedUpdateManyInput> = z.strictObject({
@@ -644,6 +657,7 @@ export const InternshipUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Internsh
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const CareerCreateInputSchema: z.ZodType<Prisma.CareerCreateInput> = z.strictObject({
@@ -805,6 +819,17 @@ export const StringNullableFilterSchema: z.ZodType<Prisma.StringNullableFilter> 
   not: z.union([ z.string(),z.lazy(() => NestedStringNullableFilterSchema) ]).optional().nullable(),
 });
 
+export const DateTimeFilterSchema: z.ZodType<Prisma.DateTimeFilter> = z.strictObject({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
+});
+
 export const CompanyScalarRelationFilterSchema: z.ZodType<Prisma.CompanyScalarRelationFilter> = z.strictObject({
   is: z.lazy(() => CompanyWhereInputSchema).optional(),
   isNot: z.lazy(() => CompanyWhereInputSchema).optional(),
@@ -844,6 +869,7 @@ export const InternshipCountOrderByAggregateInputSchema: z.ZodType<Prisma.Intern
   link: z.lazy(() => SortOrderSchema).optional(),
   mail: z.lazy(() => SortOrderSchema).optional(),
   observations: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const InternshipAvgOrderByAggregateInputSchema: z.ZodType<Prisma.InternshipAvgOrderByAggregateInput> = z.strictObject({
@@ -871,6 +897,7 @@ export const InternshipMaxOrderByAggregateInputSchema: z.ZodType<Prisma.Internsh
   link: z.lazy(() => SortOrderSchema).optional(),
   mail: z.lazy(() => SortOrderSchema).optional(),
   observations: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const InternshipMinOrderByAggregateInputSchema: z.ZodType<Prisma.InternshipMinOrderByAggregateInput> = z.strictObject({
@@ -892,6 +919,7 @@ export const InternshipMinOrderByAggregateInputSchema: z.ZodType<Prisma.Internsh
   link: z.lazy(() => SortOrderSchema).optional(),
   mail: z.lazy(() => SortOrderSchema).optional(),
   observations: z.lazy(() => SortOrderSchema).optional(),
+  created_at: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const InternshipSumOrderByAggregateInputSchema: z.ZodType<Prisma.InternshipSumOrderByAggregateInput> = z.strictObject({
@@ -950,6 +978,20 @@ export const StringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.StringNu
   _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
   _min: z.lazy(() => NestedStringNullableFilterSchema).optional(),
   _max: z.lazy(() => NestedStringNullableFilterSchema).optional(),
+});
+
+export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> = z.strictObject({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
 });
 
 export const CareerCountOrderByAggregateInputSchema: z.ZodType<Prisma.CareerCountOrderByAggregateInput> = z.strictObject({
@@ -1067,6 +1109,10 @@ export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdat
 
 export const NullableStringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput> = z.strictObject({
   set: z.string().optional().nullable(),
+});
+
+export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput> = z.strictObject({
+  set: z.coerce.date().optional(),
 });
 
 export const CompanyUpdateOneRequiredWithoutInternshipsNestedInputSchema: z.ZodType<Prisma.CompanyUpdateOneRequiredWithoutInternshipsNestedInput> = z.strictObject({
@@ -1256,6 +1302,17 @@ export const NestedStringNullableFilterSchema: z.ZodType<Prisma.NestedStringNull
   not: z.union([ z.string(),z.lazy(() => NestedStringNullableFilterSchema) ]).optional().nullable(),
 });
 
+export const NestedDateTimeFilterSchema: z.ZodType<Prisma.NestedDateTimeFilter> = z.strictObject({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeFilterSchema) ]).optional(),
+});
+
 export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> = z.strictObject({
   equals: z.number().optional(),
   in: z.number().array().optional(),
@@ -1326,6 +1383,20 @@ export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFi
   gt: z.number().optional(),
   gte: z.number().optional(),
   not: z.union([ z.number(),z.lazy(() => NestedIntNullableFilterSchema) ]).optional().nullable(),
+});
+
+export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeWithAggregatesFilter> = z.strictObject({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeWithAggregatesFilterSchema) ]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
 });
 
 export const CompanyCreateWithoutInternshipsInputSchema: z.ZodType<Prisma.CompanyCreateWithoutInternshipsInput> = z.strictObject({
@@ -1457,6 +1528,7 @@ export const InternshipCreateWithoutInternshipCareersInputSchema: z.ZodType<Pris
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
   Company: z.lazy(() => CompanyCreateNestedOneWithoutInternshipsInputSchema),
 });
 
@@ -1479,6 +1551,7 @@ export const InternshipUncheckedCreateWithoutInternshipCareersInputSchema: z.Zod
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
 });
 
 export const InternshipCreateOrConnectWithoutInternshipCareersInputSchema: z.ZodType<Prisma.InternshipCreateOrConnectWithoutInternshipCareersInput> = z.strictObject({
@@ -1531,6 +1604,7 @@ export const InternshipUpdateWithoutInternshipCareersInputSchema: z.ZodType<Pris
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   Company: z.lazy(() => CompanyUpdateOneRequiredWithoutInternshipsNestedInputSchema).optional(),
 });
 
@@ -1553,6 +1627,7 @@ export const InternshipUncheckedUpdateWithoutInternshipCareersInputSchema: z.Zod
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const CareerUpsertWithoutInternshipCareersInputSchema: z.ZodType<Prisma.CareerUpsertWithoutInternshipCareersInput> = z.strictObject({
@@ -1595,6 +1670,7 @@ export const InternshipCreateWithoutCompanyInputSchema: z.ZodType<Prisma.Interns
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
   internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutInternshipInputSchema).optional(),
 });
 
@@ -1616,6 +1692,7 @@ export const InternshipUncheckedCreateWithoutCompanyInputSchema: z.ZodType<Prism
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutInternshipInputSchema).optional(),
 });
 
@@ -1667,6 +1744,7 @@ export const InternshipScalarWhereInputSchema: z.ZodType<Prisma.InternshipScalar
   link: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   mail: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
   observations: z.union([ z.lazy(() => StringNullableFilterSchema), z.string() ]).optional().nullable(),
+  created_at: z.union([ z.lazy(() => DateTimeFilterSchema), z.coerce.date() ]).optional(),
 });
 
 export const InternshipCareerCreateManyInternshipInputSchema: z.ZodType<Prisma.InternshipCareerCreateManyInternshipInput> = z.strictObject({
@@ -1719,6 +1797,7 @@ export const InternshipCreateManyCompanyInputSchema: z.ZodType<Prisma.Internship
   link: z.string(),
   mail: z.string().optional().nullable(),
   observations: z.string().optional().nullable(),
+  created_at: z.coerce.date().optional(),
 });
 
 export const InternshipUpdateWithoutCompanyInputSchema: z.ZodType<Prisma.InternshipUpdateWithoutCompanyInput> = z.strictObject({
@@ -1738,6 +1817,7 @@ export const InternshipUpdateWithoutCompanyInputSchema: z.ZodType<Prisma.Interns
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutInternshipNestedInputSchema).optional(),
 });
 
@@ -1759,6 +1839,7 @@ export const InternshipUncheckedUpdateWithoutCompanyInputSchema: z.ZodType<Prism
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutInternshipNestedInputSchema).optional(),
 });
 
@@ -1780,6 +1861,7 @@ export const InternshipUncheckedUpdateManyWithoutCompanyInputSchema: z.ZodType<P
   link: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   observations: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  created_at: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 /////////////////////////////////////////
