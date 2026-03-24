@@ -1,1 +1,1 @@
-export const PARAMS = ["careers", "text", "time"];
+export const PARAMS = ["careers", "text", "time", "page"];

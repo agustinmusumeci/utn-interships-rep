@@ -1,7 +1,7 @@
 import { CAREERS } from "../constants/careers";
 import { useEffect, useState } from "preact/hooks";
 
-export default function Filter({ careers = [], text, time }) {
+export default function Filter({ careers = [], text, time, page }) {
   const [form, setForm] = useState({ text: text, time: time, careers: careers });
 
   const onChange = (e) => {
@@ -47,9 +47,15 @@ export default function Filter({ careers = [], text, time }) {
       >
         <div className="flex flex-row gap-5">
           <div className="flex flex-col gap-2 w-full">
+            <label for="page" />
+            <input
+              name="page"
+              id="page"
+              type="hidden"
+            />
             <label for="text">Buscar</label>
             <input
-              className="border px-3 py-1 rounded-full"
+              className="border border-gray-200 px-3 py-1 rounded-full"
               name="text"
               id="text"
               type="text"
@@ -84,7 +90,7 @@ export default function Filter({ careers = [], text, time }) {
           <div className="flex flex-col gap-2 w-full">
             <label for="time">Fecha</label>
             <select
-              className="border px-3 py-1 rounded-full"
+              className="border border-gray-200 px-3 py-1 rounded-full"
               name="time"
               id="time"
               value={form.time}
@@ -97,7 +103,7 @@ export default function Filter({ careers = [], text, time }) {
         </div>
         <div>
           <button
-            className="px-4 py-1 border rounded-full"
+            className="px-4 py-1 border border-gray-200 rounded-full cursor-pointer"
             type="submit"
           >
             Filtrar

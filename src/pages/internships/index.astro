@@ -7,19 +7,19 @@ import Layout from "../../layouts/Layout.astro";
 
 const searchParams = Astro.url.searchParams
 
-const { careers = "", text = "", time = "" } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
+const { careers = "", text = "", time = "", page=0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
 
 const filterCareers = careers?.split(",");
 ---
 
 <Layout>
     <main>
-        <section class="flex flex-col gap-10">
-      <Filter careers={filterCareers} text={text} time={time} client:only/>
-      
-       <Internships careers={filterCareers} text={text} time={time} server:defer>
-            <InternshipsSkeleton slot="fallback"/>
-       </Internships>
-    </section>
+        <section class="flex flex-col gap-10 mb-10">
+            <Filter careers={filterCareers} text={text} time={time} page={page} client:only/>
+            
+            <Internships careers={filterCareers} text={text} time={time} page={page} server:defer>
+                    <InternshipsSkeleton slot="fallback"/>
+            </Internships>
+        </section>
     </main>
 </Layout>

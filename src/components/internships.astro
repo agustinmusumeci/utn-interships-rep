@@ -2,14 +2,37 @@
 import internshipService from "../services/internship.service";
 import Card from "./card.astro";
 
-const {careers=[], text="", time=""} = Astro.props;
+type Props = {
+    careers: Array<string | null>,
+    text: string,
+    time: string,
+    page: number
+}
 
-const internships = await internshipService.getInternships(careers, text, time)
+const {careers=[], text="", time="", page=0} = Astro.props as Props;
+
+const parsedPage = page ? Number(page) : 0
+
+const {data, pages} = await internshipService.getInternships(careers, text, time, parsedPage) 
 ---
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
-    {internships?.map((internship) => (
+    {data?.map((internship) => (
         <Card
             internship={internship}
         />
     ))}
+</div>
+<div class="flex flex-row gap-2">
+    {
+        new Array(pages).fill(null).map((x, i) => {
+            const distance = Math.abs(parsedPage - i);
+            
+            if (distance === 3) return <span class="px-1">...</span>;
+            if (distance > 3) return null;
+            
+            return (
+                <a style={`background-color: ${parsedPage === i && "#ccc"}`} href={`?page=${i}&${Object.entries(Astro.props).map(([key, value]) => {if (value && key !== "page") return `${key}=${value}&` })}`} class="border border-gray-200 rounded-xl px-3 py-1">{i+1}</a>
+            )
+        })
+    }
 </div>

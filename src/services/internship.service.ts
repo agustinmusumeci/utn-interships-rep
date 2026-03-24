@@ -1,4 +1,5 @@
 import type { Internship } from "../../prisma/zod";
+import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
 import internshipRepository from "../repositories/internship.repository";
 
 class InternshipService {
@@ -8,14 +9,19 @@ class InternshipService {
     return await internshipRepository.scrapeInternships();
   }
 
-  async getInternships(careers: Array<string> = [], text: string = "", time: string = "") {
-    const internshipsData = await internshipRepository.getInternships(careers, text, time);
+  async getInternships(careers: Array<string> = [], text: string = "", time: string = "", page: number = 0) {
+    const { data, count } = await internshipRepository.getInternships(careers, text, time, page);
 
-    const internships = internshipsData.map((internship) => {
+    const internships = data.map((internship) => {
       return this.mapInternship(internship);
     });
 
-    return internships;
+    const response = {
+      data: internships,
+      pages: Math.ceil(count / INTERNSHIPS_PER_PAGE),
+    };
+
+    return response;
   }
 
   async getInternship(id: number) {

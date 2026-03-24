@@ -1,5 +1,6 @@
 import type { Internship } from "../../prisma/zod";
 import { GeminiAgent } from "../agents/gemini.agent";
+import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
 import prisma from "../lib/prisma";
 import { Scraper } from "../lib/scraper";
 import dotenv from "dotenv";
@@ -36,7 +37,7 @@ class InternshipRepository {
     return res;
   }
 
-  async getInternships(careers: Array<string>, text: string, time: string) {
+  async getInternships(careers: Array<string>, text: string, time: string, page: number) {
     let where = {};
     let order = {};
 
@@ -65,9 +66,16 @@ class InternshipRepository {
       };
     }
 
-    return await prisma.internship.findMany({
+    const count = await prisma.internship.count({
       where: where,
       orderBy: order,
+    });
+
+    const response = await prisma.internship.findMany({
+      where: where,
+      orderBy: order,
+      take: INTERNSHIPS_PER_PAGE,
+      skip: page * INTERNSHIPS_PER_PAGE,
       include: {
         Company: true,
         internshipCareers: {
@@ -77,6 +85,8 @@ class InternshipRepository {
         },
       },
     });
+
+    return { data: response, count: count };
   }
 
   async getInternship(id: number) {
