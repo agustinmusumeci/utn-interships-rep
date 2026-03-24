@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css"
 
 type Props = {
@@ -15,8 +16,28 @@ const {title = "UTN Rep | Pasantias"} = Astro.props as Props
 
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<ClientRouter />
 	</head>
 	<body>
+		 <div id="loading-bar" class="fixed top-0 left-0 h-1 w-0 bg-blue-500 transition-all duration-300 z-50"></div>
 		<slot />
 	</body>
 </html>
+<script>
+	const bar = document.getElementById("loading-bar")
+
+	// Navegación empieza
+	document.addEventListener("astro:before-preparation", () => {
+		bar.style.width = "70%"
+		bar.style.opacity = "1"
+	})
+
+	// Navegación completada
+	document.addEventListener("astro:page-load", () => {
+		bar.style.width = "100%"
+		setTimeout(() => {
+		bar.style.opacity = "0"
+		bar.style.width = "0"
+		}, 300)
+	})
+</script>

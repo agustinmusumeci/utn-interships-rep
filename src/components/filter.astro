@@ -1,30 +1,40 @@
 ---
 import { careers } from "../constants/careers";
-
-const selectedCareers = []
 ---
-
-<div class="mt-5">
-  <form action="">
-    <div>
-      <label for="career_id">Especialidad</label>
-      <select
-        name="career_id"
-        id="career_id"
+    <div class="flex flex-row gap-5 items-center mt-5">
+      <form
+        class="flex flex-col gap-5"
+        id="internships-filter"
+        method="get"
       >
-        <option value="*">Todas</option>
-        {careers.map((c) => (
-          <option value={c.id}>{c.name}</option>
+        <div class="flex flex-col gap-2 w-fit">
+          <label for="careers">Especialidad</label>
+          <select
+            class="border px-3 py-1 rounded-full"
+            name="careers"
+            id="careers"
+          >
+            <option value="*">Todas</option>
+            {careers.map((c) => (
+              <option value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <button
+            class="px-4 py-1 border rounded-full"
+            type="submit"
+          >
+            Filtrar
+          </button>
+        </div>
+      </form>
+      <!-- <div>
+        {selectedCareers.map((career) => (
+          <div class="px-2 py-1 border rounded-lg w-fit flex flex-row items-center gap-5">
+            <p>{career?.name}</p>
+            <button onClick={() => deleteCareer(career.id)}>X</button>
+          </div>
         ))}
-      </select>
+      </div> -->
     </div>
-  </form>
-  <div>
-    {selectedCareers.map((c) => (
-      <div class="px-2 py-1 border rounded-lg">{c?.name}</div>
-    ))}
-  </div>
-</div>
-<script>
-
-</script>

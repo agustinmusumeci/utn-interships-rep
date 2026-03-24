@@ -49,7 +49,7 @@ class InternshipRepository {
       ];
     }
 
-    if (careers && careers?.length > 0) {
+    if (careers && careers?.length > 0 && !careers.includes("*")) {
       where["internshipCareers"] = {
         every: {
           OR: careers.map((c) => ({
@@ -58,6 +58,7 @@ class InternshipRepository {
         },
       };
     }
+
     if (time) {
       order = {
         created_at: time?.toLocaleLowerCase(),

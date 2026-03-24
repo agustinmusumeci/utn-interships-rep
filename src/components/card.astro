@@ -1,23 +1,13 @@
 ---
-import type { Internship } from "../../prisma/zod"
-import Careers, { type CareersProps } from "./careers.astro"
+import Careers from "./careers.astro";
 
-type Card = {
-    internship: Internship & {careers: CareersProps} & {company: {id: string, name: string}}
-    styles?: string
-}
+const {internship} = Astro.props;
 
-
-const {internship, styles=""} = Astro.props as Card
 ---
-<a href=`/internships/${internship.id}`>
-    <article class={`flex flex-col gap-2 p-4 border rounded-xl ${styles}`}>
-        <p>
-            A.R.M {internship.arm}
-        </p>
-        <p>
-            {internship.position}
-        </p>
-        <Careers careers={internship.careers}/>
+<a href={`/internships/${internship.id}`} data-astro-prefetch>
+    <article class={`flex flex-col gap-2 p-4 border rounded-xl`}>
+        <p>A.R.M {internship.arm}</p>
+        <p>{internship.position}</p>
+        <Careers careers={internship.careers} />
     </article>
 </a>

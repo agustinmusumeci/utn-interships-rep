@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/preact": "^5.0.2",
+    "@astrojs/vercel": "^10.0.2",
     "@google/genai": "^1.46.0",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
@@ -19,6 +21,7 @@
     "astro": "^6.0.6",
     "dotenv": "^17.3.1",
     "pg": "^8.20.0",
+    "preact": "^10.29.0",
     "puppeteer": "^24.39.1",
     "tailwindcss": "^4.2.2",
     "zod": "^4.3.6",
