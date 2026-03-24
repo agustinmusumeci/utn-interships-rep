@@ -1,5 +1,4 @@
-import type { Intership } from "../../prisma/generated/client";
-import { careers } from "../constants/careers";
+import { CAREERS } from "../constants/careers";
 
 class UTNParser {
   fieldMap: Array<{ key: string; labels: Array<string> }>;
@@ -179,8 +178,8 @@ class UTNParser {
     const text = this.normalize(raw);
     const matchCareers = [];
 
-    for (let i = 0; i < careers.length; i++) {
-      const career = careers[i];
+    for (let i = 0; i < CAREERS.length; i++) {
+      const career = CAREERS[i];
 
       const regexCareer = new RegExp(`\\b${career}\\b`);
 

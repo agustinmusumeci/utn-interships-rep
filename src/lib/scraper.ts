@@ -8,8 +8,6 @@ export class Scraper {
     const browser = await puppeteer.launch({ headless: headless });
     const page = await browser.newPage();
 
-    // await page.setViewport({ width: 1080, height: 1024 });
-
     this.#browser = browser;
     this.#page = page;
   }

@@ -1,4 +1,4 @@
-import { careers } from "../constants/careers";
+import { CAREERS } from "../constants/careers";
 
 export const CONTEXT = `
     You are a data extraction assistant. Your ONLY job is to extract the internship listed from the following unstructured spanish text and return them as a JSON with a "interships" array fill by objects that STRICTLY follows the provided JSON schema.
@@ -29,7 +29,7 @@ export const CONTEXT = `
     - Careers required → company_id (DO NOT add a careers field, match them from the list below and store as uppercase comma-separated string in position field — wait, see note)
 
     CAREERS: Match the required careers from this list (write uppercase, no accents, no "Ingeniería"/"Lic." prefix):
-    ${careers.map((c) => c.id).join(", ")}
+    ${CAREERS.map((c) => c.id).join(", ")}
 
     If a field has no data in the source text, use:
     - "" for string fields

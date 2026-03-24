@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "../prisma/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { careers } from "../src/constants/careers";
 import { UploadController } from "../src/controllers/upload.controller";
+import { CAREERS } from "../src/constants/careers";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -14,7 +14,7 @@ const prisma = new PrismaClient({
 export async function main() {
   console.log("Starting to seed...");
 
-  for (const i of careers) {
+  for (const i of CAREERS) {
     await prisma.career.createMany({ data: { id: i.id, name: i.name, color: i.color }, skipDuplicates: true });
   }
 

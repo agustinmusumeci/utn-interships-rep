@@ -1,4 +1,4 @@
-import { careers } from "../constants/careers";
+import { CAREERS } from "../constants/careers";
 
 export const INTERSHIP_RESPONSE_SCHEMA = {
   type: "object",
@@ -44,7 +44,7 @@ export const INTERSHIP_RESPONSE_SCHEMA = {
           mail: { type: "string", description: "Email to send CV, empty string if not present" },
           careers: {
             type: "array",
-            description: "Students of which career are needed. They should match one (or more than one) of the followings careers with uppercase, no accents: " + `${careers.join(", ")}.`,
+            description: "Students of which career are needed. They should match one (or more than one) of the followings careers with uppercase, no accents: " + `${CAREERS.join(", ")}.`,
           },
           observations: { type: "string", description: "In case the payment, or any other field requires some extra information, specify it here, otherwise empty string" },
         },

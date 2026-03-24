@@ -1,0 +1,11 @@
+---
+import { INTERNSHIPS_PER_PAGE } from "../constants/paginations"
+import Card from "./card.astro"
+import CardSkeleton from "./cardSkeleton.astro"
+
+---
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {new Array(INTERNSHIPS_PER_PAGE).fill(null).map(() => (
+        <CardSkeleton />
+    ))}
+</div>

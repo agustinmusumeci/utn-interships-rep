@@ -51,10 +51,10 @@ class InternshipRepository {
 
     if (careers && careers?.length > 0 && !careers.includes("*")) {
       where["internshipCareers"] = {
-        every: {
-          OR: careers.map((c) => ({
-            career_id: c,
-          })),
+        some: {
+          career_id: {
+            in: careers,
+          },
         },
       };
     }

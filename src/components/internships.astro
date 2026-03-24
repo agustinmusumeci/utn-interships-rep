@@ -2,17 +2,11 @@
 import internshipService from "../services/internship.service";
 import Card from "./card.astro";
 
-const PARAMS = ["careers", "text", "time"];
+const {careers=[], text="", time=""} = Astro.props;
 
-const searchParams = Astro.url.searchParams
-const { careers = "", text = "", time = "" } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
-
-const filterCareers = careers?.split(",");
-
-const internships = await internshipService.getInternships(filterCareers, text, time)
-
+const internships = await internshipService.getInternships(careers, text, time)
 ---
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
     {internships?.map((internship) => (
         <Card
             internship={internship}

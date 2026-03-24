@@ -1,16 +1,24 @@
 ---
-import Filter from "../../components/filter.astro";
+import Filter from "../../components/filter";
 import Internships from "../../components/internships.astro";
+import InternshipsSkeleton from "../../components/internshipsSkeleton.astro";
+import { PARAMS } from "../../constants/params";
 import Layout from "../../layouts/Layout.astro";
+
+const searchParams = Astro.url.searchParams
+
+const { careers = "", text = "", time = "" } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
+
+const filterCareers = careers?.split(",");
 ---
 
 <Layout>
     <main>
         <section class="flex flex-col gap-10">
-      <Filter />
+      <Filter careers={filterCareers} text={text} time={time} client:only/>
       
-       <Internships server:defer>
-        <div slot="fallback">Loading</div>
+       <Internships careers={filterCareers} text={text} time={time} server:defer>
+            <InternshipsSkeleton slot="fallback"/>
        </Internships>
     </section>
     </main>

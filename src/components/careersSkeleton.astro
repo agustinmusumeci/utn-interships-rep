@@ -1,0 +1,21 @@
+---
+
+export const prerender = true
+
+export interface CareersProps  {
+    careers: Array<{id: string, name: string, color: string} | null>
+}
+
+const {careers = 2} = Astro.props as CareersProps;
+---
+
+<div class="flex flex-row gap-2" aria-hidden="true">
+    {new Array(careers).fill(null).map(() => (
+        <div
+    
+            class="px-2 py-1 bg-gray-300 animate-pulse text-transparent rounded-lg"
+        >
+            Loading careers
+        </div>
+    ))}
+</div>
