@@ -7,8 +7,6 @@ const {id} = Astro.params
 
 const internship = await internshipService.getInternship(Number(id))
 
-console.log(internship)
-
 if (!internship) return Astro.redirect("/404");
 ---
 

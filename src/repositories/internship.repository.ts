@@ -37,12 +37,11 @@ class InternshipRepository {
   }
 
   async getInternships(careers: Array<string>, text: string, time: string) {
-    let whereText = {};
-    let whereCareers = {};
-    let orderByTime = {};
+    let where = {};
+    let order = {};
 
     if (text) {
-      whereText["OR"] = [
+      where["OR"] = [
         { knowledge: { contains: text, mode: "insensitive" } },
         { modality: { contains: text, mode: "insensitive" } },
         { position: { contains: text, mode: "insensitive" } },
@@ -51,24 +50,26 @@ class InternshipRepository {
     }
 
     if (careers && careers?.length > 0) {
-      whereCareers["OR"] = careers.map((c) => ({
-        career_id: c,
-      }));
+      where["internshipCareers"] = {
+        every: {
+          OR: careers.map((c) => ({
+            career_id: c,
+          })),
+        },
+      };
     }
-
     if (time) {
-      orderByTime = {
+      order = {
         created_at: time?.toLocaleLowerCase(),
       };
     }
 
     return await prisma.internship.findMany({
-      where: whereText,
-      orderBy: orderByTime,
+      where: where,
+      orderBy: order,
       include: {
         Company: true,
         internshipCareers: {
-          where: whereCareers,
           include: {
             Career: true,
           },
