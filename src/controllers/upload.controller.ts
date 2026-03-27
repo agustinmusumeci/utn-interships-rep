@@ -23,8 +23,10 @@ export class UploadController {
     }));
 
     await companyService.uploadCompanies(companies);
-    await internshipService.uploadInternships(internships);
+    const newInternships = await internshipService.uploadInternships(internships);
 
     console.log("Updated data succesfully");
+
+    return { internships: newInternships, companies: companies };
   }
 }

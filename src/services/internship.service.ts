@@ -24,8 +24,8 @@ class InternshipService {
     return response;
   }
 
-  async getInternship(id: number) {
-    const internshipData = await internshipRepository.getInternship(id);
+  async getInternship(id: number | undefined = undefined, arm: string = "") {
+    const internshipData = await internshipRepository.getInternship(id, arm);
     const internship = this.mapInternship(internshipData);
 
     return internship;

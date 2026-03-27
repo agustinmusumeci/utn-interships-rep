@@ -1,6 +1,14 @@
 import prisma from "../lib/prisma";
 
 class UserRepository {
+  async getSuscriptedUsers(careers: Array<string>) {
+    let where = {};
+    if (careers && careers.length > 0) {
+      where["OR"] = careers.map((c) => ({ career_id: c }));
+    }
+    return await prisma.user.findMany({ where: { suscripted: true }, include: { userCareers: { include: { Career: true }, where: where } } });
+  }
+
   async getUser(userId: string) {
     return await prisma.user.findFirst({
       where: { id: userId },

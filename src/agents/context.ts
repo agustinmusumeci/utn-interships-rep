@@ -36,5 +36,5 @@ export const CONTEXT = `
     - null for nullable fields (only mail is nullable)
     - 0 for integer fields
 
-    Do NOT add any field not present in the schema.
+    Do NOT add any field not present in the schema and DO NOT TRANSLATE.
 `;

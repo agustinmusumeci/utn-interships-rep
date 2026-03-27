@@ -89,9 +89,18 @@ class InternshipRepository {
     return { data: response, count: count };
   }
 
-  async getInternship(id: number) {
+  async getInternship(id: number | undefined = undefined, arm: string = "") {
+    let where = {};
+    if (id) {
+      where["id"] = id;
+    }
+
+    if (arm) {
+      where["arm"] = arm;
+    }
+
     return await prisma.internship.findFirst({
-      where: { id: id },
+      where: where,
       include: {
         Company: true,
         internshipCareers: {
@@ -110,7 +119,16 @@ class InternshipRepository {
       }
     >,
   ) {
-    await prisma.$transaction(async (tx) => {
+    const updatedInternships = await prisma.$transaction(async (tx) => {
+      const preExisting = await tx.internship.findMany({
+        where: {
+          arm: { in: internships.map((i) => i["arm"]) },
+        },
+        select: { ["arm"]: true },
+      });
+
+      const preExistingARMS = new Set(preExisting.map((r) => r["arm"]));
+
       await tx.internship.createMany({
         data: internships.map(({ careers, ...rest }) => rest),
         skipDuplicates: true,
@@ -118,7 +136,6 @@ class InternshipRepository {
 
       const created = await tx.internship.findMany({
         where: { arm: { in: internships.map((i) => i.arm) } },
-        select: { id: true, arm: true },
       });
 
       const internshipCareerData = created.flatMap((internship) => {
@@ -133,7 +150,23 @@ class InternshipRepository {
         data: internshipCareerData,
         skipDuplicates: true,
       });
+
+      // const newInternships = created.flatMap((internship) => {
+      //   const original = internships.find((i) => i.arm === internship.arm);
+      //   const careers = original.careers.map((career_id) => ({
+      //     internship_id: internship.id,
+      //     career_id,
+      //   }));
+
+      //   return { ...original, careers: careers };
+      // });
+
+      const newInternships = internships.filter((i) => !preExistingARMS.has(i["arm"]));
+
+      return newInternships;
     });
+
+    return updatedInternships;
   }
 }
 

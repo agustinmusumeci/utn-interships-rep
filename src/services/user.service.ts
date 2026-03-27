@@ -2,6 +2,16 @@ import type { User } from "../../prisma/zod";
 import userRepository from "../repositories/user.repository";
 
 class UserService {
+  async getSuscriptedUsers(careers: Array<string>) {
+    const usersData = await userRepository.getSuscriptedUsers(careers);
+
+    const users = usersData.map((user) => {
+      return this.mapUserToJson(user);
+    });
+
+    return users;
+  }
+
   async getUser(userId: string): User {
     const user = await userRepository.getUser(userId);
 

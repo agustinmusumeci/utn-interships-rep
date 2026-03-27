@@ -8,7 +8,10 @@ export default function Notification({ user }) {
   const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career.id)) ?? []);
   const [suscriptedCareers, setSuscriptedCareers] = useState(user?.careers ?? []);
   const [toDeleteCareers, setToDeleteCareers] = useState([]);
+
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSuscription = async (e) => {
     e.preventDefault();
@@ -30,15 +33,18 @@ export default function Notification({ user }) {
   const handleSumbitCareers = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const { data, error } = await actions.suscribeCareers({ id: user?.id, toSuscribeCareers: suscriptedCareers.map((c) => c?.id), toDeleteCareers: toDeleteCareers.map((c) => c?.id) });
 
     if (error) {
       setError(true);
       console.error(error);
-      return;
+    } else {
+      setSuccess(true);
     }
 
-    setResult(data.message);
+    setLoading(false);
   };
 
   const suscriptCareer = (careerId, suscript) => {
@@ -116,7 +122,9 @@ export default function Notification({ user }) {
                 </form>
               </div>
             )}
+            {loading && <p>Cargando</p>}
             {error && <p className="text-red-500">Ocurrio un error. Reintente mas tarde.</p>}
+            {success && <p className="text-green-500">Carreras suscriptas correctamente!</p>}
           </div>
         </div>
       ) : (
