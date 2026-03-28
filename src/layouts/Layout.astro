@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from "astro:transitions";
+// import { ClientRouter } from "astro:transitions";
 import { Show, SignInButton, SignUpButton } from '@clerk/astro/components'
 import "../styles/global.css"
 import userService from "../services/user.service";
@@ -18,7 +18,7 @@ if (user) {
 	const name = user?.fullName ?? "";
 	const mail = user?.primaryEmailAddress?.emailAddress ?? ""
 	
-	await userService.syncUser(userId, mail, name)
+	await userService.syncUser(userId, name, mail)
 }
 ---
 <!doctype html>
@@ -29,7 +29,7 @@ if (user) {
 
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		<ClientRouter />
+		<!-- <ClientRouter /> -->
 	</head>
 	<body>
 		<header class="h-20 flex flex-row justify-between items-center mb-10">

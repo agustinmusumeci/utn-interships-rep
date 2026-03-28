@@ -12,7 +12,7 @@ class UserService {
     return users;
   }
 
-  async getUser(userId: string): User {
+  async getUser(userId: string): Promise<User> {
     const user = await userRepository.getUser(userId);
 
     return this.mapUserToJson(user);
@@ -26,7 +26,7 @@ class UserService {
     return await userRepository.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
   }
 
-  mapUserToJson(user: User) {
+  mapUserToJson(user: User & { userCareers?: any[] }) {
     const newUser = {
       id: user?.id,
       name: user?.name,

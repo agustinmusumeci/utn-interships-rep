@@ -1,0 +1,35 @@
+---
+type Props = {
+  pages: number,
+  page: number,
+  searchParams: string,
+  pathname: string
+}
+
+const {pages, page, searchParams, pathname} = Astro.props;
+
+const newSearchParams = new URLSearchParams(searchParams)
+---
+
+    <div class="absolute -bottom-14 left-0 flex flex-row gap-2">
+      {new Array(pages).fill(null).map((x, i) => {
+        const distance = Math.abs(page - i);
+
+        if (distance === 3) return <span class="px-1">...</span>;
+        if (distance > 3) return null;
+
+        const pageParam = newSearchParams
+        pageParam.set("page", String(i))
+
+        return (
+          <a
+          href={`${pathname}?${newSearchParams.toString()}`}
+            style={`background-color: ${page === i && "#79716b"}; color: ${page === i && "#eee"}`}
+            class="border border-gray-200 rounded-xl px-3 py-1 cursor-pointer"
+          >
+            {i + 1}
+          </a>
+        );
+      })}
+    </div>
+

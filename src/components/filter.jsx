@@ -1,8 +1,8 @@
 import { CAREERS } from "../constants/careers";
 import { useEffect, useState } from "preact/hooks";
 
-export default function Filter({ careers = [], text, time, page }) {
-  const [form, setForm] = useState({ text: text, time: time, careers: careers });
+export default function Filter({ careers = [], text, time, page = 0 }) {
+  const [form, setForm] = useState({ text: text, time: time, careers: careers, page: page });
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -24,13 +24,18 @@ export default function Filter({ careers = [], text, time, page }) {
   useEffect(() => {
     const url = new URL(window.location);
 
-    Object.entries(form).forEach(([key, value]) => {
-      if (value) url.searchParams.set(key, value);
-      else url.searchParams.delete(key);
+    const { careers, ...rest } = form;
+
+    Object.entries(rest).forEach(([key, value]) => {
+      if (value) {
+        url.searchParams.set(key, value);
+      } else {
+        url.searchParams.delete(key);
+      }
     });
 
-    if (form.careers.length > 0) {
-      url.searchParams.set("careers", form.careers.join(","));
+    if (careers.length > 0) {
+      url.searchParams.set("careers", careers.join(","));
     } else {
       url.searchParams.delete("careers");
     }

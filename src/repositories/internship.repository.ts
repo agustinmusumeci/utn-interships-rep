@@ -64,6 +64,10 @@ class InternshipRepository {
       order = {
         created_at: time?.toLocaleLowerCase(),
       };
+    } else {
+      order = {
+        created_at: "desc",
+      };
     }
 
     const count = await prisma.internship.count({

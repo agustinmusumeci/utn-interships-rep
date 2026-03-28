@@ -1,19 +1,21 @@
 ---
 import internshipService from "../services/internship.service";
 import Card from "./card.astro";
+import Pagination from "./pagination.astro";
 
 type Props = {
-    careers: Array<string | null>,
+    searchParams: string,
+    pathname: string,
+    careers: Array<string>,
     text?: string,
     time?: string,
     page: number
 }
 
-const {careers=[], text="", time="", page=0} = Astro.props as Props;
+const {searchParams, pathname, careers=[], text="", time="", page=0} = Astro.props as Props;
 
-const parsedPage = page ? Number(page) : 0
 
-const {data, pages} = await internshipService.getInternships(careers, text, time, parsedPage) 
+const {data, pages} = await internshipService.getInternships(careers, text, time, page) 
 ---
 <div class="relative flex-1 grow">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
@@ -23,18 +25,19 @@ const {data, pages} = await internshipService.getInternships(careers, text, time
             />
         ))}
     </div>
-    <div class="absolute -bottom-14 left-0 flex flex-row gap-2">
+    <Pagination pages={pages} page={page} searchParams={searchParams} pathname={pathname}/>
+     <!-- <div class="absolute -bottom-14 left-0 flex flex-row gap-2">
         {
             new Array(pages).fill(null).map((x, i) => {
-                const distance = Math.abs(parsedPage - i);
+                const distance = Math.abs(page - i);
                 
                 if (distance === 3) return <span class="px-1">...</span>;
                 if (distance > 3) return null;
                 
                 return (
-                    <a style={`background-color: ${parsedPage === i && "#79716b"}; color: ${parsedPage === i && "#eee"}`} href={`?page=${i}&${Object.entries(Astro.props).map(([key, value]) => {if (value && key !== "page") return `${key}=${value}&` })}`} class="border border-gray-200 rounded-xl px-3 py-1">{i+1}</a>
+                    <a style={`background-color: ${page === i && "#79716b"}; color: ${page === i && "#eee"}`} href={`?page=${i}&${Object.entries(Astro.props).map(([key, value]) => {if (value && key !== "page") return `${key}=${value}&` })}`} class="border border-gray-200 rounded-xl px-3 py-1">{i+1}</a>
                 )
             })
         }
-    </div>
+</div> -->
 </div>

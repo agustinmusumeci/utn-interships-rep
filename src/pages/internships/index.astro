@@ -1,13 +1,15 @@
 ---
 import Filter from "../../components/filter";
+import FilterSkeleton from "../../components/filterSkeleton.astro"
 import Internships from "../../components/internships.astro";
 import InternshipsSkeleton from "../../components/internshipsSkeleton.astro";
 import { PARAMS } from "../../constants/params";
 import Layout from "../../layouts/Layout.astro";
 
 const searchParams = Astro.url.searchParams
+const pathname = Astro.url.pathname
 
-const { careers = "", text = "", time = "", page=0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
+const { careers = "", text = "", time = "", page = 0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
 
 const filterCareers = careers?.split(",");
 ---
@@ -15,9 +17,11 @@ const filterCareers = careers?.split(",");
 <Layout>
     <main>
         <section class="flex flex-col md:flex-row gap-10 h-full mb-20">
-            <Filter careers={filterCareers} text={text} time={time} page={page} client:only/>
+            <Filter careers={filterCareers} text={text} time={time} page={Number(page)} client:only>
+                <FilterSkeleton slot="fallback"/>
+            </Filter>
             
-            <Internships careers={filterCareers} text={text} time={time} page={page} server:defer>
+            <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} server:defer>
                     <InternshipsSkeleton slot="fallback"/>
             </Internships>
         </section>
