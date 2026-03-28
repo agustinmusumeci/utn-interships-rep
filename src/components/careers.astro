@@ -7,7 +7,7 @@ export interface CareersProps  {
 const {careers = []} = Astro.props as CareersProps;
 ---
 
-<div class="flex flex-row flex-wrap gap-2">
+<div class="flex flex-row truncate gap-2">
     {careers.map((career) => (
         <p
             class="rounded-lg px-2 py-1"

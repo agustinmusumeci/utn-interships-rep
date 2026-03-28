@@ -5,5 +5,5 @@
 }
 
 html {
-  @apply max-w-[95dvw] lg:max-w-[1280px] mx-auto;
+  @apply max-w-[95dvw] lg:max-w-[1280px] mx-auto scroll-smooth overflow-y-scroll;
 }

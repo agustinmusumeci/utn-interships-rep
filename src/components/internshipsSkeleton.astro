@@ -1,10 +1,16 @@
 ---
 import { INTERNSHIPS_PER_PAGE } from "../constants/paginations"
 import CardSkeleton from "./cardSkeleton.astro"
+import PaginationSkeleton from "./paginationSkeleton.astro"
+import InternshipsGrid from "./internshipsGrid.astro"
 
 ---
-<div class="flex-1 grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+<>
+
+<InternshipsGrid>
     {new Array(INTERNSHIPS_PER_PAGE).fill(null).map(() => (
         <CardSkeleton />
     ))}
-</div>
+</InternshipsGrid>
+<PaginationSkeleton />
+</>

@@ -44,7 +44,7 @@ export default function Filter({ careers = [], text, time, page = 0 }) {
   }, [form]);
 
   return (
-    <div className="flex flex-col gap-5 mt-5 mx-2">
+    <div className="flex flex-col gap-5 mt-5 mx-2 lg:col-span-1 col-span-full">
       <form
         className="flex flex-col gap-5"
         id="internships-filter"

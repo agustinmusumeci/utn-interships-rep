@@ -1,11 +1,35 @@
-    <div class="flex flex-col gap-5 mt-5 mx-2">
-        <!-- A.R.M line -->
-        <p class=" bg-gray-300 w-fit rounded animate-pulse text-transparent">
-          A.R.M XX/XX
-        </p>
-        <!-- Position line -->
-        <p class=" bg-gray-300 rounded animate-pulse text-transparent">
-          Loading position
-        </p>
-        <!-- Careers -->
+
+<div class="flex flex-col gap-5 mt-5 mx-2 col-span-1 animate-pulse">
+      <div class="flex flex-col gap-5">
+        
+        {/* Buscar */}
+        <div class="flex flex-col gap-2">
+          <div class="h-4 w-20 bg-gray-300 rounded" />
+          <div class="h-8 w-full bg-gray-200 rounded-full" />
+        </div>
+
+        {/* Especialidad */}
+        <div class="flex flex-col gap-2">
+          <div class="h-5 w-32 bg-gray-300 rounded" />
+          <div class="flex flex-col gap-3">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div class="flex items-end gap-2 mb-2">
+                <div class="h-4 w-32 bg-gray-200 rounded" />
+                <div class="h-4 w-4 bg-gray-300 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Fecha */}
+        <div class="flex flex-col gap-2">
+          <div class="h-4 w-20 bg-gray-300 rounded" />
+          <div class="h-8 w-full bg-gray-200 rounded-full" />
+        </div>
+
+        {/* Botón */}
+        <div>
+          <div class="h-8 w-24 bg-gray-300 rounded-full" />
+        </div>
+      </div>
     </div>
