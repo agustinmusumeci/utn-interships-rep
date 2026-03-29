@@ -1,30 +1,56 @@
-import type { Internship } from "../../prisma/zod";
 import type { Notificator } from "../interfaces/interface.notificator";
-import { Resend } from "resend";
 import dotenv from "dotenv";
 dotenv.config({ path: "/.env" });
 
 export class MailService implements Notificator {
-  private mailer;
+  private serviceId;
+  private templateId;
+  private publicEmailKey;
+  private privateEmailKey;
 
   constructor() {
-    this.mailer = new Resend((typeof process !== "undefined" && process.env.RESEND_API_KEY) || (import.meta as any).env?.RESEND_API_KEY);
+    this.serviceId = (typeof process !== "undefined" && process.env.EMAILJS_SERVICE_ID) || (import.meta as any).env?.EMAILJS_SERVICE_ID;
+    this.templateId = (typeof process !== "undefined" && process.env.EMAILJS_TEMPLATE_ID) || (import.meta as any).env?.EMAILJS_TEMPLATE_ID;
+    this.publicEmailKey = (typeof process !== "undefined" && process.env.EMAILJS_PUBLIC_KEY) || (import.meta as any).env?.EMAILJS_PUBLIC_KEY;
+    this.privateEmailKey = (typeof process !== "undefined" && process.env.EMAILJS_PRIVATE_KEY) || (import.meta as any).env?.EMAILJS_PRIVATE_KEY;
   }
 
-  async notify(domain: string, internships: Array<string>): Promise<boolean> {
-    console.log(`Enviando mail a: ${domain}`, internships);
-    let mail = "hola probando";
+  async notify(domain: string, internships: Array<string>) {
+    const count = internships.length;
 
-    await this.sendEmail(domain, "test", mail);
-    return true;
+    await this.sendEmail(domain, count);
   }
 
-  async sendEmail(domain: string, subject: string, mail: string) {
-    await this.mailer.emails.send({
-      from: "UTN Hub <onboarding@resend.dev>",
-      to: [domain],
-      subject: subject,
-      html: mail,
-    });
+  async sendEmail(domain: string, count: number) {
+    const data = {
+      service_id: this.serviceId,
+      template_id: this.templateId,
+      user_id: this.publicEmailKey,
+      accessToken: this.privateEmailKey,
+      template_params: {
+        name: "UTN Archive",
+        count: count,
+        domain: domain,
+      },
+    };
+
+    try {
+      const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`EmailJS error ${res.status}: ${errorText}`);
+      }
+
+      console.log("Email enviado correctamente");
+    } catch (e) {
+      console.error("Error al enviar email:", e);
+    }
   }
 }
