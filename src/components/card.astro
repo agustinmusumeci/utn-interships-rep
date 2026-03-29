@@ -4,8 +4,8 @@ import Careers from "./careers.astro";
 const {internship} = Astro.props;
 
 ---
-<a class="w-full h-full" href={`/internships/${internship?.id}`} data-astro-prefetch>
-    <article class="h-full flex flex-col gap-2 p-4 bg-gray-50 rounded-xl text-stone-900">
+<a class="w-full" href={`/internships/${internship?.id}`} data-astro-prefetch>
+    <article class="flex flex-col gap-2 p-4 bg-gray-50 rounded-xl text-stone-900">
         <p>A.R.M {internship?.arm}</p>
         <p class="truncate line-clamp-1">{internship?.position}</p>
         <Careers careers={internship?.careers} />
