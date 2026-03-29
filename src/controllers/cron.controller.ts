@@ -25,10 +25,10 @@ export class CronController {
     const suscriptedUsers = await userService.getSuscriptedUsers(careers);
 
     // Associate suscripted users with all the internships that matches and need notification
-    const toNotify = {} as { [key: string]: { domain: string; internships: Set<string> } };
+    const toNotify = {} as { [key: string]: { domain: string; username: string; internships: Set<string> } };
 
     for (const user of suscriptedUsers) {
-      toNotify[user?.id] = { domain: user.mail, internships: new Set() };
+      toNotify[user?.id] = { domain: user.mail, username: user.name, internships: new Set() };
 
       const userSuscriptedCareers = new Set(
         user?.careers?.map((c: any) => {
@@ -48,7 +48,7 @@ export class CronController {
     }
 
     const arrayToNotify = Object.entries(toNotify).map(([key, value]) => {
-      return { domain: value.domain, internships: Array.from(value.internships) };
+      return { domain: value.domain, username: value.username, internships: Array.from(value.internships) };
     });
 
     const notificator = new NotificationService();

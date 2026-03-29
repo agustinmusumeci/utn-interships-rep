@@ -1,3 +1,3 @@
 export interface Notificator {
-  notify(domain: string, internships: Array<string>): any;
+  notify(domain: string, username: string, internships: Array<string>): any;
 }

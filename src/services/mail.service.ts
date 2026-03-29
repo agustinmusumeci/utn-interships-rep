@@ -15,20 +15,20 @@ export class MailService implements Notificator {
     this.privateEmailKey = (typeof process !== "undefined" && process.env.EMAILJS_PRIVATE_KEY) || (import.meta as any).env?.EMAILJS_PRIVATE_KEY;
   }
 
-  async notify(domain: string, internships: Array<string>) {
+  async notify(domain: string, username: string, internships: Array<string>) {
     const count = internships.length;
 
-    await this.sendEmail(domain, count);
+    await this.sendEmail(domain, username, count);
   }
 
-  async sendEmail(domain: string, count: number) {
+  async sendEmail(domain: string, username: string, count: number) {
     const data = {
       service_id: this.serviceId,
       template_id: this.templateId,
       user_id: this.publicEmailKey,
       accessToken: this.privateEmailKey,
       template_params: {
-        name: "UTN Archive",
+        name: username,
         count: count,
         domain: domain,
       },

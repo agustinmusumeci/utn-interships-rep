@@ -9,13 +9,14 @@ export class NotificationService {
     this.notificators.push(new MailService());
   }
 
-  async notify(data: Array<{ domain: string; internships: Array<string> }>) {
+  async notify(data: Array<{ domain: string; username: string; internships: Array<string> }>) {
     for (const notificator of this.notificators) {
       for (const el of data) {
         const domain = el.domain;
+        const username = el.username;
         const internships = el.internships;
 
-        await notificator.notify(domain, internships);
+        await notificator.notify(domain, username, internships);
       }
     }
   }
