@@ -1,0 +1,1 @@
+export const MAXIMUM_DISPLAY_NOTIFICATIONS = 9;

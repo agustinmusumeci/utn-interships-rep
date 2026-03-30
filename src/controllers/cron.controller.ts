@@ -7,8 +7,15 @@ export class CronController {
   async cron() {
     const uploader = new UploadController();
 
-    // const { internships } = await uploader.uploadData();
-    const internships = POPULATED_MOCK.internships;
+    const { internships } = await uploader.uploadData();
+    // const internships = POPULATED_MOCK.internships;
+
+    // We dont have any internship to notify to
+    if (internships.length < 0) {
+      console.log("No internships");
+
+      return;
+    }
 
     const careersSet: Set<string> = new Set();
 
@@ -25,7 +32,7 @@ export class CronController {
     const suscriptedUsers = await userService.getSuscriptedUsers(careers);
 
     // Associate suscripted users with all the internships that matches and need notification
-    const toNotify = {} as { [key: string]: { domain: string; username: string; internships: Set<string> } };
+    const toNotify = {} as { [key: string]: { domain: string; username: string; internships: Set<number> } };
 
     for (const user of suscriptedUsers) {
       toNotify[user?.id] = { domain: user.mail, username: user.name, internships: new Set() };
@@ -42,18 +49,27 @@ export class CronController {
         const matchCareers = userSuscriptedCareers.intersection(internshipCareers);
 
         if (matchCareers.size > 0) {
-          toNotify[user?.id]?.internships?.add(internship.arm);
+          toNotify[user?.id]?.internships?.add(internship.id);
         }
       }
     }
 
     const arrayToNotify = Object.entries(toNotify).map(([key, value]) => {
-      return { domain: value.domain, username: value.username, internships: Array.from(value.internships) };
+      return { userId: key, domain: value.domain, username: value.username, internships: Array.from(value.internships).map(String) };
     });
 
+    // Notify all the intersted users
     const notificator = new NotificationService();
 
     notificator.notify(arrayToNotify);
+
+    // Create web notifications
+    for (let data of arrayToNotify) {
+      const userId = data.userId;
+      const userInternships = data.internships.map(Number);
+
+      await userService.createNotification(userId, userInternships);
+    }
 
     return;
   }

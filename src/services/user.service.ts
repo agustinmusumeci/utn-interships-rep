@@ -24,6 +24,16 @@ class UserService {
     return notificationsCount;
   }
 
+  async createNotification(userId: string, internships: Array<number>) {
+    const notifications = internships.map((id) => ({
+      user_id: userId,
+      internship_id: id,
+      seen: false,
+    }));
+
+    return await userRepository.createNotifications(notifications);
+  }
+
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
     return await userRepository.syncUser(userId, name, mail, suscripted);
   }

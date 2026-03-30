@@ -1,6 +1,7 @@
 export const POPULATED_MOCK = {
   internships: [
     {
+      id: 157,
       arm: "28/26",
       company_id: "MAGNETI MARELLI CONJUNTOS DE ESCAPE SA",
       city: "CORDOBA",
@@ -21,6 +22,7 @@ export const POPULATED_MOCK = {
       observations: "",
     },
     {
+      id: 158,
       arm: "27/26",
       company_id: "MAYO TRANSFORMADORES SRL",
       city: "CORDOBA",
@@ -41,6 +43,7 @@ export const POPULATED_MOCK = {
       observations: "",
     },
     {
+      id: 29,
       arm: "26/26",
       company_id: "INVAP SAU",
       city: "SAN CARLOS DE BARILOCHE",
@@ -61,6 +64,7 @@ export const POPULATED_MOCK = {
       observations: "Asignación estímulo: $448.579,67 (1er a 2do año) y $632.472,50 (3ro hasta graduarse).",
     },
     {
+      id: 30,
       arm: "25/26",
       company_id: "ALBAUGH - ATANOR",
       city: "RIO TERCERO- CORDOBA",
@@ -81,6 +85,7 @@ export const POPULATED_MOCK = {
       observations: "",
     },
     {
+      id: 31,
       arm: "24/25",
       company_id: "EL AUDITOR SA",
       city: "CORDOBA",

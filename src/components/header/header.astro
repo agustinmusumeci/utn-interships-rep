@@ -1,5 +1,6 @@
 ---
 import userService from '@/services/user.service'
+import {MAXIMUM_DISPLAY_NOTIFICATIONS} from "../../constants/notifications"
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
 import { Bell } from '@lucide/astro'
 
@@ -46,7 +47,7 @@ if (user) {
                     <Bell />
                     {
                         notifications > 0 &&
-                        <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-secondary px-1.5 py-0.5 rounded-full">0</span>
+                        <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-secondary px-1.5 py-0.5 rounded-full">{notifications > MAXIMUM_DISPLAY_NOTIFICATIONS ? "+9" : notifications}</span>
                     }
                 </a>
                 <UserButton />
