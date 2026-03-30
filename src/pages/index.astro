@@ -1,21 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { MoveRight } from "@lucide/astro";
 
 const user = await Astro.locals.currentUser()
 const name = user?.fullName
 ---
 
 <Layout>
-	<main>
+	<main class="container">
 		<section>
+				<div class="text-primary-hover mb-5">
+					<p>ESTADO: {
+						user ? "SESIÓN INICIADA" : "SIN INICIAR SESIÓN"}</p>
+				</div>
 			<div class="mb-5">
-				<h1 class="text-3xl ">UTN REP PASANTIAS</h1>
-				{
-					user && <p>¡Bienvenido {name}!</p>
-				}
+				<h1 class="title mb-10">BuscoPasantías</h1>
+				<div class="max-w-prose">
+					{
+						user &&
+						<p>¡Bienvenido/a <span class="text-primary-hover">{name}</span>!</p>
+					}
+
+					<p>
+						Explora y encontra pasantías de la Universidad Tecnológica Nacional de Argentina para así ganar experiencia y expandir tu horizonte.
+					</p>
+				</div>
 			</div>
-			<a href="/internships" class="bg-stone-500 text-[#eee] px-10 py-2 rounded-full">
-				Ver pasantías
+
+			<a href="/internships" class="button button-primary ">
+				<span>Ver pasantías</span> <span><MoveRight class="w-5" /></span>
 			</a>
 		</section>
 	</main>

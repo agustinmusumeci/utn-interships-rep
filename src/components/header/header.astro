@@ -1,0 +1,56 @@
+---
+import userService from '@/services/user.service'
+import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
+import { Bell } from '@lucide/astro'
+
+const user = await Astro.locals.currentUser()
+
+let notifications = 0;
+
+if (user) {
+	const userId = user?.id
+    notifications = await userService.countUserNotifications(userId)
+}
+
+---
+<header class="h-20 mb-10">
+    <div class="container h-full flex flex-row justify-between items-center">
+        <div class="flex flex-row gap-10">
+            <h1 class="font-bold text-xl">
+                BuscoPasantías   
+            </h1>		
+            <nav>
+                <ul class="flex flex-row gap-3 items-center">
+                    <li><a href="/" class="nav-link">Inicio</a></li>
+                    <li><a href="/internships" class="nav-link">Pasantías</a></li>
+                    <li><a href="/" class="nav-link">Acerca</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="flex flex-row gap-4 items-center">
+            <Show when="signed-out">
+                <div class="">
+                    <SignInButton class="button-outline px-3 py-1 border border-text/95 rounded-full cursor-pointer" mode="modal" >
+                        Inicia Sesión
+                    </SignInButton>
+                        
+                    <SignUpButton class="button-white px-3 py-1 bg-text/95 text-neutral rounded-full cursor-pointer" mode="modal" >
+                        Registrate
+                    </SignUpButton>
+                </div>
+            </Show>
+            <Show when="signed-in">
+                
+                <a href="/notifications" class="relative cursor-pointer">
+                    <Bell />
+                    {
+                        notifications > 0 &&
+                        <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-secondary px-1.5 py-0.5 rounded-full">0</span>
+                    }
+                </a>
+                <UserButton />
+            </Show>
+        </div>			
+    </div>
+</header>

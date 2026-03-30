@@ -1,7 +1,7 @@
 ---
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
 import "../styles/global.css"
 import userService from "../services/user.service";
+import Header from "@/components/header/header.astro";
 
 type Props = {
 	title?: string
@@ -33,30 +33,7 @@ if (user) {
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<header class="h-20 flex flex-row justify-between items-center mb-10">
-			<a href="/notifications">
-				<button class="px-3 py-1 border border-gray-200 rounded-full cursor-pointer">
-					Notificaciones
-				</button>
-			</a>
-
-			<Show when="signed-out">
-				<div class="">
-					<SignInButton class="px-3 py-1 border border-gray-200 rounded-full cursor-pointer" mode="modal" >
-						Inicia Sesión
-					</SignInButton>
-						
-					<SignUpButton class="px-3 py-1 border border-gray-200 bg-gray-200 rounded-full cursor-pointer" mode="modal" >
-						Registrate
-					</SignUpButton>
-				</div>
-			</Show>
-			<Show when="signed-in">
-				<UserButton />
-			</Show>
-			
-			
-		</header>
+		<Header />
 		<slot />
 	</body>
 </html>

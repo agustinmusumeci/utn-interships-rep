@@ -1,4 +1,4 @@
-import { CAREERS } from "../constants/careers";
+import { CAREERS } from "../../constants/careers";
 import { useEffect, useState } from "preact/hooks";
 
 export default function Filter({ careers = [], text, time, page = 0 }) {

@@ -18,6 +18,12 @@ class UserService {
     return this.mapUserToJson(user);
   }
 
+  async countUserNotifications(userId: string): Promise<number> {
+    const notificationsCount = await userRepository.countUserNotifications(userId);
+
+    return notificationsCount;
+  }
+
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
     return await userRepository.syncUser(userId, name, mail, suscripted);
   }

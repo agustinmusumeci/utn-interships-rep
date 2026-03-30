@@ -22,6 +22,10 @@ class UserRepository {
     });
   }
 
+  async countUserNotifications(userId: string): Promise<number> {
+    return await prisma.userNotification.count({ where: { user_id: userId, seen: false } });
+  }
+
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
     const update = {};
 

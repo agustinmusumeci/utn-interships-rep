@@ -1,11 +1,11 @@
 ---
-import Internship from "../../components/internship.astro";
+import Internship from "../../components/internship/internship.astro";
 import Layout from "../../layouts/Layout.astro";
 
 const {id} = Astro.params
 ---
 <Layout>
-    <main>
+    <main class="container">
         <Internship id={id} server:defer>
             <div slot="fallback">Loading</div>
         </Internship>

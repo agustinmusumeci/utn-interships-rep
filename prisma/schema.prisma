@@ -40,6 +40,7 @@ model Internship {
 
   Company             Company @relation(fields: [company_id], references: [id])  
   internshipCareers   InternshipCareer[]
+  userNotifications   UserNotification[]
   @@index([arm], type: Hash)
 }
 
@@ -75,6 +76,7 @@ model User {
   suscripted Boolean @default(false)
 
   userCareers UserCareer[]
+  userNotifications UserNotification[]
 }
 
 model UserCareer {
@@ -85,4 +87,15 @@ model UserCareer {
   Career Career @relation(fields: [career_id], references: [id])  
 
   @@id([user_id, career_id]) 
+}
+
+model UserNotification {
+  user_id       String
+  internship_id Int
+  seen          Boolean @default(false)
+
+  User User @relation(fields: [user_id], references: [id])  
+  Internship Internship @relation(fields: [internship_id], references: [id])  
+
+  @@id([user_id, internship_id]) 
 }

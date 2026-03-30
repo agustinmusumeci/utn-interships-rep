@@ -1,6 +1,6 @@
 import { actions } from "astro:actions";
 import { useState } from "preact/hooks";
-import { CAREERS } from "../constants/careers";
+import { CAREERS } from "../../constants/careers";
 
 export default function Notification({ user }) {
   const userCareersIds = new Set(user.careers.map((c) => c.id));
