@@ -5,9 +5,9 @@ import Layout from "../../layouts/Layout.astro";
 const {id} = Astro.params
 ---
 <Layout>
-    <main class="container">
+    <section class="container">
         <Internship id={id} server:defer>
             <div slot="fallback">Loading</div>
         </Internship>
-    </main>
+    </section>
 </Layout>

@@ -15,8 +15,7 @@ const filterCareers = careers?.split(",");
 ---
 
 <Layout>
-    <main class="container">
-        <section class="grid lg:grid-cols-5 grid-cols-3 gap-10 h-full mb-20">
+    <section class="container grid lg:grid-cols-5 grid-cols-3 gap-10 h-full mb-20">
             <Filter careers={filterCareers} text={text} time={time} page={Number(page)} client:only>
                 <FilterSkeleton slot="fallback"/>
             </Filter>
@@ -24,6 +23,5 @@ const filterCareers = careers?.split(",");
             <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} server:defer>
                     <InternshipsSkeleton slot="fallback"/>
             </Internships>
-        </section>
-    </main>
+    </section>
 </Layout>

@@ -3,9 +3,9 @@ import { useState } from "preact/hooks";
 import { CAREERS } from "../../constants/careers";
 
 export default function Notification({ user }) {
-  const userCareersIds = new Set(user.careers.map((c) => c.id));
+  const userCareersIds = new Set(user ?? user?.careers?.map((c) => c?.id));
   const [suscripted, setSuscripted] = useState(user?.suscripted ?? false);
-  const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career.id)) ?? []);
+  const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career?.id)) ?? []);
   const [suscriptedCareers, setSuscriptedCareers] = useState(user?.careers ?? []);
   const [toDeleteCareers, setToDeleteCareers] = useState([]);
 

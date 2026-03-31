@@ -1,4 +1,5 @@
 ---
+import { undefined } from "astro:schema";
 import Notification from "../../components/notification/notification";
 import Layout from "../../layouts/Layout.astro";
 import userService from "../../services/user.service";
@@ -10,12 +11,12 @@ const loggedUser = await Astro.locals.currentUser()
 if (loggedUser && isAuthenticated) {
 	const userId = loggedUser?.id
 
-    var user = await userService.getUser(userId)
+    var user = await userService.getUser(userId) ?? undefined
 }
 ---
 
 <Layout>
-    <main class="container">
+    <section class="container">
         <Notification user={user} client:load/>
-    </main>
+    </section>
 </Layout>
