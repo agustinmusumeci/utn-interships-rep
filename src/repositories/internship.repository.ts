@@ -124,6 +124,7 @@ class InternshipRepository {
     >,
   ) {
     const updatedInternships = await prisma.$transaction(async (tx) => {
+      // Select all the internships that already exists before the upload
       const preExisting = await tx.internship.findMany({
         where: {
           arm: { in: internships.map((i) => i["arm"]) },
@@ -133,15 +134,18 @@ class InternshipRepository {
 
       const preExistingARMS = new Set(preExisting.map((r) => r["arm"]));
 
+      // Create the internships and skip if already exists
       await tx.internship.createMany({
         data: internships.map(({ careers, ...rest }) => rest),
         skipDuplicates: true,
       });
 
+      // Select only the ones that were created
       const created = await tx.internship.findMany({
-        where: { arm: { in: internships.map((i) => i.arm) } },
+        where: { arm: { notIn: Array.from(preExistingARMS) } },
       });
 
+      // Create relation between internships and careers
       const internshipCareerData = created.flatMap((internship) => {
         const original = internships.find((i) => i.arm === internship.arm);
         return original.careers.map((career_id) => ({
@@ -155,19 +159,21 @@ class InternshipRepository {
         skipDuplicates: true,
       });
 
-      // const newInternships = created.flatMap((internship) => {
-      //   const original = internships.find((i) => i.arm === internship.arm);
-      //   const careers = original.careers.map((career_id) => ({
-      //     internship_id: internship.id,
-      //     career_id,
-      //   }));
+      // Associate the created internships with its careers
+      const careersHash: Record<string, Array<string>> = {};
 
-      //   return { ...original, careers: careers };
-      // });
+      for (let internship of internships) {
+        careersHash[internship.arm] = internship.careers;
+      }
 
-      const newInternships = internships.filter((i) => !preExistingARMS.has(i["arm"]));
+      const updatedInternships = created.map((i) => ({
+        ...i,
+        careers: careersHash[i.arm],
+      }));
 
-      return newInternships;
+      console.log(updatedInternships);
+
+      return updatedInternships;
     });
 
     return updatedInternships;

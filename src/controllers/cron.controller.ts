@@ -5,6 +5,7 @@ import { UploadController } from "./upload.controller";
 
 export class CronController {
   async cron() {
+    // Scrape internships
     const uploader = new UploadController();
 
     const { internships } = await uploader.uploadData();
@@ -21,7 +22,7 @@ export class CronController {
 
     // Extract the careers of the new internships
     for (const internship of internships) {
-      const careers = internship?.careers;
+      const careers = internship?.careers ?? [];
 
       for (const careear of careers) {
         careersSet.add(careear);
@@ -61,7 +62,9 @@ export class CronController {
     // Notify all the intersted users
     const notificator = new NotificationService();
 
-    notificator.notify(arrayToNotify);
+    console.log(toNotify);
+
+    await notificator.notify(arrayToNotify);
 
     // Create web notifications
     for (let data of arrayToNotify) {
@@ -71,6 +74,5 @@ export class CronController {
       await userService.createNotification(userId, userInternships);
     }
 
-    return;
   }
 }
