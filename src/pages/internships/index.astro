@@ -9,7 +9,7 @@ import Layout from "../../layouts/Layout.astro";
 const searchParams = Astro.url.searchParams
 const pathname = Astro.url.pathname
 
-const { careers = "", text = "", time = "", page = 0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
+const { careers = "", text = "", time = "", date = "", page = 0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
 
 const filterCareers = careers?.split(",");
 ---
@@ -21,11 +21,11 @@ const filterCareers = careers?.split(",");
                 <h2 class="title-lg">Pasantías disponibles</h2>
             </div>
             <div class="grid lg:grid-cols-5 grid-cols-3 gap-10">
-                <Filter careers={filterCareers} text={text} time={time} page={Number(page)} client:only>
+                <Filter careers={filterCareers} text={text} time={time} date={date} page={Number(page)} client:only>
                     <FilterSkeleton slot="fallback"/>
                 </Filter>
                 
-                <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} server:defer>
+                <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} date={date} server:defer>
                         <InternshipsSkeleton slot="fallback"/>
                 </Internships>
             </div>

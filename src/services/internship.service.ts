@@ -9,8 +9,8 @@ class InternshipService {
     return await internshipRepository.scrapeInternships();
   }
 
-  async getInternships(careers: Array<string> = [], text: string = "", time: string = "", page: number = 0) {
-    const { data, count } = await internshipRepository.getInternships(careers, text, time, page);
+  async getInternships(careers: Array<string> = [], text: string = "", time: string = "", date: string = "", page: number = 0) {
+    const { data, count } = await internshipRepository.getInternships(careers, text, time, date, page);
 
     const internships = data.map((internship) => {
       return this.mapInternship(internship);

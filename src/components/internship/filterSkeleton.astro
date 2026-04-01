@@ -2,20 +2,24 @@
 <div class="flex flex-col gap-5 mt-5 mx-2 col-span-1 animate-pulse">
       <div class="flex flex-col gap-5">
         
+        <div class="flex flex-col gap-2 mt-2 mb-2">
+          <div class="h-4 w-20 bg-skeleton" />
+        </div>
+
         {/* Buscar */}
         <div class="flex flex-col gap-2">
-          <div class="h-4 w-20 bg-gray-300 rounded" />
-          <div class="h-8 w-full bg-gray-200 rounded-full" />
+          <div class="h-4 w-20 bg-skeleton" />
+          <div class="h-8 w-full bg-skeleton" />
         </div>
 
         {/* Especialidad */}
         <div class="flex flex-col gap-2">
-          <div class="h-5 w-32 bg-gray-300 rounded" />
-          <div class="flex flex-col gap-3">
+          <div class="h-5 w-32 bg-skeleton mb-1" />
+          <div class="flex flex-col gap-1">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div class="flex items-end gap-2 mb-2">
-                <div class="h-4 w-32 bg-gray-200 rounded" />
-                <div class="h-4 w-4 bg-gray-300 rounded" />
+              <div class="flex flex-row items-center gap-2 mb-2">
+                <div class="h-6 w-6 bg-skeleton " />
+                <div class="h-4 w-32 bg-skeleton " />
               </div>
             ))}
           </div>
@@ -23,13 +27,19 @@
 
         {/* Fecha */}
         <div class="flex flex-col gap-2">
-          <div class="h-4 w-20 bg-gray-300 rounded" />
-          <div class="h-8 w-full bg-gray-200 rounded-full" />
+          <div class="h-4 w-20 bg-skeleton" />
+          <div class="h-8 w-full bg-skeleton" />
+        </div>
+
+         {/* Tiempo */}
+        <div class="flex flex-col gap-2">
+          <div class="h-4 w-20 bg-skeleton" />
+          <div class="h-8 w-full bg-skeleton" />
         </div>
 
         {/* Botón */}
         <div>
-          <div class="h-8 w-24 bg-gray-300 rounded-full" />
+          <div class="h-10 w-full bg-skeleton rounded-full mt-2" />
         </div>
       </div>
     </div>

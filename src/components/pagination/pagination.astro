@@ -15,7 +15,7 @@ const newSearchParams = new URLSearchParams(searchParams)
       {new Array(pages).fill(null).map((x, i) => {
         const distance = Math.abs(page - i);
 
-        if (distance === 3) return <span class="px-1">...</span>;
+        if (distance === 3) return <span class="px-1 text-text">...</span>;
         if (distance > 3) return null;
 
         const pageParam = newSearchParams
@@ -24,8 +24,8 @@ const newSearchParams = new URLSearchParams(searchParams)
         return (
           <a
           href={`${pathname}?${newSearchParams.toString()}`}
-            style={`background-color: ${page === i && "#79716b"}; color: ${page === i && "#eee"}`}
-            class="border border-gray-200 rounded-xl px-3 py-1 cursor-pointer"
+            style={`background-color: ${page === i && "#333"}; color: ${page === i && "#eee"}`}
+            class="px-3 py-1 cursor-pointer hover:bg-light-neutral transition-all" 
           >
             {i + 1}
           </a>

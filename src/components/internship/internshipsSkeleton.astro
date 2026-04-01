@@ -6,11 +6,11 @@ import InternshipsGrid from "./internshipsGrid.astro"
 
 ---
 <>
-
-<InternshipsGrid>
-    {new Array(INTERNSHIPS_PER_PAGE).fill(null).map(() => (
-        <CardSkeleton />
-    ))}
-</InternshipsGrid>
-<PaginationSkeleton />
+    <InternshipsGrid>
+        {new Array(INTERNSHIPS_PER_PAGE).fill(null).map(() => (
+            <CardSkeleton />
+        ))}
+    </InternshipsGrid>
+    
+    <PaginationSkeleton />
 </>

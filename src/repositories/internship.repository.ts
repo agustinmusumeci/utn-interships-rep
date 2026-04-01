@@ -37,7 +37,7 @@ class InternshipRepository {
     return res;
   }
 
-  async getInternships(careers: Array<string>, text: string, time: string, page: number) {
+  async getInternships(careers: Array<string>, text: string, time: string, date: string, page: number) {
     let where = {};
     let order = {};
 

@@ -34,6 +34,7 @@
   --color-accent: var(--accent);
   --color-neutral: #141414;
   --color-light-neutral: #333333;
+  --color-skeleton: var(--color-neutral-600);
   --color-text: #ddd;
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
@@ -85,6 +86,34 @@ button,
 input,
 textarea {
   @apply font-label;
+}
+
+input,
+select {
+  @apply px-3 py-1 font-light text-text;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  @apply relative text-light-neutral border border-light-neutral w-6 h-6 checked:before:content-[''] checked:before:absolute checked:before:left-1/2 checked:before:top-1/2 checked:before:w-4 checked:before:h-4 checked:before:bg-primary-hover checked:before:-translate-x-1/2 checked:before:-translate-y-1/2;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  background-color: red;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.border {
+  @apply border border-light-neutral;
 }
 
 .container {
