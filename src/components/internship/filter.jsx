@@ -1,10 +1,8 @@
 import { CAREERS } from "../../constants/careers";
 import { useEffect, useState } from "preact/hooks";
 
-export default function Filter({ careers = [], text, time, date, page = 0 }) {
-  console.log(date);
-
-  const [form, setForm] = useState({ text: text, time: time, date: date, careers: careers, page: page });
+export default function Filter({ filter }) {
+  const [form, setForm] = useState(filter);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -77,7 +75,7 @@ export default function Filter({ careers = [], text, time, date, page = 0 }) {
                 id="text"
                 type="text"
                 placeholder="Id, palabra clave..."
-                value={form.text}
+                value={form?.text}
                 onInput={onChange}
               />
             </div>
@@ -92,7 +90,7 @@ export default function Filter({ careers = [], text, time, date, page = 0 }) {
                 <input
                   type="hidden"
                   name="careers"
-                  value={form.careers.length > 0 ? form.careers.join(",") : "*"}
+                  value={form?.careers?.length > 0 ? form?.careers?.join(",") : "*"}
                 />
                 {CAREERS.map((c) => (
                   <div className="flex flex-row items-center gap-2 font-light">
@@ -118,7 +116,7 @@ export default function Filter({ careers = [], text, time, date, page = 0 }) {
                 className=""
                 name="date"
                 id="date"
-                value={form.date}
+                value={form?.date}
                 onChange={onChange}
               >
                 <option value="*">Cualquiera</option>
@@ -134,7 +132,7 @@ export default function Filter({ careers = [], text, time, date, page = 0 }) {
                 className=""
                 name="time"
                 id="time"
-                value={form.time}
+                value={form?.time}
                 onChange={onChange}
               >
                 <option value="DESC">Mas reciente - Mas antigua</option>

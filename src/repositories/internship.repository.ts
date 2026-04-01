@@ -37,32 +37,33 @@ class InternshipRepository {
     return res;
   }
 
-  async getInternships(careers: Array<string>, text: string, time: string, date: string, page: number) {
+  async getInternships(filter: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
     let where = {};
     let order = {};
 
-    if (text) {
+
+    if (filter.text) {
       where["OR"] = [
-        { knowledge: { contains: text, mode: "insensitive" } },
-        { modality: { contains: text, mode: "insensitive" } },
-        { position: { contains: text, mode: "insensitive" } },
-        { requirements: { contains: text, mode: "insensitive" } },
+        { knowledge: { contains: filter.text, mode: "insensitive" } },
+        { modality: { contains: filter.text, mode: "insensitive" } },
+        { position: { contains: filter.text, mode: "insensitive" } },
+        { requirements: { contains: filter.text, mode: "insensitive" } },
       ];
     }
 
-    if (careers && careers?.length > 0 && !careers.includes("*")) {
+    if (filter.careers && filter.careers?.length > 0 && !filter.careers.includes("*")) {
       where["internshipCareers"] = {
         some: {
           career_id: {
-            in: careers,
+            in: filter.careers,
           },
         },
       };
     }
 
-    if (time) {
+    if (filter.time) {
       order = {
-        created_at: time?.toLocaleLowerCase(),
+        created_at: filter.time?.toLocaleLowerCase(),
       };
     } else {
       order = {
@@ -79,7 +80,7 @@ class InternshipRepository {
       where: where,
       orderBy: order,
       take: INTERNSHIPS_PER_PAGE,
-      skip: page * INTERNSHIPS_PER_PAGE,
+      skip: (filter?.page ?? 0) * INTERNSHIPS_PER_PAGE,
       include: {
         Company: true,
         internshipCareers: {

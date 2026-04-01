@@ -7,17 +7,15 @@ import Pagination from "../pagination/pagination.astro";
 type Props = {
     searchParams: string,
     pathname: string,
-    careers: Array<string>,
-    text?: string,
-    time?: string,
-    date?: string,
-    page: number
+    params: {careers: Array<string> | undefined, text?:string, time?:string, date?:string, page: number}
+    
 }
 
-const {searchParams, pathname, careers=[], text="", time="", date="", page=0} = Astro.props as Props;
+const {searchParams, pathname, params} = Astro.props as Props;
 
+console.log(params)
 
-const {data, pages} = await internshipService.getInternships(careers, text, time, date, page) 
+const {data, pages} = await internshipService.getInternships(params) 
 ---
 <>
     <InternshipsGrid>
@@ -28,5 +26,5 @@ const {data, pages} = await internshipService.getInternships(careers, text, time
         ))}
     </InternshipsGrid>
 
-    <Pagination pages={pages} page={page} searchParams={searchParams} pathname={pathname}/>
+    <Pagination pages={pages} page={params.page} searchParams={searchParams} pathname={pathname}/>
 </>
