@@ -1,18 +1,17 @@
 ---
 import CareersSkeleton from "../career/careersSkeleton.astro";
-
-
 ---
-<div class="w-full h-full block" aria-hidden="true">
-    <article class="h-full flex flex-col gap-2 p-4 bg-gray-50 animate-pulse rounded-xl">
+
+<div class="w-full h-fit bg-light-neutral animate-pulse block" aria-hidden="true">
+    <article class="h-full flex flex-col gap-2 p-4 ">
         <!-- A.R.M line -->
-        <p class=" bg-gray-300 w-fit rounded animate-pulse text-transparent">
+        <span class=" bg-neutral-600 w-fit animate-pulse text-transparent">
           A.R.M XX/XX
-        </p>
+        </span>
         <!-- Position line -->
-        <p class=" bg-gray-300 rounded animate-pulse text-transparent">
+        <span class="text-2xl font-semibold bg-neutral-600 animate-pulse text-transparent mb-7">
           Loading position
-        </p>
+        </span>
         <!-- Careers -->
        <CareersSkeleton careers={2}/>
     </article>
