@@ -1,1 +1,1 @@
-export const INTERNSHIPS_PER_PAGE = 15;
+export const INTERNSHIPS_PER_PAGE = 8;

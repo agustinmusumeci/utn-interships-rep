@@ -15,13 +15,19 @@ const filterCareers = careers?.split(",");
 ---
 
 <Layout>
-    <section class="container grid lg:grid-cols-5 grid-cols-3 gap-10 h-full mb-20">
-            <Filter careers={filterCareers} text={text} time={time} page={Number(page)} client:only>
-                <FilterSkeleton slot="fallback"/>
-            </Filter>
-            
-            <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} server:defer>
-                    <InternshipsSkeleton slot="fallback"/>
-            </Internships>
+    <section class="container h-full mt-5 mb-20">
+            <div class="flex flex-row items-center gap-5 mb-10">
+                <div class="h-14 w-1 bg-primary-hover"></div>
+                <h2 class="title-lg">Pasantías disponibles</h2>
+            </div>
+            <div class="grid lg:grid-cols-5 grid-cols-3 gap-10">
+                <Filter careers={filterCareers} text={text} time={time} page={Number(page)} client:only>
+                    <FilterSkeleton slot="fallback"/>
+                </Filter>
+                
+                <Internships searchParams={searchParams.toString()} pathname={pathname} page={Number(page)} careers={filterCareers} text={text} time={time} server:defer>
+                        <InternshipsSkeleton slot="fallback"/>
+                </Internships>
+            </div>
     </section>
 </Layout>

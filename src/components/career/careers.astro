@@ -1,4 +1,6 @@
 ---
+import CareerBadge from "./careerBadge.astro";
+
  export const prerender = true
 export interface CareersProps  {
     careers: Array<{id: string, name: string, color: string} | null>
@@ -9,11 +11,7 @@ const {careers = []} = Astro.props as CareersProps;
 
 <div class="flex flex-row truncate gap-2">
     {careers.map((career) => (
-        <p
-            class="rounded-lg px-2 py-1"
-            style={`background-color: ${career?.color};`}
-        >
-            {career?.name}
-        </p>
+       <CareerBadge text={career?.name} color={career?.color}/>
     ))}
+    {careers.length === 0 && <CareerBadge text="Desconocida"/>}
 </div>

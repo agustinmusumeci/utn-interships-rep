@@ -33,6 +33,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-neutral: #141414;
+  --color-light-neutral: #333333;
   --color-text: #ddd;
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
@@ -98,6 +99,10 @@ textarea {
 
 .title-xl {
   @apply text-6xl font-bold;
+}
+
+.title-lg {
+  @apply text-4xl font-bold;
 }
 
 .button {
