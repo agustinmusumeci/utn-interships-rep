@@ -9,15 +9,13 @@ import Layout from "../../layouts/Layout.astro";
 const searchParams = Astro.url.searchParams
 const pathname = Astro.url.pathname
 
-// const { careers = "", text = "", time = "", date = "", page = 0 } = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
 const params = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
 
-const filteredParams = {...params, careers: params?.careers?.split(",")}
-// const filterCareers = careers?.split(",");
+const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], page: params?.page ? Number(params?.page) : 0}
 ---
 
 <Layout>
-    <section class="container h-full mt-5 mb-20">
+    <section class="container min-h-dvh mt-5 mb-20">
             <div class="flex flex-row items-center gap-5 mb-10">
                 <div class="h-20 w-1 bg-primary-hover"></div>
                 <div >
