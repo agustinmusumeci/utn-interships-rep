@@ -41,7 +41,6 @@ class InternshipRepository {
     let where = {};
     let order = {};
 
-
     if (filter.text) {
       where["OR"] = [
         { knowledge: { contains: filter.text, mode: "insensitive" } },

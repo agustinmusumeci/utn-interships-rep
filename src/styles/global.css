@@ -33,7 +33,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-neutral: #141414;
-  --color-light-neutral: #333333;
+  --color-light-neutral: #262626;
   --color-skeleton: var(--color-neutral-600);
   --color-text: #ddd;
   --color-muted-foreground: var(--muted-foreground);
@@ -127,15 +127,23 @@ input[type="checkbox"]:checked::before {
 }
 
 .title-xl {
-  @apply text-6xl font-bold;
+  @apply text-6xl font-bold mb-12;
 }
 
 .title-lg {
-  @apply text-4xl font-bold;
+  @apply text-4xl font-bold mb-6;
+}
+
+.title-md {
+  @apply text-3xl font-bold mb-4;
+}
+
+.title-sm {
+  @apply text-2xl font-semibold mb-3;
 }
 
 .button {
-  @apply rounded-full px-4 py-2 flex flex-row gap-4 items-center border-none w-fit;
+  @apply rounded-full px-4 py-2 flex flex-row gap-4 items-center w-fit;
 }
 
 .button-primary {
@@ -147,7 +155,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .button-outline {
-  @apply bg-none border-text hover:bg-text hover:text-neutral transition-all;
+  @apply bg-none border border-text hover:bg-text hover:text-neutral transition-all;
 }
 
 .nav-link {

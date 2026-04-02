@@ -1,4 +1,5 @@
 ---
+import { MapPin, House, UserRound, Building, CircleDollarSign } from "@lucide/astro";
 import internshipService from "../../services/internship.service";
 import Careers from "../career/careers.astro";
 
@@ -8,40 +9,74 @@ const internship = await internshipService.getInternship(Number(id))
 
 if (!internship) return Astro.redirect("/404");
 
+const daysSince = Math.floor((new Date() - new Date(internship.created_at)) / (1000 * 60 * 60 * 24)) 
+
+
 ---
-    <section class="max-w-prose flex flex-col gap-3">
+<section class="max-w-prose flex flex-col gap-3 mt-5">
+        <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10">
+            <div class="flex flex-row gap-2 items-center">
+                <h2 class="title-lg">{internship.position}</h2>
+                <span class="text-text/50 pb-4">A.R.M {internship.arm}</span>
+            </div>
             <div class="mb-3">
-                <div class="flex flex-row gap-10">
-                    <p class="mb-3">A.R.M {internship.arm}</p>
-                    <p>{new Date(internship.created_at).toLocaleDateString()}</p>
-                </div>
                 <Careers careers={internship?.careers}/>
-                <a href="/internships" data-astro-prefetch><button> Volver</button></a>
+            </div>
+            <div class="flex flex-col md:flex-row gap-5 md:gap-10 mb-3">
+                <div class="flex flex-col gap-3">
+                    <p class="flex flex-row gap-2"><House class="text-text/50 w-4"/> {internship?.modality}</p>
+                    <p class="flex flex-row gap-2"><MapPin class="text-text/50 w-4"/> {internship?.workplace}</p>
+                    <p class="flex flex-row gap-2"><CircleDollarSign class="text-text/50 w-4"/>{typeof internship.payment === "number" ? `$${internship.payment.toLocaleString()}` : internship.payment}</p>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <p class="flex flex-row gap-2"><UserRound class="text-text/50 w-4"/> {internship?.interns} Pasante/s</p>
+                    <p class="flex flex-row gap-2"><Building class="text-text/50 w-4"/> {internship.company.name}</p>
+                </div>  
+            </div>
+            <div class="flex flex-row items-center gap-2">
+                <p><span class="text-text/50">Publicada el </span>{new Date(internship.created_at).toLocaleDateString()}</p>
+                <span>({daysSince}d)</span>
+            </div>
+        </div>
+        
+    
+        <div class="flex flex-col gap-10 bg-light-neutral p-10">
+            <div>
+                <div>
+                    <h3 class="title-md">Requisitos</h3>
+                    <p>{internship.requirements} </p>
+                </div>
+                <br>
+                <div>
+                    <h4 class="title-sm">Conocimientos necesarios</h4>
+                    <p>{internship.knowledge}</p>
+                </div>
+            </div>  
+            <div>
+                <h3 class="title-md">Horarios</h3>
+                <p>Entrevista {internship.interview_timetable}</p>
+                <p>Jornada {internship.timetable}</p>
             </div>
             <div>
-                <p>Empresa: {internship.company.name}</p>
-                <p>Posición: {internship.position}</p>
-                <p>Cantidad pasantes: {internship.interns}</p>
-            </div>
-            <div>
-                <p>Requisitos: {internship.requirements} {internship.knowledge}</p>
-            </div>
-            <div>
-                <p>Horario entreviste: {internship.interview_timetable}</p>
-                <p>Horarios: {internship.timetable}</p>
-                <p>Modalidad: {internship?.modality}</p>
-                <p>Lugar de trabajo: {internship?.workplace}</p>
-            </div>
-            <div>
-                <p>Pago: {typeof internship.payment === "number" ? `$${internship.payment.toLocaleString()}` : ""}</p>
-            </div>
-            <div>
+                <h3 class="title-md">Observaciones</h3>
                 <p>Beneficios: {internship.benefits}</p>
                 <p>Observaciones: {internship.observations} </p>
+                <p>Referente RRHH: {internship.rrhh}</p>
             </div>
             <div>
-                <p>Mail: {internship.mail}</p>
-                <p>Link: <a href={internship.link} target="_blank">{internship.link}</a></p>
-                <p>Referente: {internship.rrhh}</p>
+                <div class="flex flex-row gap-2 mb-10">
+                    <a target="_blank" class="button button-primary" href={internship.link}>
+                        Inscribirme
+                    </a>
+                    <a target="_blank" class="button button-outline" href={internship.mail ? `https://mailto:${internship.mail}` : "" }>
+                        Enviar Mail
+                    </a>
+                </div>
+                <div class="text-text/50">
+                    <p>Mail: {internship.mail}</p>
+                    <p class="text-wrap truncate hover:underline">Link: <a href={internship.link} target="_blank">{internship.link}</a></p>
+                </div>
             </div>
-    </section>
+        </div>
+     
+</section>

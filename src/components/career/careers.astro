@@ -3,7 +3,7 @@ import CareerBadge from "./careerBadge.astro";
 
  export const prerender = true
 export interface CareersProps  {
-    careers: Array<{id: string, name: string, color: string} | null>
+    careers?: Array<{id: string, name: string, color: string} | null>
 }
 
 const {careers = []} = Astro.props as CareersProps;
