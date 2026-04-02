@@ -33,7 +33,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-neutral: #141414;
-  --color-light-neutral: #262626;
+  --color-light-neutral: #222222;
   --color-skeleton: var(--color-neutral-600);
   --color-text: #ddd;
   --color-muted-foreground: var(--muted-foreground);

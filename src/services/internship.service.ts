@@ -1,6 +1,8 @@
+import { PLACEHOLDER } from "@/constants/placeholders";
 import type { Internship } from "../../prisma/zod";
 import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
 import internshipRepository from "../repositories/internship.repository";
+import { TIME_SINCE_CREATED_COLORS } from "@/constants/time";
 
 class InternshipService {
   constructor() {}
@@ -26,6 +28,9 @@ class InternshipService {
 
   async getInternship(id: number | undefined = undefined, arm: string = "") {
     const internshipData = await internshipRepository.getInternship(id, arm);
+
+    if (!internshipData) return {} as Internship;
+
     const internship = this.mapInternship(internshipData);
 
     return internship;
@@ -35,31 +40,66 @@ class InternshipService {
     return await internshipRepository.uploadInternships(internships);
   }
 
-  mapInternship(internship: Internship & { Company: { name: string; id: string }; internshipCareers: Array<{ career_id: string; Career: { name: string; color: string } }> }) {
+  mapInternship(
+    internship: Internship & {
+      Company: { name: string; id: string };
+      internshipCareers: Array<{ career_id: string; Career: { name: string; color: string } }>;
+      timeSinceCreated: { time: string; color: string };
+    },
+  ) {
+    const createdAtMillis = internship?.created_at ? new Date(internship.created_at).getTime() : Date.now();
+    const daysSince = Math.floor((Date.now() - createdAtMillis) / (1000 * 60 * 60 * 24));
+
+    let timeSinceCreated: string;
+    let color: string;
+
+    if (daysSince < 1) {
+      timeSinceCreated = `Hace ${Math.ceil(daysSince * 24)} hs`;
+    } else {
+      timeSinceCreated = `Hace ${daysSince} d`;
+    }
+
+    switch (true) {
+      case daysSince >= 0 && daysSince <= 4:
+        // Green
+        color = TIME_SINCE_CREATED_COLORS.green;
+        break;
+
+      case daysSince > 4 && daysSince <= 14:
+        // Yellow
+        color = TIME_SINCE_CREATED_COLORS.yellow;
+        break;
+      default:
+        // Red
+        color = TIME_SINCE_CREATED_COLORS.red;
+        break;
+    }
+
     const newInternship = {
       id: internship?.id,
       arm: internship?.arm,
       city: internship?.city,
-      rrhh: !internship?.rrhh ? "No especificado" : internship?.rrhh,
+      rrhh: !internship?.rrhh ? PLACEHOLDER.rrhh : internship?.rrhh,
       interview_timetable: internship?.interview_timetable,
       knowledge: internship?.knowledge,
-      requirements: internship?.requirements ? "No especificado" : internship?.requirements,
-      payment: !internship?.payment || internship?.payment === 0 ? "No especificado" : internship?.payment,
+      requirements: internship?.requirements ? PLACEHOLDER.requirements : internship?.requirements,
+      payment: !internship?.payment || internship?.payment === 0 ? PLACEHOLDER.payment : internship?.payment,
       timetable: internship?.timetable,
-      position: !internship?.position ? "No especificado" : internship?.position,
-      benefits: internship?.benefits ?? "No especificado",
-      interns: !internship?.interns ? "No especificado" : internship?.interns,
+      position: !internship?.position ? PLACEHOLDER.position : internship?.position,
+      benefits: internship?.benefits ?? PLACEHOLDER.benefits,
+      interns: !internship?.interns ? PLACEHOLDER.interns : internship?.interns,
       workplace: internship?.workplace,
-      modality: !internship?.modality ? "Modalidad no especificada" : internship?.modality,
-      link: !internship?.link ? "Sin link" : internship?.link,
-      mail: !internship?.mail ? "Sin mail" : internship?.mail,
+      modality: !internship?.modality ? PLACEHOLDER.modality : internship?.modality,
+      link: !internship?.link ? PLACEHOLDER.link : internship?.link,
+      mail: !internship?.mail ? PLACEHOLDER.mail : internship?.mail,
       observations: !internship?.observations ? "-" : internship?.observations,
-      company: { id: internship?.Company?.id, name: !internship?.Company?.name ? "Companía no especificada" : internship?.Company?.name },
+      company: { id: internship?.Company?.id, name: !internship?.Company?.name ? PLACEHOLDER.company : internship?.Company?.name },
       careers: internship?.internshipCareers?.map((career) => ({
         id: career?.career_id,
         name: career?.Career?.name,
         color: career?.Career?.color,
       })),
+      timeSinceCreated: { time: timeSinceCreated, color: color },
       created_at: internship?.created_at,
     };
 
