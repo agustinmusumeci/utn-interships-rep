@@ -1,73 +1,80 @@
 ---
-import { MapPin, House, UserRound, Building, CircleDollarSign } from "@lucide/astro";
-import internshipService from "../../services/internship.service";
-import Careers from "../career/careers.astro";
-import { PLACEHOLDER } from "@/constants/placeholders";
 import CareersSkeleton from "../career/careersSkeleton.astro";
 ---
-<section class="max-w-prose flex flex-col gap-3 mt-5 text-transparent" aria-hidden="true">
-        <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10 animate-pulse">
-            <div class="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
-                <span class="bg-skeleton animate-pulse title-lg w-full">Loading Position</span>
-                <span class="bg-skeleton animate-pulse w-fit mb-2">XX/XX</span>
-            </div>
-            <div class="mb-3">
-                <CareersSkeleton careers={3}/>
-            </div>
-            <div class="flex flex-col md:flex-row gap-5 md:gap-10 mb-3">
-                <div class="flex flex-col gap-3">
-                    <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading modality...</span>
-                    <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading workplace...</span>
-                    <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading payment...</span>
+<div class="flex flex-col md:flex-row gap-5 mt-5 text-transparent">
+    <div class="flex flex-col gap-3 w-full" aria-hidden="true">
+            <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10 animate-pulse">
+                <div class="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
+                    <span class="bg-skeleton animate-pulse title-lg w-full">Loading Position</span>
+                    <span class="bg-skeleton animate-pulse w-fit mb-2">XX/XX</span>
                 </div>
-                <div class="flex flex-col gap-3">
-                    <span class="bg-skeleton animate-pulse flex flex-row gap-2"> Loading interns</span>
-                    <span class="bg-skeleton animate-pulse flex flex-row gap-2"> Loading company name</span>
-                </div>  
+                <div class="mb-3">
+                    <CareersSkeleton careers={3}/>
+                </div>
+                <div class="flex flex-col md:flex-row gap-5 md:gap-10 mb-3">
+                    <div class="flex flex-col gap-3">
+                        <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading modality...</span>
+                        <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading workplace...</span>
+                        <span class="bg-skeleton animate-pulse flex flex-row gap-2">Loading payment...</span>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span class="bg-skeleton animate-pulse flex flex-row gap-2"> Loading interns</span>
+                        <span class="bg-skeleton animate-pulse flex flex-row gap-2"> Loading company name</span>
+                    </div>  
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                    <span class="bg-skeleton animate-pulse">Loading publishing time...</span>
+                </div>
             </div>
-            <div class="flex flex-row items-center gap-2">
-                <span class="bg-skeleton animate-pulse">Loading publishing time...</span>
-            </div>
-        </div>
+            
         
-    
-        <div class="flex flex-col gap-10 bg-light-neutral p-10 animate-pulse">
-            <div>
-                <div class="flex flex-col">
-                    <span class="title-md bg-skeleton animate-pulse w-fit">Requisitos</span>
-                    <span class="bg-skeleton animate-pulse h-20">Loading requirements </span>
-                </div>
-                <br>
-                <div class="flex flex-col">
-                    <span class="title-sm bg-skeleton animate-pulse w-fit">Conocimientos necesarios</span>
-                    <span class="bg-skeleton animate-pulse h-20">Loading knowledge</span>
-                </div>
-            </div>  
-            <div class="flex flex-col gap-3">
-                <span class="title-md bg-skeleton animate-pulse w-fit">Horarios</span>
-                <span class="bg-skeleton animate-pulse">Entrevista </span>
-                <span class="bg-skeleton animate-pulse">Jornada </span>
-            </div>
-            <div class="flex flex-col gap-3">
-                <span class="title-md bg-skeleton animate-pulse w-fit">Observaciones</span>
-                <span class="bg-skeleton animate-pulse">Beneficios: Loading</span>
-                <span class="bg-skeleton animate-pulse">Observaciones: Loading </span>
-                <span class="bg-skeleton animate-pulse">Referente RRHH: Loading</span>
-            </div>
-            <div>
-                <div class="flex flex-row gap-2 mb-10">
-                    <div class="bg-skeleton animate-pulse px-6 py-2 rounded-full">
-                        Loading
+            <div class="flex flex-col gap-10 bg-light-neutral p-10 animate-pulse">
+                <div>
+                    <div class="flex flex-col">
+                        <span class="title-md bg-skeleton animate-pulse w-fit">Requisitos</span>
+                        <span class="bg-skeleton animate-pulse h-20">Loading requirements </span>
                     </div>
-                    <div class="bg-skeleton animate-pulse px-6 py-2 rounded-full"  >
-                        Loading
+                    <br>
+                    <div class="flex flex-col">
+                        <span class="title-sm bg-skeleton animate-pulse w-fit">Conocimientos necesarios</span>
+                        <span class="bg-skeleton animate-pulse h-20">Loading knowledge</span>
                     </div>
+                </div>  
+                <div class="flex flex-col gap-3">
+                    <span class="title-md bg-skeleton animate-pulse w-fit">Horarios</span>
+                    <span class="bg-skeleton animate-pulse">Entrevista </span>
+                    <span class="bg-skeleton animate-pulse">Jornada </span>
                 </div>
                 <div class="flex flex-col gap-3">
-                    <span class="bg-skeleton animate-pulse">Mail: Loading</span>
-                    <span class="bg-skeleton animate-pulse">Link: Loading</span>
+                    <span class="title-md bg-skeleton animate-pulse w-fit">Observaciones</span>
+                    <span class="bg-skeleton animate-pulse">Beneficios: Loading</span>
+                    <span class="bg-skeleton animate-pulse">Observaciones: Loading </span>
+                    <span class="bg-skeleton animate-pulse">Referente RRHH: Loading</span>
+                </div>
+                <div>
+                    <div class="flex flex-row gap-2 mb-10">
+                        <div class="bg-skeleton animate-pulse px-6 py-2 rounded-full">
+                            Loading
+                        </div>
+                        <div class="bg-skeleton animate-pulse px-6 py-2 rounded-full"  >
+                            Loading
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span class="bg-skeleton animate-pulse">Mail: Loading</span>
+                        <span class="bg-skeleton animate-pulse">Link: Loading</span>
+                    </div>
                 </div>
             </div>
-        </div>
-     
+         
+    </div>
+    <div class="w-full md:w-fit h-fit p-10 bg-light-neutral animate-pulse">
+            <span class="text-lg font-bold  bg-skeleton animate-pulse">Comparte esta pasantía</span>
+            <div class="flex flex-row justify-center mt-5 gap-6">
+                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full" >...</span>
+                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+            </div>
+    </aside>
 </section>
