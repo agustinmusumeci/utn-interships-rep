@@ -150,12 +150,22 @@ input[type="checkbox"]:checked::before {
   @apply bg-primary text-text hover:bg-primary-hover transition-all;
 }
 
+.button-primary[aria-disabled="true"],
+.button-primary[disabled="true"] {
+  @apply bg-primary/25 text-text/50;
+}
+
 .button-white {
   @apply bg-text text-neutral hover:bg-primary hover:text-text transition-all;
 }
 
 .button-outline {
   @apply bg-none border border-text hover:bg-text hover:text-neutral transition-all;
+}
+
+.button-outline[aria-disabled="true"],
+.button-outline[disabled="true"] {
+  @apply border-text/25 text-text/50;
 }
 
 .nav-link {

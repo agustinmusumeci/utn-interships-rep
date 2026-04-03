@@ -13,8 +13,6 @@ type Props = {
 
 const {searchParams, pathname, params} = Astro.props as Props;
 
-console.log(params)
-
 const {data, pages} = await internshipService.getInternships(params) 
 ---
 <>
