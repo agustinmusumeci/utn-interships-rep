@@ -13,15 +13,25 @@ class UserService {
   }
 
   async getUser(userId: string): Promise<User> {
-    const user = await userRepository.getUser(userId);
+    try {
+      const user = await userRepository.getUser(userId);
 
-    return this.mapUserToJson(user);
+      return this.mapUserToJson(user);
+    } catch (e) {
+      console.log(e);
+      return {} as User;
+    }
   }
 
   async countUserNotifications(userId: string): Promise<number> {
-    const notificationsCount = await userRepository.countUserNotifications(userId);
+    try {
+      const notificationsCount = await userRepository.countUserNotifications(userId);
 
-    return notificationsCount;
+      return notificationsCount;
+    } catch (e) {
+      console.log(e);
+      return 0;
+    }
   }
 
   async createNotification(userId: string, internships: Array<number>) {
@@ -35,7 +45,12 @@ class UserService {
   }
 
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
-    return await userRepository.syncUser(userId, name, mail, suscripted);
+    try {
+      return await userRepository.syncUser(userId, name, mail, suscripted);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   }
 
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {

@@ -12,28 +12,47 @@ class InternshipService {
   }
 
   async getInternships(filter: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
-    const { data, count } = await internshipRepository.getInternships(filter);
+    try {
+      const { data, count } = await internshipRepository.getInternships(filter);
 
-    const internships = data.map((internship) => {
-      return this.mapInternship(internship);
-    });
+      const internships = data.map((internship) => {
+        return this.mapInternship(internship);
+      });
 
-    const response = {
-      data: internships,
-      pages: Math.ceil(count / INTERNSHIPS_PER_PAGE),
-    };
+      const response = {
+        data: internships,
+        pages: Math.ceil(count / INTERNSHIPS_PER_PAGE),
+        ok: true,
+        error: undefined,
+      };
 
-    return response;
+      return response;
+    } catch (e) {
+      console.log(e);
+
+      return {
+        message: "Ocurrio un error al obtener las pasantías - Intente más tarde"
+        data: [],
+        pages: 0,
+        ok: true,
+        error: e,
+      };
+    }
   }
 
   async getInternship(id: number | undefined = undefined, arm: string = "") {
-    const internshipData = await internshipRepository.getInternship(id, arm);
+    try {
+      const internshipData = await internshipRepository.getInternship(id, arm);
 
-    if (!internshipData) return {} as Internship;
+      if (!internshipData) return {} as Internship;
 
-    const internship = this.mapInternship(internshipData);
+      const internship = this.mapInternship(internshipData);
 
-    return internship;
+      return internship;
+    } catch (e) {
+      console.log(e);
+      return { message: "Ocurrio un error al obtener la pasatía - Intente más tarde", error: e, ok: false };
+    }
   }
 
   async uploadInternships(internships: Array<Internship & { careers: Array<string> }>) {
@@ -88,7 +107,7 @@ class InternshipService {
       position: !internship?.position ? PLACEHOLDER.position : internship?.position,
       benefits: internship?.benefits ?? PLACEHOLDER.benefits,
       interns: !internship?.interns ? PLACEHOLDER.interns : internship?.interns,
-      workplace: internship?.workplace,
+      workplace: !internship?.workplace ? PLACEHOLDER.workplace : internship.workplace,
       modality: !internship?.modality ? PLACEHOLDER.modality : internship?.modality,
       link: !internship?.link ? PLACEHOLDER.link : internship?.link,
       mail: !internship?.mail ? PLACEHOLDER.mail : internship?.mail,

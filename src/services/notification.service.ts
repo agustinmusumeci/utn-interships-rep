@@ -1,4 +1,3 @@
-import type { Internship } from "../../prisma/zod";
 import type { Notificator } from "../interfaces/interface.notificator";
 import { MailService } from "./mail.service";
 

@@ -41,6 +41,8 @@ class InternshipRepository {
     let where = {};
     let order = {};
 
+    console.log(filter.date);
+
     if (filter.text) {
       where["OR"] = [
         { knowledge: { contains: filter.text, mode: "insensitive" } },
@@ -68,6 +70,14 @@ class InternshipRepository {
       order = {
         created_at: "desc",
       };
+    }
+
+    if (filter.date && filter.date !== "*") {
+      const currentDate = new Date();
+
+      const dateToFilter = new Date(currentDate.getTime() - Number(filter.date) * 24 * 60 * 60 * 1000);
+
+      where["created_at"] = { gte: dateToFilter };
     }
 
     const count = await prisma.internship.count({

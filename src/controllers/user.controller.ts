@@ -2,11 +2,24 @@ import userService from "../services/user.service";
 
 class UserController {
   async suscribeUser(userId: string, suscription: boolean) {
-    return await userService.syncUser(userId, "", "", suscription);
+    try {
+      await userService.syncUser(userId, "", "", suscription);
+
+      return { message: "Alertas activadas correctamente", ok: true, error: undefined };
+    } catch (e) {
+      console.log(e);
+      return { message: "Error activando las alertar - Intente más tarde", ok: true, error: e };
+    }
   }
 
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {
-    return await userService.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+    try {
+      await userService.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+      return { message: "Alertas activadas correctamente", ok: true, error: undefined };
+    } catch (e) {
+      console.log(e);
+      return { message: "Error activando las alertar - Intente más tarde", ok: true, error: e };
+    }
   }
 }
 

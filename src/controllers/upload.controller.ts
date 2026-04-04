@@ -3,30 +3,35 @@ import internshipService from "../services/internship.service";
 
 export class UploadController {
   async uploadData() {
-    const rawData = await internshipService.scrapeInternships();
+    try {
+      const rawData = await internshipService.scrapeInternships();
 
-    const internships = [];
-    const companiesHash = new Set();
+      const internships = [];
+      const companiesHash = new Set();
 
-    for (let i = 0; i < rawData?.internships?.length; i++) {
-      const internship = rawData?.internships[i];
-      const companyId = internship?.company_id;
+      for (let i = 0; i < rawData?.internships?.length; i++) {
+        const internship = rawData?.internships[i];
+        const companyId = internship?.company_id;
 
-      internships.push(internship);
+        internships.push(internship);
 
-      companiesHash.add(companyId);
+        companiesHash.add(companyId);
+      }
+
+      const companies = [...companiesHash].map((c) => ({
+        id: c,
+        name: c,
+      }));
+
+      await companyService.uploadCompanies(companies);
+      const newInternships = await internshipService.uploadInternships(internships);
+
+      console.log("Updated data succesfully");
+
+      return { internships: newInternships, companies: companies };
+    } catch (e) {
+      console.log(e);
+      return { internships: [], companies: [] };
     }
-
-    const companies = [...companiesHash].map((c) => ({
-      id: c,
-      name: c,
-    }));
-
-    await companyService.uploadCompanies(companies);
-    const newInternships = await internshipService.uploadInternships(internships);
-
-    console.log("Updated data succesfully");
-
-    return { internships: newInternships, companies: companies };
   }
 }

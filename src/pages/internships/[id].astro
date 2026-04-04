@@ -3,9 +3,9 @@ import InternshipSkeleton from "@/components/internship/internshipSkeleton.astro
 import Internship from "../../components/internship/internship.astro";
 import Layout from "../../layouts/Layout.astro";
 
-const {id} = Astro.params
+const { id } = Astro.params
 ---
-<Layout>
+<Layout title={`Pasantia ${id}`}>
     <section class="container">
         <Internship id={id} server:defer>
             <InternshipSkeleton slot="fallback"/>

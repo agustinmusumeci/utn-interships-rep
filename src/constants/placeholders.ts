@@ -7,6 +7,7 @@ export enum PLACEHOLDER {
   position = "No especificado",
   benefits = "No especificado",
   interns = "No especificado",
+  workplace = "No especificado",
   modality = "Modalidad no especificada",
   company = "Companía no especificada",
 }

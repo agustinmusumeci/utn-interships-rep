@@ -8,6 +8,9 @@ import { PLACEHOLDER } from "@/constants/placeholders";
 
 const {id} = Astro.props;
 
+const referer = Astro.request.headers.get('Referer');
+const url = referer ? new URL(referer) : Astro.url;
+
 const internship = await internshipService.getInternship(Number(id))
 
 if (!internship) return Astro.redirect("/404");
@@ -35,7 +38,7 @@ if (!internship) return Astro.redirect("/404");
             </div>
             <div class="flex flex-row items-center gap-2">
                 <p><span class="text-text/50 ">Publicada el </span>{new Date(internship.created_at).toLocaleDateString()}</p>
-                    <span class="opacity-75 text-sm" style={`color: ${internship.timeSinceCreated.color}`}>({internship.timeSinceCreated.time})</span>
+                <span class="opacity-75 text-sm" style={`color: ${internship.timeSinceCreated.color}`}>({internship.timeSinceCreated.time})</span>
             </div>
         </div>
             
@@ -83,8 +86,8 @@ if (!internship) return Astro.redirect("/404");
         <div class="flex flex-row gap-2">
             <button class="cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all" id="share-button"><Share/></button>
             <button class="cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all" id="clipboard-button"><Copy/></button>
-            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=" class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><Linkedin /></a>
-            <a target="_blank" href=`https://twitter.com/intent/tweet?text=En%20%22BuscoPasantias%22%20encontre%20la%20siguiente%20oferta%20para%20universitarios!&url=` class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><X /></a>
+            <a target="_blank" href=`https://www.linkedin.com/shareArticle?mini=true&url=${url}` class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><Linkedin /></a>
+            <a target="_blank" href=`https://twitter.com/intent/tweet?text=En%20%22BuscoPasantias%22%20encontre%20la%20siguiente%20oferta%20para%20universitarios!&url=${url}` class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><X /></a>
         </div>
     </aside>
 </section>
@@ -110,6 +113,5 @@ if (!internship) return Astro.redirect("/404");
             console.error('Failed to copy: ', err);
         })
     })
-    // https://www.linkedin.com/shareArticle/?mini=true&url=
 </script>
 
