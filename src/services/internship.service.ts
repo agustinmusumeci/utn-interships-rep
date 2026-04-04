@@ -31,7 +31,7 @@ class InternshipService {
       console.log(e);
 
       return {
-        message: "Ocurrio un error al obtener las pasantías - Intente más tarde"
+        message: "Ocurrio un error al obtener las pasantías - Intente más tarde",
         data: [],
         pages: 0,
         ok: true,
