@@ -9,8 +9,8 @@ export const server = {
       suscription: z.boolean(),
     }),
     handler: async ({ id, suscription }) => {
-      await userController.suscribeUser(id, suscription);
-      return "User suscripted";
+      const res = await userController.suscribeUser(id, suscription);
+      return res;
     },
   }),
 
@@ -21,8 +21,8 @@ export const server = {
       toDeleteCareers: z.array(z.string()),
     }),
     handler: async ({ id, toSuscribeCareers, toDeleteCareers }) => {
-      await userController.suscribeCareers(id, toSuscribeCareers, toDeleteCareers);
-      return "Careers suscripted";
+      const res = await userController.suscribeCareers(id, toSuscribeCareers, toDeleteCareers);
+      return res;
     },
   }),
 };

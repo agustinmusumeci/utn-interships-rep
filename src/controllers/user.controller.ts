@@ -15,7 +15,7 @@ class UserController {
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {
     try {
       await userService.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
-      return { message: "Alertas activadas correctamente", ok: true, error: undefined };
+      return { message: "Carreras suscriptas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
       return { message: "Error activando las alertar - Intente más tarde", ok: true, error: e };

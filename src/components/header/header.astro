@@ -43,11 +43,11 @@ if (user) {
             </Show>
             <Show when="signed-in">
                 
-                <a href="/notifications" class="relative cursor-pointer">
+                <a href="/alerts" class="relative cursor-pointer">
                     <Bell />
                     {
                         notifications > 0 &&
-                        <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-secondary px-1.5 py-0.5 rounded-full">{notifications > MAXIMUM_DISPLAY_NOTIFICATIONS ? "+9" : notifications}</span>
+                        <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-red-900 px-1.5 py-0.5 rounded-full">{notifications > MAXIMUM_DISPLAY_NOTIFICATIONS ? "+9" : notifications}</span>
                     }
                 </a>
                 <UserButton />
