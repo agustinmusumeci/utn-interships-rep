@@ -4,14 +4,15 @@ import Alert from "../../components/alert/alert";
 import userService from "../../services/user.service";
 
 const { isAuthenticated} = Astro.locals.auth()
-
 const loggedUser = await Astro.locals.currentUser()
 
-if (loggedUser && isAuthenticated) {
-	const userId = loggedUser?.id
-
-    var user = await userService.getUser(userId) ?? undefined
+if (!loggedUser || !isAuthenticated) {
+    Astro.redirect("/")
 }
+
+const userId = loggedUser?.id
+const user = await userService.getUser(userId) ?? undefined
+const internships = await userService.getUserNotifications(userId)
 
 ---
 
@@ -21,9 +22,11 @@ if (loggedUser && isAuthenticated) {
                 <div class="h-32 md:h-24 w-1 bg-primary-hover"></div>
                 <div >
                     <h2 class="title-lg">Alertas</h2>
-                    <p class="text-text/50">Administre sus criterios para notificar ante nuevas pasantías</p>
+                    <p class="text-text/50 max-w-prose">Administre sus criterios para notificar ante nuevas pasantías mediante Mail</p>
+                    
                 </div>  
         </div>
-        <Alert user={user} client:load/>
+
+        <Alert user={user} internships={internships} client:load/>
     </section>
 </Layout>

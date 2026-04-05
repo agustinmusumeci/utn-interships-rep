@@ -1,5 +1,6 @@
 import type { User } from "../../prisma/zod";
 import userRepository from "../repositories/user.repository";
+import internshipService from "./internship.service";
 
 class UserService {
   async getSuscriptedUsers(careers: Array<string>) {
@@ -20,6 +21,28 @@ class UserService {
     } catch (e) {
       console.log(e);
       return {} as User;
+    }
+  }
+
+  async getUserNotifications(userId: string) {
+    try {
+      const data = await userRepository.getUserNotifications(userId);
+
+      if (!data || data.length === 0) return [];
+
+      const internships = data.map((el) => {
+        const internship = {
+          userId: el.user_id,
+          seen: el.seen,
+          internship: internshipService.mapInternship(el?.Internship),
+        };
+        return internship;
+      });
+
+      return internships;
+    } catch (e) {
+      console.log(e);
+      return [];
     }
   }
 

@@ -112,6 +112,11 @@ input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
 
+*:disabled,
+*[aria-disabled="true"] {
+  @apply text-text/50! pointer-events-none!;
+}
+
 .border {
   @apply border border-light-neutral;
 }
@@ -179,7 +184,7 @@ input[type="checkbox"]:checked::before {
   height: 34px;
 }
 
-.switch input {
+.switch .switch-button {
   opacity: 0;
   width: 0;
   height: 0;
@@ -209,15 +214,15 @@ input[type="checkbox"]:checked::before {
   transition: 0.4s;
 }
 
-input:checked + .switch-slider {
+.switch-button[aria-checked="true"] + .switch-slider {
   background-color: #2196f3;
 }
 
-input:focus + .switch-slider {
+.switch-button:focus + .switch-slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .switch-slider:before {
+.switch-button[aria-checked="true"] + .switch-slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -231,9 +236,31 @@ input:checked + .switch-slider:before {
   @apply rounded-full;
 }
 
+.horizontal-scroll {
+  @apply overflow-x-auto;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  @apply bg-neutral-700 rounded-full;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  @apply bg-text/50 rounded-full;
+}
+
+/* Hover en el desplazador */
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  @apply bg-text/40;
+}
+
+/* lmfao gtfo white theme */
 :root {
-  /* --background: oklch(1 0 0); */
-  /* --foreground: oklch(0.145 0 0); */
+  /* --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -255,7 +282,7 @@ input:checked + .switch-slider:before {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -263,7 +290,7 @@ input:checked + .switch-slider:before {
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.708 0 0); */
 }
 
 .dark {
@@ -305,9 +332,6 @@ input:checked + .switch-slider:before {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    /* @apply bg-background text-foreground; */
   }
 }

@@ -1,10 +1,11 @@
 ---
+import Layout from "../../layouts/Layout.astro";
 import Filter from "../../components/internship/filter";
 import FilterSkeleton from "../../components/internship/filterSkeleton.astro"
 import Internships from "../../components/internship/internships.astro";
 import InternshipsSkeleton from "../../components/internship/internshipsSkeleton.astro";
 import { PARAMS } from "../../constants/params";
-import Layout from "../../layouts/Layout.astro";
+import Warning from "@/components/ui/warning"
 
 const searchParams = Astro.url.searchParams
 const pathname = Astro.url.pathname
@@ -20,7 +21,7 @@ const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], p
                 <div class="h-32 md:h-25 w-1 bg-primary-hover"></div>
                 <div >
                     <h2 class="title-lg mb-4">Pasantías disponibles</h2>
-                    <p class="border-[1px] border-red-500/50 bg-secondary/50 px-10 py-2">Atención: Por ahora solo hay pasantías de la UTN FRC</p>
+                    <Warning title="Atención: Por ahora solo hay pasantías de la UTN FRC" client:load/>
                 </div>  
             </div>
             <div class="grid lg:grid-cols-5 grid-cols-3 gap-10">

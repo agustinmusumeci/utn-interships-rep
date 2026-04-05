@@ -2,6 +2,7 @@
 import "../styles/global.css"
 import userService from "../services/user.service";
 import Header from "@/components/header/header.astro";
+import { Toaster } from "@/components/ui/sonner"
 
 type Props = {
 	title?: string
@@ -37,5 +38,7 @@ if (user) {
 		<main class="min-h-dvh">
 			<slot />
 		</main>
+	
+		<Toaster client:only/>
 	</body>
 </html>

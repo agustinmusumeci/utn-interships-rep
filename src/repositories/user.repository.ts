@@ -22,6 +22,14 @@ class UserRepository {
     });
   }
 
+  async getUserNotifications(userId: string) {
+    return await prisma.userNotification.findMany({
+      where: { user_id: userId },
+      include: { Internship: { include: { internshipCareers: { include: { Career: true } } } } },
+      orderBy: { Internship: { created_at: "desc" } },
+    });
+  }
+
   async countUserNotifications(userId: string): Promise<number> {
     return await prisma.userNotification.count({ where: { user_id: userId, seen: false } });
   }

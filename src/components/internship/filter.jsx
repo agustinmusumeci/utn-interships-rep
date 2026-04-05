@@ -1,5 +1,5 @@
 import { CAREERS } from "../../constants/careers";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "react";
 
 export default function Filter({ filter }) {
   const [form, setForm] = useState(filter);
