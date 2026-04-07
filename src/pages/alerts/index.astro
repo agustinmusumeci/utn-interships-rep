@@ -13,7 +13,6 @@ if (!loggedUser || !isAuthenticated) {
 const userId = loggedUser?.id
 const user = await userService.getUser(userId) ?? undefined
 const internships = await userService.getUserNotifications(userId)
-
 ---
 
 <Layout>
@@ -22,7 +21,7 @@ const internships = await userService.getUserNotifications(userId)
                 <div class="h-32 md:h-24 w-1 bg-primary-hover"></div>
                 <div >
                     <h2 class="title-lg">Alertas</h2>
-                    <p class="text-text/50 max-w-prose">Administre sus criterios para notificar ante nuevas pasantías mediante Mail</p>
+                    <p class="text-text/50 max-w-prose">Administre sus criterios para notificar ante nuevas pasantías mediante Mail.</p>
                     
                 </div>  
         </div>

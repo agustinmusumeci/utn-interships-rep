@@ -67,6 +67,15 @@ class UserService {
     return await userRepository.createNotifications(notifications);
   }
 
+  async markNotificationAsRead(userId: string, internships: Array<number>) {
+    try {
+      await userRepository.markNotificationAsRead(userId, internships);
+      return internships;
+    } catch (e) {
+      return [];
+    }
+  }
+
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
     try {
       return await userRepository.syncUser(userId, name, mail, suscripted);
@@ -77,7 +86,12 @@ class UserService {
   }
 
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {
-    return await userRepository.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+    try {
+      return await userRepository.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   }
 
   mapUserToJson(user: User & { userCareers?: any[] }) {

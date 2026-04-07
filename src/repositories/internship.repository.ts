@@ -134,6 +134,8 @@ class InternshipRepository {
     >,
   ) {
     const updatedInternships = await prisma.$transaction(async (tx) => {
+      try {
+      } catch (e) {}
       // Select all the internships that already exists before the upload
       const preExisting = await tx.internship.findMany({
         where: {

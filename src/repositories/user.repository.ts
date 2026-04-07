@@ -24,7 +24,7 @@ class UserRepository {
 
   async getUserNotifications(userId: string) {
     return await prisma.userNotification.findMany({
-      where: { user_id: userId },
+      where: { user_id: userId, seen: false },
       include: { Internship: { include: { internshipCareers: { include: { Career: true } } } } },
       orderBy: { Internship: { created_at: "desc" } },
     });
@@ -36,6 +36,10 @@ class UserRepository {
 
   async createNotifications(notifications: Array<{ user_id: string; internship_id: number; seen: boolean }>) {
     return await prisma.userNotification.createMany({ data: notifications, skipDuplicates: true });
+  }
+
+  async markNotificationAsRead(userId: string, internships: Array<number>) {
+    return await prisma.userNotification.updateMany({ data: { seen: true }, where: { user_id: userId, internship_id: { in: internships } } });
   }
 
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
