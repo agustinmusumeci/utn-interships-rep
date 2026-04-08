@@ -5,7 +5,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import Warning from "../ui/warning";
-import { ArrowUpRight, Bell, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, UniversityIcon } from "lucide-react";
+import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, UniversityIcon } from "lucide-react";
+import alertasNotFound from "public/alertas-notfound.png";
 
 export default function Alert({ user, internships = [] }) {
   const userCareersIds = new Set(user ? user?.careers?.map((c) => c?.id) : []);
@@ -192,8 +193,8 @@ export default function Alert({ user, internships = [] }) {
             </div>
           </form>
           <div className="bg-light-neutral/50 h-95 w-full mb-5 p-8 rounded-xl">
-            <div className="title-md flex flex-row justify-between items-center">
-              <div className="flex flex-row gap-4 items-center">
+            <div className="title-md flex flex-row  items-center">
+              <div className="flex flex-row justify-between gap-4 items-center w-full">
                 {/* <Bell /> */}
                 {/* <h4>Alertas</h4> */}
                 <button
@@ -204,6 +205,9 @@ export default function Alert({ user, internships = [] }) {
                 >
                   Marca como leidas <CheckCheck />
                 </button>
+                <div>
+                  <span className="text-3xl">{alertedInternships?.length}</span> <span className="text-xl font-normal">Pasantías nuevas</span>
+                </div>
               </div>
             </div>
             <div className="h-60 flex flex-row gap-5 horizontal-scroll mt-6">
@@ -253,6 +257,20 @@ export default function Alert({ user, internships = [] }) {
                   </div>
                 </div>
               ))}
+              {alertedInternships?.length === 0 && (
+                <div className="flex flex-row gap-10 items-center">
+                  <img
+                    src={alertasNotFound.src}
+                    alt="Sin alertas"
+                    loading="lazy"
+                    className="w-65"
+                  />
+                  <div>
+                    <p className="title-lg">Estas al día</p>
+                    <p className="text-text/50">No hay nuevas pasantías aún. ¡Te notificaremos si se registran nuevas!</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div

@@ -3,6 +3,8 @@ import internshipService from "../../services/internship.service";
 import Card from "./card.astro";
 import InternshipsGrid from "./internshipsGrid.astro";
 import Pagination from "../pagination/pagination.astro";
+import { Image } from 'astro:assets';
+import notFound from '../../images/pasantias-notfound.png';
 
 type Props = {
     searchParams: string,
@@ -22,7 +24,21 @@ const {data, pages} = await internshipService.getInternships(params)
                 internship={internship}
             />
         ))}
+        {
+        data?.length === 0 
+        && 
+            <div class="flex flex-row items-start md:items-center gap-10 col-span-4 bg-light-neutral p-5 rounded-xl">
+                <div>
+                    <Image src={notFound} alt="Pasantías no encontradas" />
+                </div>
+                <div class="flex flex-col gap-5">
+                    <p class="title-md">Ningún resultado coincide</p>     
+                    <p class="text-text/50">¡No te pongas nervisioso/a! Comprueba los filtros usados o prueba nuevos.</p>
+                    <a class="button button-outline" href="/internships">Nueva búsqueda</a>
+                </div>
+            </div>
+        }
     </InternshipsGrid>
-
+    
     <Pagination pages={pages} page={params.page} searchParams={searchParams} pathname={pathname}/>
 </>

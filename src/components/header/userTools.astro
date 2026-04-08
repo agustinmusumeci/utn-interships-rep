@@ -1,0 +1,39 @@
+---
+import userService from '@/services/user.service'
+import {MAXIMUM_DISPLAY_NOTIFICATIONS} from "../../constants/notifications"
+import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
+import { Bell } from '@lucide/astro'
+
+const user = await Astro.locals.currentUser()
+
+let notifications = 0;
+
+if (user) {
+	const userId = user?.id
+    notifications = await userService.countUserNotifications(userId)
+}
+---
+ 
+ <div class="flex flex-row gap-4 items-center">
+    <Show when="signed-out">
+        <div class="flex flex-row gap-3">
+            <SignInButton class="button button-outline" mode="modal" >
+                Inicia Sesión
+            </SignInButton>
+                        
+            <SignUpButton class="button button-white bg-text/95 text-neutral rounded-full cursor-pointer" mode="modal" >
+                Registrate
+            </SignUpButton>
+        </div>
+    </Show>
+    <Show when="signed-in">       
+        <a href="/alerts" class="relative cursor-pointer">
+            <Bell />
+            {
+                notifications > 0 &&
+                <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-red-900 px-1.5 py-0.5 rounded-full">{notifications > MAXIMUM_DISPLAY_NOTIFICATIONS ? "+9" : notifications}</span>
+            }
+        </a>
+        <UserButton/>
+    </Show>
+</div>	

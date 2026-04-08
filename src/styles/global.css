@@ -141,7 +141,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .title-xl {
-  @apply text-6xl font-bold mb-12;
+  @apply text-5xl md:text-6xl font-bold mb-12;
 }
 
 .title-lg {

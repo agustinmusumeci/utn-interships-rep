@@ -1,8 +1,12 @@
+import { ListFilter } from "lucide-react";
 import { CAREERS } from "../../constants/careers";
 import { useEffect, useState } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useDesktopResolution } from "@/hooks/useResolution";
 
 export default function Filter({ filter }) {
   const [form, setForm] = useState(filter);
+  const isDesktop = useDesktopResolution({ resolution: 1024 });
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -46,109 +50,122 @@ export default function Filter({ filter }) {
   return (
     <div className="flex flex-col gap-5 mt-5 mx-2 lg:col-span-1 col-span-full">
       <div>
-        <div className="mb-2 text-lg font-medium">
-          <p>Filtros</p>
-        </div>
-        <form
-          className="flex flex-col gap-5"
-          id="internships-filter"
-          method="get"
+        <Accordion
+          type="single"
+          collapsible
+          {...(isDesktop && { defaultValue: "filter" })}
         >
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2 w-full">
-              <label for="page" />
-              <input
-                name="page"
-                id="page"
-                type="hidden"
-              />
-
-              <label
-                for="text"
-                className="text-text/50"
-              >
-                Buscar
-              </label>
-              <input
-                className="border"
-                name="text"
-                id="text"
-                type="text"
-                placeholder="Id, palabra clave..."
-                value={form?.text}
-                onInput={onChange}
-              />
-            </div>
-            <div className="flex flex-col gap-2 w-full">
-              <label
-                for="careers"
-                className="text-text/50"
-              >
-                Especialidad
-              </label>
-              <div className="flex flex-col flex-wrap gap-3">
-                <input
-                  type="hidden"
-                  name="careers"
-                  value={form?.careers?.length > 0 ? form?.careers?.join(",") : "*"}
-                />
-                {CAREERS.map((c) => (
-                  <div className="flex flex-row items-center gap-2 font-light">
-                    <input
-                      type="checkbox"
-                      value={c.id}
-                      checked={form?.careers?.includes(c.id)}
-                      onChange={() => onCareerToggle(c.id)}
-                    />
-                    <label
-                      key={c.id}
-                      className="flex items-center gap-1 cursor-pointer text-text"
-                    >
-                      {c.name}
-                    </label>
-                  </div>
-                ))}
+          <AccordionItem value="filter">
+            <AccordionTrigger>
+              <div className="mb-2 text-lg font-medium flex flex-row gap-5 items-center border-1 border-text rounded-full px-5 py-2 md:button md:button-outline md:px-0 md:py-0 md:border-none">
+                <ListFilter />
+                <p>Filtros</p>
               </div>
-            </div>
-            <div className="flex flex-col gap-2 w-full">
-              <label for="date">Fecha</label>
-              <select
-                className=""
-                name="date"
-                id="date"
-                value={form?.date}
-                onChange={onChange}
+            </AccordionTrigger>
+            <AccordionContent value="filter">
+              <form
+                className="flex flex-col gap-5"
+                id="internships-filter"
+                method="get"
               >
-                <option value="*">Cualquiera</option>
-                <option value="1">Hace 24hs</option>
-                <option value="7">Hace 1 semana</option>
-                <option value="14">Hace 2 semanas</option>
-                <option value="30">Hace 1 mes</option>
-              </select>
-            </div>
-            <div className="flex flex-col gap-2 w-full">
-              <label for="time">Tiempo</label>
-              <select
-                className=""
-                name="time"
-                id="time"
-                value={form?.time}
-                onChange={onChange}
-              >
-                <option value="DESC">Mas reciente - Mas antigua</option>
-                <option value="ASC">Mas antigua - Mas reciente</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <button
-              className=" mt-2 button button-primary w-full! inline!"
-              type="submit"
-            >
-              Filtrar
-            </button>
-          </div>
-        </form>
+                <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-2 w-full">
+                    <label for="page" />
+                    <input
+                      name="page"
+                      id="page"
+                      type="hidden"
+                    />
+
+                    <label
+                      for="text"
+                      className="text-text/50"
+                    >
+                      Buscar
+                    </label>
+                    <input
+                      className="border"
+                      name="text"
+                      id="text"
+                      type="text"
+                      placeholder="Id, palabra clave..."
+                      value={form?.text}
+                      onInput={onChange}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <label
+                      for="careers"
+                      className="text-text/50"
+                    >
+                      Especialidad
+                    </label>
+                    <div className="flex flex-col flex-wrap gap-3">
+                      <input
+                        type="hidden"
+                        name="careers"
+                        value={form?.careers?.length > 0 ? form?.careers?.join(",") : "*"}
+                      />
+                      {CAREERS.map((c) => (
+                        <div className="flex flex-row items-center gap-2 font-light">
+                          <input
+                            type="checkbox"
+                            value={c.id}
+                            checked={form?.careers?.includes(c.id)}
+                            onChange={() => onCareerToggle(c.id)}
+                          />
+                          <label
+                            key={c.id}
+                            className="flex items-center gap-1 cursor-pointer text-text"
+                          >
+                            {c.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <label for="date">Fecha</label>
+                    <select
+                      className=""
+                      name="date"
+                      id="date"
+                      value={form?.date}
+                      onChange={onChange}
+                    >
+                      <option value="*">Cualquiera</option>
+                      <option value="1">Hace 24hs</option>
+                      <option value="7">Hace 1 semana</option>
+                      <option value="14">Hace 2 semanas</option>
+                      <option value="30">Hace 1 mes</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-2 w-full">
+                    <label for="time">Tiempo</label>
+                    <select
+                      className=""
+                      name="time"
+                      id="time"
+                      value={form?.time}
+                      onChange={onChange}
+                    >
+                      <option value="DESC">Mas reciente - Mas antigua</option>
+                      <option value="ASC">Mas antigua - Mas reciente</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=" mt-2 button button-primary w-full! inline!"
+                    type="submit"
+                  >
+                    Filtrar
+                  </button>
+                </div>
+              </form>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );
