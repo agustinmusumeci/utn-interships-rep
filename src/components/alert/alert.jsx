@@ -111,7 +111,7 @@ export default function Alert({ user, internships = [] }) {
       {user ? (
         <div class="flex flex-col gap-5">
           <form className="mb-10">
-            <div className="bg-light-neutral w-fit flex flex-row gap-10 items-center p-5">
+            <div className="bg-light-neutral w-fit flex flex-row gap-10 items-center p-5 rounded-xl">
               <div>
                 <p className="font-bold">Alertas</p>
                 <span className="text-text/75">
@@ -191,7 +191,7 @@ export default function Alert({ user, internships = [] }) {
               </AlertDialog>
             </div>
           </form>
-          <div className="bg-light-neutral/50 h-95 w-full mb-5 p-8">
+          <div className="bg-light-neutral/50 h-95 w-full mb-5 p-8 rounded-xl">
             <div className="title-md flex flex-row justify-between items-center">
               <div className="flex flex-row gap-4 items-center">
                 {/* <Bell /> */}
@@ -261,7 +261,7 @@ export default function Alert({ user, internships = [] }) {
             aria-disabled={!suscripted}
           >
             {/* Available careers */}
-            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 p-8">
+            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
               <div className="title-md flex flex-row gap-4 items-center">
                 <UniversityIcon />
 
@@ -288,7 +288,7 @@ export default function Alert({ user, internships = [] }) {
             </div>
 
             {/* Suscripted careers */}
-            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 p-8">
+            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
               <div className="title-md flex flex-row gap-4 items-center">
                 <BellRing
                   disabled={!suscripted}

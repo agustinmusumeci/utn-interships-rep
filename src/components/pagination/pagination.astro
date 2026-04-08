@@ -25,7 +25,7 @@ const newSearchParams = new URLSearchParams(searchParams)
           <a
           href={`${pathname}?${newSearchParams.toString()}`}
             style={`background-color: ${page === i && "#333"}; color: ${page === i && "#eee"}`}
-            class="px-3 py-1 cursor-pointer hover:bg-light-neutral transition-all" 
+            class="w-7 h-7 text-sm text-center place-content-center hover:bg-light-neutral transition-all rounded-full" 
           >
             {i + 1}
           </a>

@@ -17,7 +17,7 @@ if (!internship) return Astro.redirect("/404");
 ---
 <section class="mt-5 flex flex-col md:flex-row gap-5">
     <article class="flex flex-col gap-3 ">
-        <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10">
+        <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10 rounded-xl">
             <div class="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
                 <h2 class="title-lg">{internship.position}</h2>
                 <span class="text-text/50 pb-5">A.R.M {internship.arm}</span>
@@ -42,7 +42,7 @@ if (!internship) return Astro.redirect("/404");
             </div>
         </div>
             
-        <div class="flex flex-col gap-10 bg-light-neutral p-10">
+        <div class="flex flex-col gap-10 bg-light-neutral p-10 rounded-xl">
             <div>
                 <div>
                     <h3 class="title-md">Requisitos</h3>
@@ -81,7 +81,7 @@ if (!internship) return Astro.redirect("/404");
             </div>
         </div>
     </article>
-    <aside class="w-full md:w-fit h-fit p-9 bg-light-neutral">
+    <aside class="w-full md:w-fit h-fit p-9 bg-light-neutral rounded-xl">
         <p class="text-lg font-bold mb-5">Comparte esta pasantía</p>
         <div class="flex flex-row gap-2">
             <button class="cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all" id="share-button"><Share/></button>

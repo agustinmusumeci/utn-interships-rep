@@ -33,7 +33,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-neutral: #141414;
-  --color-light-neutral: #222222;
+  --color-light-neutral: #202020;
   --color-skeleton: var(--color-neutral-600);
   --color-text: #eee;
   --color-light-text: #ccc;
@@ -51,6 +51,7 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --radius: 10px;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -85,8 +86,15 @@ span {
 a,
 button,
 input,
+select,
 textarea {
-  @apply font-label;
+  @apply font-label cursor-pointer;
+}
+
+input,
+textarea,
+select {
+  @apply rounded-md;
 }
 
 input,
@@ -105,8 +113,8 @@ input[type="checkbox"]::before {
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
+  border-radius: var(--radius-sm);
   transition: 120ms transform ease-in-out;
-  background-color: red;
 }
 
 input[type="checkbox"]:checked::before {

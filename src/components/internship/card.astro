@@ -5,8 +5,8 @@ import Careers from "../career/careers.astro";
 const {internship} = Astro.props;
 
 ---
-<a class="relative h-fit w-full bg-light-neutral hover: transition-all" href={`/internships/${internship?.id}`} data-astro-prefetch>
-    <div class="absolute h-1 w-20 right-0 top-0 bg-white/20"></div>
+<a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl" href={`/internships/${internship?.id}`} data-astro-prefetch>
+    <!-- <div class="absolute h-1 w-20 right-2 top-0 bg-white/20 rounded-t-4xl"></div> -->
     <article class="flex flex-col gap-2 p-4">
         <div class="flex flex-row justify-between text-white/50">
             <p class="text-sm ">A.R.M {internship?.arm}</p>
