@@ -1,6 +1,6 @@
-Custom Source-Available License (Restricted Use)
+# Custom Source-Available License (Restricted Use)
 
-Copyright (c) 2026 BuscoPasantías | Agustín Musumeci
+## Copyright (c) 2026 BuscoPasantías | Agustín Musumeci
 
 1. Grant of Access
 
