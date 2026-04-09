@@ -19,7 +19,7 @@ export const server = {
     input: z.object({
       id: z.string(),
       toSuscribeCareers: z.array(z.string()),
-      toDeleteCareers: z.array(z.string()),
+      toDeleteCareers: z.array(z.string() || z.null),
     }),
     handler: async ({ id, toSuscribeCareers, toDeleteCareers }) => {
       const res = await userController.suscribeCareers(id, toSuscribeCareers, toDeleteCareers);

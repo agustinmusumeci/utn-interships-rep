@@ -61,7 +61,7 @@ export class CronController {
       // Notify all the intersted users
       const notificator = new NotificationService();
 
-      console.log(toNotify);
+      // console.log(toNotify);
 
       await notificator.notify(arrayToNotify);
 
