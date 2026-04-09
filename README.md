@@ -1,30 +1,81 @@
-# UTN Internships Rep
+<div align="center">
 
-Web App w/Astro for looking into the interships of Universidad Tecnológica Nacional FRC and notifying the subscription users in case of intership match
+<!-- ![GithubImage](https://github.com/agustinmusumeci/agustinmusumeci/blob/main/GithubProfileImage.png?raw=true "Title") -->
 
-## 🚀 Project Structure
+# BuscoPasantías App
 
-Inside of your Astro project, you'll see the following folders and files:
+Web App w/Astro & Prisma for looking into the internships of Universidad Tecnológica Nacional FRC and notifying the subscription users in case of intertest match
+
+</div>
+
+## 🚀 Project structure
 
 ```text
 /
 ├── public/
-│   └── favicon.svg
+├── prisma/
+│   ├── migrations/
+│   ├── zod/
+│   ├── schema.prisma
+│   └── seed.ts
+│
 ├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+│   ├── actions/
+│   ├── agents/
+│   ├── assets/
+│   ├── components/
+│   ├── constants/
+│   ├── hooks/
+│   ├── images/
+│   ├── interfaces/
+│   ├── layouts/
+│   ├── lib/
+│   ├── mock/
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── internships/
+│   │   │   ├── [id].astro
+│   │   │   └── index.astro
+│   │   ├── alerts/
+│   │   │   └── index.astro
+│   │   └── api/
+│   │       └── cron/
+│   │           └── index.ts
+│   │
+│   ├── schemas/
+│   ├── styles/
+│   ├── templates/
+│   ├── utils/
+│   ├── controllers/
+│   ├── services/
+│   ├── repositories/
+│   └── middleware.ts
+│
 └── package.json
+└── .env
+└── astro.config.mjs
+└── components.json
+└── prisma-config.ts
+└── tsconfig.ts
 ```
 
-## 🧞 Commands
+## ⚙️ Stack
 
-All commands are run from the root of the project, from a terminal:
+| Tech                         | Purpose                         | Version          |
+| ---------------------------- | ------------------------------- | ---------------- |
+| Astro                        | Fullstack framework             | ^6.0.6           |
+| React (as Astro integration) | Frontend framework              | ^5.0.2           |
+| TailwindCSS                  | Styles                          | ^4.2.2           |
+| ShadCS                       | Components Library              | ^4.1.1           |
+| TypeScript                   | Static Typing                   | Not specified    |
+| Zod                          | Dynamic Typing                  | ^4.3.6           |
+| Postgresql                   | DBMS                            | Not specified    |
+| Prisma                       | ORM                             | ^7.5.0           |
+| Puppeteer                    | Bot & Web Scraper               | ^24.39.1         |
+| Gemini Agent                 | Data processing of scraped data | Gemini 2.5 Flash |
+| Clerk (as Astro integration) | Auth and user handling          | ^3.0.6           |
+
+## 🧞 Available commands
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
