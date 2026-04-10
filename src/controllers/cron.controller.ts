@@ -11,8 +11,10 @@ export class CronController {
 
       const { internships } = await uploader.uploadData();
 
+      console.log(internships);
+
       // We dont have any internship to notify to
-      if (internships.length < 0) {
+      if (internships.length === 0) {
         console.log("No internships");
 
         return;
@@ -62,7 +64,7 @@ export class CronController {
       // Notify all the intersted users
       const notificator = new NotificationService();
 
-      // console.log(toNotify);
+      console.log(toNotify, arrayToNotify);
 
       await notificator.notify(arrayToNotify);
 

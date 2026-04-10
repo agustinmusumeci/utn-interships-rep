@@ -5,11 +5,9 @@ import { InternshipService } from "./internship.service";
 
 export class UserService {
   private userRepository: UserRepository;
-  private internshipRepository: InternshipRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
-    this.internshipRepository = new InternshipRepository();
   }
 
   async getSuscriptedUsers(careers: Array<string>) {
