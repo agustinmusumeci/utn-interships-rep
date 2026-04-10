@@ -1,9 +1,15 @@
-import userService from "../services/user.service";
+import { UserService } from "@/services/user.service";
 
-class UserController {
+export class UserController {
+  private userService: UserService;
+
+  constructor() {
+    this.userService = new UserService();
+  }
+
   async suscribeUser(userId: string, suscription: boolean) {
     try {
-      await userService.syncUser(userId, "", "", suscription);
+      await this.userService.syncUser(userId, "", "", suscription);
 
       return { message: "Alertas activadas correctamente", ok: true, error: undefined };
     } catch (e) {
@@ -14,7 +20,7 @@ class UserController {
 
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {
     try {
-      await userService.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+      await this.userService.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
       return { message: "Carreras suscriptas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
@@ -22,5 +28,3 @@ class UserController {
     }
   }
 }
-
-export default new UserController();

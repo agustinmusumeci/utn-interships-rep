@@ -1,12 +1,14 @@
+import { CompanyRepository } from "@/repositories/company.repository";
 import type { Company } from "../../prisma/zod";
-import companyRepository from "../repositories/company.repository";
 
-class CompanyService {
-  constructor() {}
+export class CompanyService {
+  private companyRepository: CompanyRepository;
+
+  constructor() {
+    this.companyRepository = new CompanyRepository();
+  }
 
   async uploadCompanies(companies: Array<Company>) {
-    return await companyRepository.uploadCompanies(companies);
+    return await this.companyRepository.uploadCompanies(companies);
   }
 }
-
-export default new CompanyService();

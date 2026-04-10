@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Alert from "../../components/alert/alert";
-import userService from "../../services/user.service";
+import { UserService } from "@/services/user.service";
 
 const { isAuthenticated} = Astro.locals.auth()
 const loggedUser = await Astro.locals.currentUser()
@@ -9,6 +9,8 @@ const loggedUser = await Astro.locals.currentUser()
 if (!loggedUser || !isAuthenticated) {
     Astro.redirect("/")
 }
+
+const userService = new UserService()
 
 const userId = loggedUser?.id
 const user = await userService.getUser(userId) ?? undefined

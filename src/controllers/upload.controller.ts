@@ -1,9 +1,12 @@
-import companyService from "../services/company.service";
-import internshipService from "../services/internship.service";
+import { CompanyService } from "@/services/company.service";
+import { InternshipService } from "@/services/internship.service";
 
 export class UploadController {
   async uploadData() {
     try {
+      const companyService = new CompanyService();
+      const internshipService = new InternshipService();
+
       const rawData = await internshipService.scrapeInternships();
 
       const internships = [];

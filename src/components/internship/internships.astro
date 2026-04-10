@@ -1,5 +1,5 @@
 ---
-import internshipService from "../../services/internship.service";
+import { InternshipService } from "@/services/internship.service";
 import Card from "./card.astro";
 import InternshipsGrid from "./internshipsGrid.astro";
 import Pagination from "../pagination/pagination.astro";
@@ -15,6 +15,7 @@ type Props = {
 
 const {searchParams, pathname, params} = Astro.props as Props;
 
+const internshipService = new InternshipService()
 const {data, pages} = await internshipService.getInternships(params) 
 ---
 <>

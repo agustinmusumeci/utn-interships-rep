@@ -6,7 +6,7 @@ import { Scraper } from "../lib/scraper";
 import dotenv from "dotenv";
 dotenv.config({ path: "/.env" });
 
-class InternshipRepository {
+export class InternshipRepository {
   url: string;
 
   constructor() {
@@ -191,5 +191,3 @@ class InternshipRepository {
     return updatedInternships;
   }
 }
-
-export default new InternshipRepository();

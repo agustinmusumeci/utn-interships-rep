@@ -1,17 +1,18 @@
 ---
 import { MapPin, House, UserRound, Building, CircleDollarSign, Share, Copy, Bell } from "@lucide/astro";
-import internshipService from "../../services/internship.service";
+import { UserService } from "@/services/user.service";
+import { InternshipService } from "@/services/internship.service";
 import Careers from "../career/careers.astro";
 import Linkedin from "../svg/linkedin.astro";
 import X from "../svg/x.astro";
 import { PLACEHOLDER } from "@/constants/placeholders";
-import userService from "@/services/user.service";
 
 const {id} = Astro.props;
 
 const referer = Astro.request.headers.get('Referer');
 const url = referer ? new URL(referer) : Astro.url;
 
+const internshipService = new InternshipService()
 const internship = await internshipService.getInternship(Number(id))
 
 if (!internship) return Astro.redirect("/404");
@@ -22,11 +23,11 @@ const loggedUser = await Astro.locals.currentUser()
 let hasNotifications = false;
 
 if (isAuthenticated  && loggedUser) {
+    const userService = new UserService()
+    
     const user = await userService.getUser(loggedUser?.id)
     hasNotifications = user?.suscripted ?? false
 }
-
-console.log(hasNotifications)
 ---
 <section class="mt-5 flex flex-col md:flex-row gap-5">
     <article class="flex flex-col gap-3 ">

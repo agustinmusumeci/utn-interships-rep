@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css"
-import userService from "../services/user.service";
+import { UserService } from "@/services/user.service";
 import Header from "@/components/header/header.astro";
 import { Toaster } from "@/components/ui/sonner"
 
@@ -18,6 +18,8 @@ if (user) {
 	const name = user?.fullName ?? "";
 	const mail = user?.primaryEmailAddress?.emailAddress ?? ""
 	
+	const userService = new UserService()
+
 	await userService.syncUser(userId, name, mail)
 }
 ---

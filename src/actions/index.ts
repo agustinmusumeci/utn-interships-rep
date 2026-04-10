@@ -1,7 +1,7 @@
 import { defineAction } from "astro:actions";
 import { z } from "astro/zod";
-import userController from "../controllers/user.controller";
-import userService from "@/services/user.service";
+import { UserService } from "@/services/user.service";
+import { UserController } from "@/controllers/user.controller";
 
 export const server = {
   suscribeUser: defineAction({
@@ -10,6 +10,8 @@ export const server = {
       suscription: z.boolean(),
     }),
     handler: async ({ id, suscription }) => {
+      const userController = new UserController();
+
       const res = await userController.suscribeUser(id, suscription);
       return res;
     },
@@ -22,6 +24,8 @@ export const server = {
       toDeleteCareers: z.array(z.string() || z.null),
     }),
     handler: async ({ id, toSuscribeCareers, toDeleteCareers }) => {
+      const userController = new UserController();
+
       const res = await userController.suscribeCareers(id, toSuscribeCareers, toDeleteCareers);
       return res;
     },
@@ -30,6 +34,8 @@ export const server = {
   markAlertAsRead: defineAction({
     input: z.object({ id: z.string(), internships: z.array(z.number()) }),
     handler: async ({ id, internships }) => {
+      const userService = new UserService();
+
       const res = await userService.markNotificationAsRead(id, internships);
       return res;
     },

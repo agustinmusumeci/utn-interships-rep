@@ -1,5 +1,5 @@
+import { UserService } from "@/services/user.service";
 import { NotificationService } from "../services/notification.service";
-import userService from "../services/user.service";
 import { UploadController } from "./upload.controller";
 
 export class CronController {
@@ -7,6 +7,7 @@ export class CronController {
     try {
       // Scrape internships
       const uploader = new UploadController();
+      const userService = new UserService();
 
       const { internships } = await uploader.uploadData();
 

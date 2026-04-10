@@ -68,13 +68,28 @@ import CareersSkeleton from "../career/careersSkeleton.astro";
             </div>
          
     </div>
-    <div class="w-full md:w-fit h-fit p-10 bg-light-neutral animate-pulse rounded-xl">
-            <span class="text-lg font-bold  bg-skeleton animate-pulse rounded-sm">Loading sharings</span>
-            <div class="flex flex-row justify-start md:justify-center mt-5 gap-6">
-                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
-                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full" >...</span>
-                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
-                <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+    <div class="flex flex-col gap-5">
+        <div class="w-full md:w-fit h-fit p-10 bg-light-neutral animate-pulse rounded-xl">
+                <span class="text-lg font-bold w-full  bg-skeleton animate-pulse rounded-sm">Loading sharings</span>
+                <div class="flex flex-row justify-start md:justify-center mt-5 gap-6">
+                    <span class="bg-skeleton animate-pulse w-8 h-8 transition-all rounded-full">...</span>
+                    <span class="bg-skeleton animate-pulse w-8 h-8 transition-all rounded-full" >...</span>
+                    <span class="bg-skeleton animate-pulse w-8 h-8 transition-all rounded-full">...</span>
+                    <span class="bg-skeleton animate-pulse w-8 h-8 transition-all rounded-full">...</span>
+                </div>
             </div>
-    </aside>
+            <div class="flex flex-col gap-5 w-full md:w-fit h-fit p-10 bg-light-neutral animate-pulse rounded-xl">
+                <div class="flex flex-row gap-2">
+                    <span class="text-lg font-bold h-6  bg-skeleton animate-pulse rounded-sm">Loading alerts</span>
+                    <span class="text-lg font-bold w-12.5 h-6.25 bg-skeleton animate-pulse rounded-full"></span>
+                </div>
+                <span class="text-lg font-bold w-full h-6.25 bg-skeleton animate-pulse rounded-sm"></span>
+                <!-- <div class="flex flex-row justify-start md:justify-center mt-5 gap-6">
+                    <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+                    <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full" >...</span>
+                    <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+                    <span class="bg-skeleton animate-pulse px-1 transition-all rounded-full">...</span>
+                </div> -->
+            </div>
+    </div>
 </section>

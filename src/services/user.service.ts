@@ -1,10 +1,19 @@
+import { UserRepository } from "@/repositories/user.repository";
+import { InternshipRepository } from "@/repositories/internship.repository";
 import type { User } from "../../prisma/zod";
-import userRepository from "../repositories/user.repository";
-import internshipService from "./internship.service";
+import { InternshipService } from "./internship.service";
 
-class UserService {
+export class UserService {
+  private userRepository: UserRepository;
+  private internshipRepository: InternshipRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
+    this.internshipRepository = new InternshipRepository();
+  }
+
   async getSuscriptedUsers(careers: Array<string>) {
-    const usersData = await userRepository.getSuscriptedUsers(careers);
+    const usersData = await this.userRepository.getSuscriptedUsers(careers);
 
     const users = usersData.map((user) => {
       return this.mapUserToJson(user);
@@ -15,7 +24,7 @@ class UserService {
 
   async getUser(userId: string): Promise<User> {
     try {
-      const user = await userRepository.getUser(userId);
+      const user = await this.userRepository.getUser(userId);
 
       return this.mapUserToJson(user);
     } catch (e) {
@@ -26,9 +35,11 @@ class UserService {
 
   async getUserNotifications(userId: string) {
     try {
-      const data = await userRepository.getUserNotifications(userId);
+      const data = await this.userRepository.getUserNotifications(userId);
 
       if (!data || data.length === 0) return [];
+
+      const internshipService = new InternshipService();
 
       const internships = data.map((el) => {
         const internship = {
@@ -48,7 +59,7 @@ class UserService {
 
   async countUserNotifications(userId: string): Promise<number> {
     try {
-      const notificationsCount = await userRepository.countUserNotifications(userId);
+      const notificationsCount = await this.userRepository.countUserNotifications(userId);
 
       return notificationsCount;
     } catch (e) {
@@ -64,12 +75,12 @@ class UserService {
       seen: false,
     }));
 
-    return await userRepository.createNotifications(notifications);
+    return await this.userRepository.createNotifications(notifications);
   }
 
   async markNotificationAsRead(userId: string, internships: Array<number>) {
     try {
-      await userRepository.markNotificationAsRead(userId, internships);
+      await this.userRepository.markNotificationAsRead(userId, internships);
       return internships;
     } catch (e) {
       return [];
@@ -78,7 +89,7 @@ class UserService {
 
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
     try {
-      return await userRepository.syncUser(userId, name, mail, suscripted);
+      return await this.userRepository.syncUser(userId, name, mail, suscripted);
     } catch (e) {
       console.log(e);
       return;
@@ -87,7 +98,7 @@ class UserService {
 
   async suscribeCareers(userId: string, toSuscribeCareers: Array<string>, toDeleteCareers: Array<string>) {
     try {
-      return await userRepository.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
+      return await this.userRepository.suscribeCareers(userId, toSuscribeCareers, toDeleteCareers);
     } catch (e) {
       console.log(e);
       return;
@@ -111,5 +122,3 @@ class UserService {
     return newUser;
   }
 }
-
-export default new UserService();

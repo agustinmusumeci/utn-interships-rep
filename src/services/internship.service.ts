@@ -1,19 +1,23 @@
 import { PLACEHOLDER } from "@/constants/placeholders";
 import type { Internship } from "../../prisma/zod";
 import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
-import internshipRepository from "../repositories/internship.repository";
 import { TIME_SINCE_CREATED_COLORS } from "@/constants/time";
+import { InternshipRepository } from "@/repositories/internship.repository";
 
-class InternshipService {
-  constructor() {}
+export class InternshipService {
+  private internshipRepository: InternshipRepository;
+
+  constructor() {
+    this.internshipRepository = new InternshipRepository();
+  }
 
   async scrapeInternships(): Promise<{ internships: Array<Internship> }> {
-    return await internshipRepository.scrapeInternships();
+    return await this.internshipRepository.scrapeInternships();
   }
 
   async getInternships(filter: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
     try {
-      const { data, count } = await internshipRepository.getInternships(filter);
+      const { data, count } = await this.internshipRepository.getInternships(filter);
 
       const internships = data.map((internship) => {
         return this.mapInternship(internship);
@@ -42,7 +46,7 @@ class InternshipService {
 
   async getInternship(id: number | undefined = undefined, arm: string = "") {
     try {
-      const internshipData = await internshipRepository.getInternship(id, arm);
+      const internshipData = await this.internshipRepository.getInternship(id, arm);
 
       if (!internshipData) return {} as Internship;
 
@@ -56,7 +60,7 @@ class InternshipService {
   }
 
   async uploadInternships(internships: Array<Internship & { careers: Array<string> }>) {
-    return await internshipRepository.uploadInternships(internships);
+    return await this.internshipRepository.uploadInternships(internships);
   }
 
   mapInternship(
@@ -125,5 +129,3 @@ class InternshipService {
     return newInternship;
   }
 }
-
-export default new InternshipService();

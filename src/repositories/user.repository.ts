@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 
-class UserRepository {
+export class UserRepository {
   async getSuscriptedUsers(careers: Array<string>) {
     let where = {};
     if (careers && careers.length > 0) {
@@ -84,5 +84,3 @@ class UserRepository {
     return;
   }
 }
-
-export default new UserRepository();

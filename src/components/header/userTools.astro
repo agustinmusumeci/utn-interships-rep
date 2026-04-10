@@ -1,5 +1,5 @@
 ---
-import userService from '@/services/user.service'
+import { UserService } from "@/services/user.service";
 import {MAXIMUM_DISPLAY_NOTIFICATIONS} from "../../constants/notifications"
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
 import { Bell } from '@lucide/astro'
@@ -9,6 +9,7 @@ const user = await Astro.locals.currentUser()
 let notifications = 0;
 
 if (user) {
+    const userService = new UserService()
 	const userId = user?.id
     notifications = await userService.countUserNotifications(userId)
 }
