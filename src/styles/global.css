@@ -35,7 +35,7 @@
   --color-neutral: #141414;
   --color-light-neutral: #202020;
   --color-skeleton: var(--color-neutral-600);
-  --color-text: #eee;
+  --color-text: #dcdcdc;
   --color-light-text: #ccc;
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
@@ -138,6 +138,10 @@ input[type="checkbox"]:checked::before {
   @apply bg-neutral;
   background-image: linear-gradient(rgba(58, 55, 48, 0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(58, 55, 48, 0.25) 1px, transparent 1px);
   background-size: 48px 48px;
+}
+
+.title-2xl {
+  @apply text-6xl md:text-7xl font-bold mb-14;
 }
 
 .title-xl {

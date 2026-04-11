@@ -1,56 +1,72 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Bell, MoveRight } from "@lucide/astro";
-import pasantias from "../images/pasantias.png"
+import pasantias from "../../public/images/pasantias.png"
 import { Image } from 'astro:assets';
+import prisma from "../lib/prisma";
 
-const user = await Astro.locals.currentUser()
-const name = user?.fullName
+const user = await Astro.locals.currentUser();
+const name = user?.fullName;
+
+// Rompemos un poquito la arquitectura layered para no agregar boilerplate :P
+const [internshipsCount, companiesCount, alertsCount] = await Promise.all([
+	prisma.internship.count(),
+	prisma.company.count(),
+	prisma.userNotification.count(),
+])
+
+const fmt = (n) => new Intl.NumberFormat('es-AR').format(n);
 ---
 
 <Layout>
-	<div class="bg-grid min-h-dvh pt-20">
-		<div class="container flex flex-col lg:gap-30 h-full">
-			<div class="flex flex-col md:flex-row items-center">
-				<section class="h-full">
-					<div class="text-primary-hover mb-5">
-							<p>ESTADO: {
-									user ? "SESIÓN INICIADA" : "SIN INICIAR SESIÓN"}</p>
+	<div class="bg-grid min-h-dvh pt-20 pb-20">
+		<div class="container lg:gap-24">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+				<section>
+					<div class="text-primary-hover mb-3">
+						<p>ESTADO: {user ? "SESIÓN INICIADA" : "SIN INICIAR SESIÓN"}</p>
 					</div>
-					<div class="mb-5">
-							<h1 class="title-xl">BuscoPasantías</h1>
-							<div class="max-w-prose">
-								{
-									user &&
-									<p class="text-light-text">¡Bienvenido/a <span class="text-primary-hover">{name}</span>!</p>
-								}
-			
-								<p>
-									Explora y encontra pasantías de la Universidad Tecnológica Nacional de Argentina para así ganar experiencia y expandir tu horizonte.
-								</p>
+					<h1 class="title-2xl">BuscoPasantías</h1>
+					{user && <p class="text-light-text mb-2">¡Bienvenido/a <span class="text-primary-hover">{name}</span>!</p>}
+
+					<p class="max-w-prose mb-6">
+						BuscoPasantías facilita la búsqueda de pasantías en convenios con universidades de Argentina. Encontrá posiciones reales, gestioná alertas personalizadas y postulate con confianza.
+					</p>
+
+					<div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+						<a href="/internships" class="button button-primary mr-3">
+							Ver pasantías <MoveRight class="w-4 ml-2" />
+						</a>
+						<a href="/terms-and-conditions" class="button button-outline">
+							Términos y condiciones
+						</a>
+					</div>
+
+					<div class="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">
+						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+							<span class="text-3xl font-bold">+ {fmt(internshipsCount)}</span>
+							<span class="text-sm text-text/70">Pasantías</span>
+						</div>
+						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+							<span class="text-3xl font-bold">+ {fmt(companiesCount)}</span>
+							<span class="text-sm text-text/70">Empresas</span>
+						</div>
+						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+							<div class="flex flex-row gap-2 items-center">
+								<Bell class="mx-auto" stroke-width="2" />
+								<span class="text-3xl font-bold">{fmt(alertsCount)}</span>
 							</div>
+							<span class="text-sm text-text/70">Alertas enviadas</span>
+						</div>
 					</div>
-			
-					<a href="/internships" class="button button-primary ">
-						<span>Ver pasantías</span> <span><MoveRight class="w-5" /></span>
-					</a>
 				</section>
-				<div>
-					<Image src={pasantias} alt="BuscoPasantias" class="w-100" />
+
+				<div class="flex justify-center">
+					<Image src={pasantias} alt="BuscoPasantias ilustración" class="w-full max-w-md rounded-md shadow-md" />
 				</div>
 			</div>
-			<!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-				<div class="flex flex-col bg-light-neutral/60 backdrop-blur-2xl rounded-xl text-left md:text-center py-10 px-10 text-3xl">
-					<span class="font-bold">+50</span> <span class="font-light">Pasantías</span>
-				</div>
-				<div class="flex flex-col bg-light-neutral/60 backdrop-blur-2xl rounded-xl text-left md:text-center py-10 px-10 text-3xl">
-					<span class="font-bold">1</span> <span class="font-light">Universidad/es</span>
-				</div>
-				<div class="flex flex-col gap-2 justify-start md:justify-center items-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl text-left md:text-center py-10 px-10">
-					<Bell class="font-extrabold" stroke-width="3px"/>
-					<span class="text-3xl font-light">Alertas</span>
-				</div>
-			</div> -->
+
+			
 		</div>
 	</div>
 </Layout>

@@ -34,6 +34,8 @@ export class InternshipRepository {
 
     const res = await agent.sumbitContent(raw);
 
+    console.log("agent: ", res);
+
     return res;
   }
 
@@ -133,61 +135,65 @@ export class InternshipRepository {
       }
     >,
   ) {
-    const updatedInternships = await prisma.$transaction(async (tx) => {
-      try {
-      } catch (e) {}
-      // Select all the internships that already exists before the upload
-      const preExisting = await tx.internship.findMany({
-        where: {
-          arm: { in: internships.map((i) => i["arm"]) },
-        },
-        select: { ["arm"]: true },
-      });
+    try {
+      const updatedInternships = await prisma.$transaction(async (tx) => {
+        // Select all the internships that already exists before the upload
+        const preExisting = await tx.internship.findMany({
+          where: {
+            arm: { in: internships.map((i) => i["arm"]) },
+          },
+          select: { ["arm"]: true },
+        });
 
-      const preExistingARMS = new Set(preExisting.map((r) => r["arm"]));
+        const preExistingARMS = new Set(preExisting.map((r) => r["arm"]));
 
-      // Create the internships and skip if already exists
-      await tx.internship.createMany({
-        data: internships.map(({ careers, ...rest }) => rest),
-        skipDuplicates: true,
-      });
+        // Create the internships and skip if already exists
+        await tx.internship.createMany({
+          data: internships.map(({ careers, ...rest }) => rest),
+          skipDuplicates: true,
+        });
 
-      // Select only the ones that were created
-      const created = await tx.internship.findMany({
-        where: { arm: { notIn: Array.from(preExistingARMS) } },
-      });
+        // Select only the ones that were created
+        const created = await tx.internship.findMany({
+          where: { arm: { notIn: Array.from(preExistingARMS) } },
+        });
 
-      // Create relation between internships and careers
-      const internshipCareerData = created.flatMap((internship) => {
-        const original = internships.find((i) => i.arm === internship.arm);
-        return original.careers.map((career_id) => ({
-          internship_id: internship.id,
-          career_id,
+        // Create relation between internships and careers
+        const internshipCareerData = created.flatMap((internship) => {
+          const original = internships.find((i) => i.arm === internship.arm);
+          return (
+            original?.careers?.map((career_id) => ({
+              internship_id: internship.id,
+              career_id,
+            })) ?? []
+          );
+        });
+
+        await tx.internshipCareer.createMany({
+          data: internshipCareerData,
+          skipDuplicates: true,
+        });
+
+        // Associate the created internships with its careers
+        const careersHash: Record<string, Array<string>> = {};
+
+        for (let internship of internships) {
+          careersHash[internship.arm] = internship?.careers;
+        }
+
+        const updatedInternships = created.map((i) => ({
+          ...i,
+          careers: careersHash[i.arm],
         }));
+
+        console.log(updatedInternships);
+
+        return updatedInternships;
       });
-
-      await tx.internshipCareer.createMany({
-        data: internshipCareerData,
-        skipDuplicates: true,
-      });
-
-      // Associate the created internships with its careers
-      const careersHash: Record<string, Array<string>> = {};
-
-      for (let internship of internships) {
-        careersHash[internship.arm] = internship.careers;
-      }
-
-      const updatedInternships = created.map((i) => ({
-        ...i,
-        careers: careersHash[i.arm],
-      }));
-
-      console.log(updatedInternships);
-
       return updatedInternships;
-    });
-
-    return updatedInternships;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
   }
 }

@@ -16,7 +16,7 @@ export class GeminiAgent extends Agent {
 
   async sumbitContent(content: string): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
     const response = await this.#ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       contents: `${this.context} Content:${content}`,
       config: {
         responseMimeType: "application/json",
