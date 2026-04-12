@@ -48,6 +48,7 @@ model Career {
   id        String     @id
   name      String
   color     String
+  bg        String @default("")
 
   internshipCareers InternshipCareer[]
   userCareers UserCareer[]

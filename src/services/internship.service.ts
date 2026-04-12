@@ -123,6 +123,7 @@ export class InternshipService {
         id: career?.career_id,
         name: career?.Career?.name,
         color: career?.Career?.color,
+        bg: career?.Career?.bg,
       })),
       timeSinceCreated: { time: timeSinceCreated, color: color },
       created_at: internship?.created_at,

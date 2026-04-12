@@ -5,17 +5,16 @@ import Careers from "../career/careers.astro";
 const {internship} = Astro.props;
 
 ---
-<a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl" href={`/internships/${internship?.id}`} data-astro-prefetch>
-    <!-- <div class="absolute h-1 w-20 right-2 top-0 bg-white/20 rounded-t-4xl"></div> -->
+<a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl border border-muted" href={`/internships/${internship?.id}`} data-astro-prefetch>
     <article class="flex flex-col gap-2 p-4">
         <div class="flex flex-row justify-between text-white/50">
-            <p class="text-sm ">A.R.M {internship?.arm}</p>
+            <p class="text-sm bg-neutral/50 rounded-md px-3 py-1 border border-muted">A.R.M {internship?.arm}</p>
             <ArrowUpRight/>
         </div>
-        <div>
-            <h3 class="text-2xl font-semibold mb-7 truncate line-clamp-1">{internship?.position}</h3>
+        <h3 class="text-2xl font-semibold mb-5 mt-2 truncate line-clamp-1">{internship?.position}</h3>
+        <div class="flex flex-row items-center pt-4 justify-between border-t border-muted/15 pt">
             <span class="text-sm opacity-75" style={`color: ${internship.timeSinceCreated.color}`}>{internship.timeSinceCreated.time}</span>
+            <Careers styles="max-w-62" careers={internship?.careers} />
         </div>
-        <Careers careers={internship?.careers} />
     </article>
 </a>

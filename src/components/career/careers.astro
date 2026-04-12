@@ -1,17 +1,18 @@
 ---
 import CareerBadge from "./careerBadge.astro";
 
- export const prerender = true
 export interface CareersProps  {
-    careers?: Array<{id: string, name: string, color: string} | null>
+    styles?: string,
+    careers?: Array<{id: string, name: string, color: string, bg: string} | null>
 }
 
-const {careers = []} = Astro.props as CareersProps;
+const {styles="", careers = []} = Astro.props as CareersProps;
+
 ---
 
-<div class="flex flex-row truncate gap-2">
+<div class={"flex flex-row truncate gap-2 " + styles}>
     {careers.map((career) => (
-       <CareerBadge text={career?.name} color={career?.color}/>
+       <CareerBadge text={career?.name} color={career?.color} bg={career?.bg}/>
     ))}
     {careers.length === 0 && <CareerBadge text="Desconocida"/>}
 </div>

@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const InternshipScalarFieldEnumSchema = z.enum(['id','arm','company_id','city','rrhh','interview_timetable','knowledge','requirements','payment','timetable','position','benefits','interns','workplace','modality','link','mail','observations','created_at']);
 
-export const CareerScalarFieldEnumSchema = z.enum(['id','name','color']);
+export const CareerScalarFieldEnumSchema = z.enum(['id','name','color','bg']);
 
 export const InternshipCareerScalarFieldEnumSchema = z.enum(['internship_id','career_id']);
 
@@ -71,6 +71,7 @@ export const CareerSchema = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string(),
 })
 
 export type Career = z.infer<typeof CareerSchema>
@@ -214,6 +215,7 @@ export const CareerSelectSchema: z.ZodType<Prisma.CareerSelect> = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   color: z.boolean().optional(),
+  bg: z.boolean().optional(),
   internshipCareers: z.union([z.boolean(),z.lazy(() => InternshipCareerFindManyArgsSchema)]).optional(),
   userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => CareerCountOutputTypeArgsSchema)]).optional(),
@@ -498,6 +500,7 @@ export const CareerWhereInputSchema: z.ZodType<Prisma.CareerWhereInput> = z.stri
   id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   color: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  bg: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
   userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
 });
@@ -506,6 +509,7 @@ export const CareerOrderByWithRelationInputSchema: z.ZodType<Prisma.CareerOrderB
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
+  bg: z.lazy(() => SortOrderSchema).optional(),
   internshipCareers: z.lazy(() => InternshipCareerOrderByRelationAggregateInputSchema).optional(),
   userCareers: z.lazy(() => UserCareerOrderByRelationAggregateInputSchema).optional(),
 });
@@ -520,6 +524,7 @@ export const CareerWhereUniqueInputSchema: z.ZodType<Prisma.CareerWhereUniqueInp
   NOT: z.union([ z.lazy(() => CareerWhereInputSchema), z.lazy(() => CareerWhereInputSchema).array() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   color: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  bg: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerListRelationFilterSchema).optional(),
   userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
 }));
@@ -528,6 +533,7 @@ export const CareerOrderByWithAggregationInputSchema: z.ZodType<Prisma.CareerOrd
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
+  bg: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => CareerCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => CareerMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => CareerMinOrderByAggregateInputSchema).optional(),
@@ -540,6 +546,7 @@ export const CareerScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Career
   id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   color: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  bg: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
 });
 
 export const InternshipCareerWhereInputSchema: z.ZodType<Prisma.InternshipCareerWhereInput> = z.strictObject({
@@ -953,6 +960,7 @@ export const CareerCreateInputSchema: z.ZodType<Prisma.CareerCreateInput> = z.st
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutCareerInputSchema).optional(),
   userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutCareerInputSchema).optional(),
 });
@@ -961,6 +969,7 @@ export const CareerUncheckedCreateInputSchema: z.ZodType<Prisma.CareerUncheckedC
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
   userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
 });
@@ -969,6 +978,7 @@ export const CareerUpdateInputSchema: z.ZodType<Prisma.CareerUpdateInput> = z.st
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
   userCareers: z.lazy(() => UserCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
@@ -977,6 +987,7 @@ export const CareerUncheckedUpdateInputSchema: z.ZodType<Prisma.CareerUncheckedU
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
   userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
@@ -985,18 +996,21 @@ export const CareerCreateManyInputSchema: z.ZodType<Prisma.CareerCreateManyInput
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
 });
 
 export const CareerUpdateManyMutationInputSchema: z.ZodType<Prisma.CareerUpdateManyMutationInput> = z.strictObject({
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const CareerUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CareerUncheckedUpdateManyInput> = z.strictObject({
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const InternshipCareerCreateInputSchema: z.ZodType<Prisma.InternshipCareerCreateInput> = z.strictObject({
@@ -1441,18 +1455,21 @@ export const CareerCountOrderByAggregateInputSchema: z.ZodType<Prisma.CareerCoun
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
+  bg: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const CareerMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CareerMaxOrderByAggregateInput> = z.strictObject({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
+  bg: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const CareerMinOrderByAggregateInputSchema: z.ZodType<Prisma.CareerMinOrderByAggregateInput> = z.strictObject({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   color: z.lazy(() => SortOrderSchema).optional(),
+  bg: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const InternshipScalarRelationFilterSchema: z.ZodType<Prisma.InternshipScalarRelationFilter> = z.strictObject({
@@ -2426,6 +2443,7 @@ export const CareerCreateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.C
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
@@ -2433,6 +2451,7 @@ export const CareerUncheckedCreateWithoutInternshipCareersInputSchema: z.ZodType
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
@@ -2512,6 +2531,7 @@ export const CareerUpdateWithoutInternshipCareersInputSchema: z.ZodType<Prisma.C
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
@@ -2519,6 +2539,7 @@ export const CareerUncheckedUpdateWithoutInternshipCareersInputSchema: z.ZodType
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
@@ -2713,6 +2734,7 @@ export const CareerCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerC
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   internshipCareers: z.lazy(() => InternshipCareerCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
@@ -2720,6 +2742,7 @@ export const CareerUncheckedCreateWithoutUserCareersInputSchema: z.ZodType<Prism
   id: z.string(),
   name: z.string(),
   color: z.string(),
+  bg: z.string().optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedCreateNestedManyWithoutCareerInputSchema).optional(),
 });
 
@@ -2770,6 +2793,7 @@ export const CareerUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.CareerU
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
@@ -2777,6 +2801,7 @@ export const CareerUncheckedUpdateWithoutUserCareersInputSchema: z.ZodType<Prism
   id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   color: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  bg: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 

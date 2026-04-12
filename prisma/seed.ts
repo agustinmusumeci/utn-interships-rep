@@ -15,12 +15,25 @@ export async function main() {
   console.log("Starting to seed...");
 
   for (const i of CAREERS) {
-    await prisma.career.createMany({ data: { id: i.id, name: i.name, color: i.color }, skipDuplicates: true });
+    await prisma.career.upsert({
+      where: { id: i.id },
+      update: {
+        name: i.name,
+        color: i.color,
+        bg: i.bg,
+      },
+      create: {
+        id: i.id,
+        name: i.name,
+        color: i.color,
+        bg: i.bg,
+      },
+    });
   }
 
-  const uploader = new UploadController();
+  // const uploader = new UploadController();
 
-  await uploader.uploadData();
+  // await uploader.uploadData();
 
   console.log("Seeding finished.");
 }

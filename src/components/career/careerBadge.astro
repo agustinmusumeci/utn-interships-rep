@@ -1,9 +1,9 @@
 ---
-const {text, color="#999"} = Astro.props;
+const {text, color="#999", bg="#191919"} = Astro.props;
 ---
 <p
-    class="px-4 py-1 rounded-sm bg-neutral"
-    style={`color: ${color};`}
+    class="px-4 py-1 rounded-sm bg-neutral border border-muted"
+    style={`color: ${color}; background-color: ${bg}`}
 >
     {text}
 </p>

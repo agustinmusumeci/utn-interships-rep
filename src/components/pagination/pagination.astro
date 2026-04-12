@@ -7,29 +7,55 @@ type Props = {
 }
 
 const {pages, page, searchParams, pathname} = Astro.props;
-
 const newSearchParams = new URLSearchParams(searchParams)
+
+const totalPages = Number(pages) || 0;
+
+function buildPaginationItems() {
+  if (totalPages <= 1) return [...Array(totalPages).keys()];
+
+  const toShow: Set<number> = new Set();
+  for (let i = 0; i < totalPages; i++) {
+    if (i === 0 || i === totalPages - 1 || Math.abs(page - i) <= 2) {
+      toShow.add(i);
+    }
+  }
+
+  const sorted: Array<number> = Array.from(toShow).sort((a, b) => a - b);
+  const items = [];
+  let last = -1;
+  
+  for (const idx of sorted) {
+    if (last !== -1 && idx - last > 1) items.push("ellipsis");
+    items.push(idx);
+    last = idx;
+  }
+  
+  return items;
+}
+
+const getButtonClass = (i: number) => {
+  const isActive = page === i;
+  return `w-7 h-7 text-sm flex items-center justify-center rounded-full transition-all ${isActive ? 'bg-[#333] text-[#eee]' : 'bg-transparent hover:bg-light-neutral'}`;
+}
 ---
 
 <div class="flex flex-row gap-2 col-span-full col-start-1 lg:col-start-2 place-content-center">
-      {new Array(pages).fill(null).map((x, i) => {
-        const distance = Math.abs(page - i);
+  {buildPaginationItems().map((item, idx) => {
+    if (item === "ellipsis") return <span class="px-1 text-text">...</span>;
 
-        if (distance === 3) return <span class="px-1 text-text">...</span>;
-        if (distance > 3) return null;
+    const i = item as number;
+    const params = new URLSearchParams(newSearchParams.toString());
+    params.set("page", String(i));
 
-        const pageParam = newSearchParams
-        pageParam.set("page", String(i))
-
-        return (
-          <a
-          href={`${pathname}?${newSearchParams.toString()}`}
-            style={`background-color: ${page === i && "#333"}; color: ${page === i && "#eee"}`}
-            class="w-7 h-7 text-sm text-center place-content-center hover:bg-light-neutral transition-all rounded-full" 
-          >
-            {i + 1}
-          </a>
-        );
-      })}
+    return (
+      <a
+        href={`${pathname}?${params.toString()}`}
+        class={getButtonClass(i)}
+      >
+        {i + 1}
+      </a>
+    );
+  })}
 </div>
 
