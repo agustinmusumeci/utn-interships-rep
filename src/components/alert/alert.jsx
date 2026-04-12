@@ -5,7 +5,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import Warning from "../ui/warning";
-import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, UniversityIcon } from "lucide-react";
+import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, LoaderIcon, UniversityIcon } from "lucide-react";
 import alertasNotFound from "../../../public/images/alertas-notfound.png";
 
 export default function Alert({ user, internships = [] }) {
@@ -194,9 +194,7 @@ export default function Alert({ user, internships = [] }) {
           </form>
           <div className="bg-light-neutral/50 h-95 w-full mb-5 p-8 rounded-xl">
             <div className="title-md flex flex-row  items-center">
-              <div className="flex flex-row justify-between gap-4 items-center w-full">
-                {/* <Bell /> */}
-                {/* <h4>Alertas</h4> */}
+              <div className="flex flex-col-reverse md:flex-row justify-between gap-4 items-start md:items-center w-full">
                 <button
                   disabled={alertedInternships.length === 0}
                   aria-disabled={alertedInternships.length === 0}
@@ -340,27 +338,8 @@ export default function Alert({ user, internships = [] }) {
                 ))}
                 {suscriptedCareers.length === 0 && (
                   <span class="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
-                    <span className="flex flex-row gap-5 text-xl text-text/40 ">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-circle-plus-icon lucide-circle-plus"
-                      >
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="10"
-                        />
-                        <path d="M8 12h8" />
-                        <path d="M12 8v8" />
-                      </svg>
+                    <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
+                      <CirclePlusIcon />
                       Seleccione carreras para alertar
                     </span>
                   </span>
@@ -379,22 +358,7 @@ export default function Alert({ user, internships = [] }) {
                 disabled={loading || !suscripted}
                 className="button button-primary h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
               >
-                {loading && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-loader-circle-icon lucide-loader-circle animate-spin"
-                  >
-                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                  </svg>
-                )}
+                {loading && <LoaderIcon className="animate-spin" />}
                 Guardar configuración
               </button>
               <button

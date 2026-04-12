@@ -9,17 +9,34 @@ import CareersSkeleton from "../career/careersSkeleton.astro";
                     <span class="bg-skeleton animate-pulse w-fit mb-2 rounded-sm">XX/XX</span>
                 </div>
                 <div class="mb-3">
-                    <CareersSkeleton careers={3}/>
+                    <CareersSkeleton careers={2}/>
                 </div>
                 <div class="flex flex-col md:flex-row gap-5 md:gap-10 mb-3">
                     <div class="flex flex-col gap-3">
-                        <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading modality...</span>
-                        <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading workplace...</span>
-                        <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading payment...</span>
+                        <div class="flex flex-row gap-2">
+                            <span class="bg-skeleton animate-pulse w-6 rounded-sm">i</span>
+                            <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading modality...</span>
+                        </div>
+                        <div class="flex flex-row gap-2">
+                            <span class="bg-skeleton animate-pulse w-6 rounded-sm">i</span>
+                            <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading workplace...</span>
+                        </div>
+
+                        <div class="flex flex-row gap-2">
+                            <span class="bg-skeleton animate-pulse w-6 rounded-sm">i</span>
+                            <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm">Loading payment...</span>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-3">
-                        <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm"> Loading interns</span>
-                        <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm"> Loading company name</span>
+                        <div class="flex flex-row gap-2">
+                            <span class="bg-skeleton animate-pulse w-6 rounded-sm">i</span>
+                            <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm"> Loading interns</span>
+                        </div>
+
+                        <div class="flex flex-row gap-2">
+                            <span class="bg-skeleton animate-pulse w-6 rounded-sm">i</span>
+                            <span class="bg-skeleton animate-pulse flex flex-row gap-2 rounded-sm"> Loading company name</span>
+                        </div>
                     </div>  
                 </div>
                 <div class="flex flex-row items-center gap-2">
