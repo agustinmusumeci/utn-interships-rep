@@ -4,7 +4,7 @@
 
 # BuscoPasantías App
 
-Web App w/Astro & Prisma for looking into the internships of Universidad Tecnológica Nacional FRC and notifying the subscription users in case of intertest match
+Web App w/Astro & Prisma for looking into the internships of Universidad Tecnológica Nacional FRC, and more in the future, and notifying the subscription users in case of intertest match.
 
 </div>
 
@@ -74,6 +74,21 @@ Web App w/Astro & Prisma for looking into the internships of Universidad Tecnol�
 | Puppeteer                    | Bot & Web Scraper               | ^24.39.1         |
 | Gemini Agent                 | Data processing of scraped data | Gemini 2.5 Flash |
 | Clerk (as Astro integration) | Auth and user handling          | ^3.0.6           |
+
+## Enviroment Variables
+
+| Var                          | Description                                                              | Usage            |
+| ---------------------------- | ------------------------------------------------------------------------ | ---------------- |
+| DATABASE_URL                 | URL for PostgreSQL connection                                            | postgresql://... |
+| SCRAPER_URL                  | URL for web internship scraper                                           | https://...      |
+| PUBLIC_CLERK_PUBLISHABLE_KEY | Clerk Auth public API key                                                | pk*...*...       |
+| CLERK_SECRET_KEY             | Clerck Auth private/secret API key                                       | sk*...*...       |
+| GEMINI_API_KEY               | Gemini API key for raw internships text processing                       | ...              |
+| EMAILJS_SERVICE_ID           | Mail service ID from EmailJS                                             | ...              |
+| EMAILJS_TEMPLATE_ID          | Mail template ID from EmailJS                                            | ...              |
+| EMAILJS_PUBLIC_KEY           | Public API key from EmailJS                                              | ...              |
+| EMAILJS_PRIVATE_KEY          | Private API key from EmailJS                                             | ...              |
+| CRON_SECRET                  | Cron job API key for scraping internships and notifying suscripted users | ...              |
 
 ## 🧞 Available commands
 
