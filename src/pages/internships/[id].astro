@@ -6,7 +6,7 @@ import Layout from "../../layouts/Layout.astro";
 const { id } = Astro.params;
 ---
 <Layout title={`Pasantia ${id}`}>
-    <section class="container">
+    <section class="container mb-10">
         <Internship id={id} server:defer>
             <InternshipSkeleton slot="fallback"/>
         </Internship>

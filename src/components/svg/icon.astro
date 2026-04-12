@@ -1,0 +1,8 @@
+---
+import { Image } from "astro:assets";
+import iconImage from "../../../public/icons/favicon.svg"
+
+const {width="50", height="50", styles = ""} = Astro.props;
+---
+
+<Image width={width} height={height} src={iconImage} alt="BuscoPasantías Icon"/>

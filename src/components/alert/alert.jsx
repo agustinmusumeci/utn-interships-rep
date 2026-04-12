@@ -111,7 +111,7 @@ export default function Alert({ user, internships = [] }) {
     <section>
       {user ? (
         <div class="flex flex-col gap-5">
-          <form className="mb-10">
+          <form className="mb-5">
             <div className="bg-light-neutral w-fit flex flex-row gap-10 items-center p-5 rounded-xl">
               <div>
                 <p className="font-bold">Alertas</p>
@@ -192,7 +192,7 @@ export default function Alert({ user, internships = [] }) {
               </AlertDialog>
             </div>
           </form>
-          <div className="bg-light-neutral/50 h-95 w-full mb-5 p-8 rounded-xl">
+          <div className="bg-light-neutral/50 h-105 md:h-95 w-full mb-0 p-8 rounded-xl">
             <div className="title-md flex flex-row  items-center">
               <div className="flex flex-col-reverse md:flex-row justify-between gap-4 items-start md:items-center w-full">
                 <button
@@ -208,7 +208,7 @@ export default function Alert({ user, internships = [] }) {
                 </div>
               </div>
             </div>
-            <div className="h-60 flex flex-row gap-5 horizontal-scroll mt-6">
+            <div className="h-65 flex flex-row gap-5 horizontal-scroll md:mt-6">
               {alertedInternships?.map((internship) => (
                 <div
                   href={`/internships/${internship.internship.id}`}
@@ -256,15 +256,18 @@ export default function Alert({ user, internships = [] }) {
                 </div>
               ))}
               {alertedInternships?.length === 0 && (
-                <div className="flex flex-row gap-10 items-center">
-                  <img
-                    src={alertasNotFound.src}
-                    alt="Sin alertas"
-                    loading="lazy"
-                    className="w-65"
-                  />
-                  <div>
-                    <p className="title-lg">Estas al día</p>
+                <div className="flex flex-col md:flex-row md:gap-10 items-start md:items-center justify-center h-fit md:h-65">
+                  <div className="">
+                    <img
+                      src={alertasNotFound.src}
+                      alt="Sin alertas"
+                      loading="lazy"
+                      className="w-30 md:w-65"
+                    />
+                    <p className="title-lg md:hidden">Estas al día</p>
+                  </div>
+                  <div className="w-full">
+                    <p className="title-lg hidden md:inline-block">Estas al día</p>
                     <p className="text-text/50">No hay nuevas pasantías aún. ¡Te notificaremos si se registran nuevas!</p>
                   </div>
                 </div>
@@ -349,14 +352,14 @@ export default function Alert({ user, internships = [] }) {
           </div>
           <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-text/25 flex flex-col gap-10 lg:flex-row justify-between">
             <form
-              className="flex flex-row m gap-5 "
+              className="flex flex-row gap-5"
               onSubmit={handleSumbitCareers}
             >
               <button
                 type="submit"
                 aria-disabled={loading || !suscripted}
                 disabled={loading || !suscripted}
-                className="button button-primary h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
+                className="button button-primary min-w-fit h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
               >
                 {loading && <LoaderIcon className="animate-spin" />}
                 Guardar configuración
@@ -370,9 +373,9 @@ export default function Alert({ user, internships = [] }) {
                 Descartar
               </button>
             </form>
-            <div className="flex flex-row items-center gap-5 text-light-text/50 font-light">
-              <Info />
-              <p className="max-w-prose ">
+            <div className="flex flex-row items-center text-light-text/50 font-light">
+              <p className="max-w-prose flex flex-row items-start gap-5">
+                <Info className="w-20" />
                 Los cambios se aplicaran al instante a su configuración de alertas. Las pasantías al coincidir con algunas de las carreras seleccionadas generaran un mail que se enviara a su
                 dirección.
               </p>
