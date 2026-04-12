@@ -73,7 +73,7 @@ export class InternshipService {
     },
   ) {
     const createdAtMillis = internship?.created_at ? new Date(internship.created_at).getTime() : Date.now();
-    const daysSince = Math.floor((Date.now() - createdAtMillis) / (1000 * 60 * 60 * 24));
+    const daysSince = (Date.now() - createdAtMillis) / (1000 * 60 * 60 * 24);
 
     let timeSinceCreated: string;
     let color: string;
@@ -81,16 +81,16 @@ export class InternshipService {
     if (daysSince < 1) {
       timeSinceCreated = `Hace ${Math.ceil(daysSince * 24)} hs`;
     } else {
-      timeSinceCreated = `Hace ${daysSince} d`;
+      timeSinceCreated = `Hace ${Math.floor(daysSince)} d`;
     }
 
     switch (true) {
-      case daysSince >= 0 && daysSince <= 4:
+      case daysSince >= 0 && daysSince <= 14:
         // Green
         color = TIME_SINCE_CREATED_COLORS.green;
         break;
 
-      case daysSince > 4 && daysSince <= 14:
+      case daysSince > 15 && daysSince <= 30:
         // Yellow
         color = TIME_SINCE_CREATED_COLORS.yellow;
         break;
