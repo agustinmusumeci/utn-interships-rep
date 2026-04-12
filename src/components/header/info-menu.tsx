@@ -17,7 +17,7 @@ export default function InfoMenu() {
               <li>
                 <a
                   href="/about"
-                  className="block rounded-md px-3 py-2 text-sm hover:bg-muted hover:text-primary"
+                  className="block rounded-md px-3 py-2 text-sm hover:bg-light-neutral hover:text-primary-hover! transition-all"
                 >
                   Acerca de
                 </a>
@@ -25,7 +25,7 @@ export default function InfoMenu() {
               <li>
                 <a
                   href="/terms-and-conditions"
-                  className="block rounded-md px-3 py-2 text-sm hover:bg-muted hover:text-primary"
+                  className="block rounded-md px-3 py-2 text-sm hover:bg-light-neutral hover:text-primary-hover! transition-all"
                 >
                   Términos y condiciones
                 </a>

@@ -3,6 +3,7 @@ import { UserService } from "@/services/user.service";
 import {MAXIMUM_DISPLAY_NOTIFICATIONS} from "../../constants/notifications"
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
 import { Bell } from '@lucide/astro'
+import InfoMenu from "./info-menu.tsx";
 
 const user = await Astro.locals.currentUser()
 
@@ -15,9 +16,9 @@ if (user) {
 }
 ---
  
- <div class="flex flex-row gap-4 items-center">
+<div class="flex flex-row gap-4 items-center">
     <Show when="signed-out">
-        <div class="flex flex-row gap-3">
+        <div class="hidden md:flex flex-row gap-3">
             <SignInButton class="button button-outline" mode="modal" >
                 Inicia Sesión
             </SignInButton>
@@ -35,6 +36,55 @@ if (user) {
                 <span class="absolute -bottom-2 -left-3 border-2 border-neutral text-xs bg-red-900 px-1.5 py-0.5 rounded-full">{notifications > MAXIMUM_DISPLAY_NOTIFICATIONS ? "+9" : notifications}</span>
             }
         </a>
-        <UserButton/>
+        <div class="hidden md:block">
+            <UserButton/>
+        </div>
     </Show>
-</div>	
+
+    <!-- Mobile hamburger menu -->
+    <details class="relative md:hidden details-hamburger">
+        <summary class="p-2 rounded-md cursor-pointer flex items-center" aria-label="Abrir menú">
+            <span class="hamburger" aria-hidden="true">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </span>
+        </summary>
+        <div class="absolute right-0 mt-2 w-64 bg-light-neutral text-text dark:text-neutral-100 rounded shadow-lg z-50">
+            <nav class="flex flex-col p-3 gap-2">
+                <a href="/" class="nav-link">Inicio</a>
+                <a href="/internships" class="nav-link">Pasantías</a>
+                <a href="/about" class="nav-link">Acerca</a>
+                <a href="/terms-and-conditions" class="nav-link">Términos</a>
+               
+                <hr class="my-2" />
+                <Show when="signed-out">
+                    <div class="flex flex-col gap-2">
+                        <SignInButton class="button button-outline w-full" mode="modal">Inicia Sesión</SignInButton>
+                        <SignUpButton class="button button-white bg-text/95 text-neutral rounded-full w-full" mode="modal">Registrate</SignUpButton>
+                    </div>
+                </Show>
+                <Show when="signed-in">
+                    <div class="pt-1">
+                        <UserButton/>
+                    </div>
+                </Show>
+            </nav>
+        </div>
+    </details>
+
+</div>
+
+<!-- Hamburger menu styles -->
+ <style>
+        details.details-hamburger summary::-webkit-details-marker { display: none; }
+        .hamburger{width:28px;height:20px;display:inline-block;position:relative}
+        .hamburger .bar{display:block;position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .25s ease,opacity .2s ease}
+        .hamburger .bar:nth-child(1){top:0}
+        .hamburger .bar:nth-child(2){top:9px}
+        .hamburger .bar:nth-child(3){bottom:0}
+        details[open] .hamburger .bar:nth-child(1){transform:translateY(9px) rotate(45deg)}
+        details[open] .hamburger .bar:nth-child(2){opacity:0;transform:scaleX(0)}
+        details[open] .hamburger .bar:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+        details.details-hamburger summary{background:transparent;border:none;padding:0}
+</style>
