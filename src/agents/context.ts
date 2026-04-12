@@ -9,7 +9,10 @@ export const CONTEXT = `
     2. The output must be a JSON object with a single key "internships" containing an array of multiple objects with the schema structure.
     3. Each internship in the source text is separated by an "A.R.M." header (e.g. "A.R.M. 28/26").
 
+    
     FIELD MAPPING (source text → schema field):
+    READ all the text and fields of an internship an try to match it to any of the following fields.
+
     - "A.R.M. XX/XX" → arm (string, e.g. "28/26")
     - Company name → company_id (uppercase, no accents)
     - City → city

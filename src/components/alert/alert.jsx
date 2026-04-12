@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import Warning from "../ui/warning";
 import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, UniversityIcon } from "lucide-react";
-import alertasNotFound from "public/images/alertas-notfound.png";
+import alertasNotFound from "../../../public/images/alertas-notfound.png";
 
 export default function Alert({ user, internships = [] }) {
   const userCareersIds = new Set(user ? user?.careers?.map((c) => c?.id) : []);

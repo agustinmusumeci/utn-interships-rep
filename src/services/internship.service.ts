@@ -46,6 +46,8 @@ export class InternshipService {
 
   async getInternship(id: number | undefined = undefined, arm: string = "") {
     try {
+      if (!id && !arm) return {} as Internship;
+
       const internshipData = await this.internshipRepository.getInternship(id, arm);
 
       if (!internshipData) return {} as Internship;

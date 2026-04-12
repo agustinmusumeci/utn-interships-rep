@@ -29,7 +29,7 @@ export class UploadController {
       await companyService.uploadCompanies(companies);
       const newInternships = await internshipService.uploadInternships(internships);
 
-      console.log("Updated data succesfully");
+      console.log("Updated data succesfully", newInternships);
 
       return { internships: newInternships, companies: companies };
     } catch (e) {

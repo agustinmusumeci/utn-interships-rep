@@ -1,3 +1,4 @@
+import type { InternshipWhereUniqueInput } from "prisma/generated/models";
 import type { Internship } from "../../prisma/zod";
 import { GeminiAgent } from "../agents/gemini.agent";
 import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
@@ -106,7 +107,7 @@ export class InternshipRepository {
   }
 
   async getInternship(id: number | undefined = undefined, arm: string = "") {
-    let where = {};
+    let where = {} as InternshipWhereUniqueInput;
     if (id) {
       where["id"] = id;
     }
@@ -136,6 +137,8 @@ export class InternshipRepository {
     >,
   ) {
     try {
+      console.log("uploadInternships: ", internships);
+
       const updatedInternships = await prisma.$transaction(async (tx) => {
         // Select all the internships that already exists before the upload
         const preExisting = await tx.internship.findMany({
@@ -183,10 +186,10 @@ export class InternshipRepository {
 
         const updatedInternships = created.map((i) => ({
           ...i,
-          careers: careersHash[i.arm],
+          careers: careersHash[i.arm] ?? [],
         }));
 
-        console.log(updatedInternships);
+        // console.log(updatedInternships);
 
         return updatedInternships;
       });
