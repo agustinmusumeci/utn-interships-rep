@@ -222,34 +222,35 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                   <div className="">
                     <a
                       href={`/internships/${internship.internship.id}`}
-                      className="flex flex-row justify-between items-center gap-10 hover:underline hover:text-primary-hover transition-all"
+                      className="flex flex-row justify-between items-start gap-10 hover:underline hover:text-primary-hover transition-all"
                     >
-                      <div className="flex flex-row gap-5 items-center">
-                        <h4 className="font-semibold text-xl truncate">{internship.internship.position}</h4>
+                      <div className="flex flex-row gap-5 items-center mb-10 overflow-hidden">
+                        <h4 className="font-semibold text-xl truncate line-clamp-1">{internship.internship.position}</h4>
                         <div className="w-1 h-1 p-1 rounded-full bg-primary-hover"></div>
                       </div>
-                      <ArrowUpRight />
+                      <ArrowUpRight className="w-30" />
                     </a>
                   </div>
                   <div>
-                    <div className="flex flex-row gap-3">
-                      {internship.internship.careers.map((career: { color: string; id: string; name: string; bg: string }) => (
-                        <span
-                          className="w-fit group flex flex-row gap-5 py-4 justify-between"
-                          style={{ color: `${career?.color}` }}
-                        >
-                          {career?.name}
-                        </span>
-                      ))}
+                    <div className="flex flex-row gap-3"></div>
+                    <div className="pt-2 relative flex flex-row justify-between items-center before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
+                      <span
+                        className="text-sm opacity-75"
+                        style={{ color: `${internship.internship.timeSinceCreated.color}` }}
+                      >
+                        {internship.internship.timeSinceCreated.time}
+                      </span>
+                      <div className="flex flex-row items-center gap-2">
+                        {internship.internship.careers.map((career: { color: string; id: string; name: string; bg: string }) => (
+                          <span
+                            className="w-fit group flex flex-row gap-1 py-1 px-4 justify-between rounded-md"
+                            style={{ color: `${career?.color}`, backgroundColor: `${career?.bg}` }}
+                          >
+                            {career?.name}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="pt-2 relative flex flex-row justify-between before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
-                    <span
-                      className="text-sm opacity-75"
-                      style={{ color: `${internship.internship.timeSinceCreated.color}` }}
-                    >
-                      {internship.internship.timeSinceCreated.time}
-                    </span>
                     <span>
                       <a
                         className="flex flex-row gap-5 text-primary-hover/50 hover:underline cursor-pointer"
