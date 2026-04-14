@@ -16,14 +16,17 @@ export class UploadController {
         const internship = rawData?.internships[i];
         const companyId = internship?.company_id;
 
-        internships.push(internship);
+        internships.push({
+          ...internship,
+          careers: internship?.careers || [],
+        });
 
         companiesHash.add(companyId);
       }
 
       const companies = [...companiesHash].map((c) => ({
-        id: c,
-        name: c,
+        id: String(c),
+        name: String(c),
       }));
 
       await companyService.uploadCompanies(companies);

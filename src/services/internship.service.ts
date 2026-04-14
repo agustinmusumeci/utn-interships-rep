@@ -11,7 +11,7 @@ export class InternshipService {
     this.internshipRepository = new InternshipRepository();
   }
 
-  async scrapeInternships(): Promise<{ internships: Array<Internship> }> {
+  async scrapeInternships(): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
     return await this.internshipRepository.scrapeInternships();
   }
 
@@ -68,8 +68,7 @@ export class InternshipService {
   mapInternship(
     internship: Internship & {
       Company: { name: string; id: string };
-      internshipCareers: Array<{ career_id: string; Career: { name: string; color: string } }>;
-      timeSinceCreated: { time: string; color: string };
+      internshipCareers: Array<{ career_id: string; Career: { name: string; color: string; bg: string } }>;
     },
   ) {
     const createdAtMillis = internship?.created_at ? new Date(internship.created_at).getTime() : Date.now();

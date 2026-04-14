@@ -12,8 +12,8 @@ if (!loggedUser || !isAuthenticated) {
 
 const userService = new UserService()
 
-const userId = loggedUser?.id
-const user = await userService.getUser(userId) ?? undefined
+const userId = loggedUser?.id ?? undefined
+const user = await userService.getUser(userId)
 const internships = await userService.getUserNotifications(userId)
 ---
 

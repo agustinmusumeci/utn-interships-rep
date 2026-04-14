@@ -15,7 +15,7 @@ const [internshipsCount, companiesCount, alertsCount] = await Promise.all([
 	prisma.userNotification.count(),
 ])
 
-const fmt = (n) => new Intl.NumberFormat('es-AR').format(n);
+const fmt = (n: any) => new Intl.NumberFormat('es-AR').format(n);
 ---
 
 <Layout>

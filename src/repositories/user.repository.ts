@@ -2,7 +2,7 @@ import prisma from "../lib/prisma";
 
 export class UserRepository {
   async getSuscriptedUsers(careers: Array<string>) {
-    let where = {};
+    let where = {} as { OR: Array<{ career_id: string }> };
     if (careers && careers.length > 0) {
       where["OR"] = careers.map((c) => ({ career_id: c }));
     }
@@ -43,7 +43,7 @@ export class UserRepository {
   }
 
   async syncUser(userId: string, name?: string, mail?: string, suscripted?: boolean) {
-    const update = {};
+    const update = {} as { name: string; mail: string; suscripted: boolean };
 
     if (name) {
       update["name"] = name;

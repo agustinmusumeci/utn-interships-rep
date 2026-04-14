@@ -20,9 +20,13 @@ export class UserService {
     return users;
   }
 
-  async getUser(userId: string): Promise<User> {
+  async getUser(userId: string | undefined): Promise<User> {
     try {
+      if (!userId) throw new Error("Empty user id");
+
       const user = await this.userRepository.getUser(userId);
+
+      if (!user) return {} as User;
 
       return this.mapUserToJson(user);
     } catch (e) {
@@ -31,8 +35,10 @@ export class UserService {
     }
   }
 
-  async getUserNotifications(userId: string) {
+  async getUserNotifications(userId: string | undefined) {
     try {
+      if (!userId) throw new Error("Empty user id");
+
       const data = await this.userRepository.getUserNotifications(userId);
 
       if (!data || data.length === 0) return [];
@@ -43,7 +49,7 @@ export class UserService {
         const internship = {
           userId: el.user_id,
           seen: el.seen,
-          internship: internshipService.mapInternship(el?.Internship),
+          internship: internshipService.mapInternship(el.Internship),
         };
         return internship;
       });

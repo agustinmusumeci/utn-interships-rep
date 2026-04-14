@@ -8,20 +8,20 @@ import Warning from "../ui/warning";
 import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, LoaderIcon, UniversityIcon } from "lucide-react";
 import alertasNotFound from "../../../public/images/alertas-notfound.png";
 
-export default function Alert({ user, internships = [] }) {
-  const userCareersIds = new Set(user ? user?.careers?.map((c) => c?.id) : []);
+export default function Alert({ user, internships = [] }: { user: any; internships: any[] }) {
+  const userCareersIds = new Set(user ? user?.careers?.map((c: { id: string }) => c?.id) : []);
   const [suscripted, setSuscripted] = useState(user?.suscripted ?? false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [alertedInternships, setAlertedInternships] = useState(internships ?? []);
   const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career?.id)) ?? []);
   const [suscriptedCareers, setSuscriptedCareers] = useState(user?.careers ?? []);
-  const [toDeleteCareers, setToDeleteCareers] = useState([]);
+  const [toDeleteCareers, setToDeleteCareers] = useState<typeof CAREERS>([]);
 
   const [openDialog, setOpenDialog] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  const debouncerRef = useRef(null);
+  const debouncerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSuscription = async () => {
     if (debouncerRef.current) {
@@ -39,7 +39,7 @@ export default function Alert({ user, internships = [] }) {
       if (error) {
         console.error(error);
 
-        toast.error(data.message, {
+        toast.error(error.message, {
           action: {
             label: "X",
             onClick: () => console.log("Cerrando toast"),
@@ -50,18 +50,21 @@ export default function Alert({ user, internships = [] }) {
       }
 
       setSuscripted(newSuscription);
-      setResult(data.message);
     }, 500);
   };
 
-  const handleSumbitCareers = async (e) => {
+  const handleSumbitCareers = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await actions.suscribeCareers({ id: user?.id, toSuscribeCareers: suscriptedCareers.map((c) => c?.id), toDeleteCareers: toDeleteCareers.map((c) => c?.id) });
+    const { data, error } = await actions.suscribeCareers({
+      id: user?.id,
+      toSuscribeCareers: suscriptedCareers.map((c: { id: string }) => c?.id),
+      toDeleteCareers: toDeleteCareers.map((c: { id: string }) => c?.id),
+    });
 
     if (error) {
-      toast.error(data.message, {
+      toast.error(error.message, {
         action: {
           label: "X",
           onClick: () => console.log("Cerrando toast"),
@@ -81,13 +84,15 @@ export default function Alert({ user, internships = [] }) {
     setLoading(false);
   };
 
-  const suscriptCareer = (careerId, suscript) => {
+  const suscriptCareer = (careerId: string, suscript: boolean) => {
     const career = CAREERS.find((c) => c.id === careerId);
+    if (!career) return;
+
     if (suscript) {
       setSuscriptedCareers([...suscriptedCareers, career]);
       setAvailableCareers(availableCareers.filter((c) => c.id !== careerId));
     } else {
-      setSuscriptedCareers(suscriptedCareers.filter((c) => c.id !== careerId));
+      setSuscriptedCareers(suscriptedCareers.filter((c: { id: string }) => c.id !== careerId));
       setAvailableCareers([...availableCareers, career]);
       setToDeleteCareers([...toDeleteCareers, career]);
     }
@@ -101,7 +106,7 @@ export default function Alert({ user, internships = [] }) {
       internships: internshipsIds,
     });
 
-    if (data?.length > 0) {
+    if (data && data?.length > 0) {
       console.log(alertedInternships);
       setAlertedInternships(alertedInternships.filter((internship) => !data.includes(internship.internship.id)));
     }
@@ -110,7 +115,7 @@ export default function Alert({ user, internships = [] }) {
   return (
     <section>
       {user ? (
-        <div class="flex flex-col gap-5">
+        <div className="flex flex-col gap-5">
           <form className="mb-5">
             <div className="bg-light-neutral w-fit flex flex-row gap-10 items-center p-5 rounded-xl">
               <div>
@@ -123,7 +128,7 @@ export default function Alert({ user, internships = [] }) {
               <AlertDialog open={openDialog}>
                 <AlertDialogTrigger asChild>
                   <div
-                    class="switch"
+                    className="switch"
                     aria-checked={suscripted}
                     onClick={() => {
                       if (suscripted) {
@@ -137,17 +142,17 @@ export default function Alert({ user, internships = [] }) {
                       className="switch-button"
                       aria-checked={suscripted}
                     />
-                    <span class="switch-slider round"></span>
+                    <span className="switch-slider round"></span>
                   </div>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-light-neutral text-text border-0!">
                   <AlertDialogHeader>
                     <p className="font-bold">Activar alertas</p>
                     <AlertDialogDescription className="flex flex-col gap-5">
-                      <div style={{ textAlign: "left !important" }}>Esta acción utilizara tus datos para notificarte según preferencias.</div>
+                      <div className="text-left">Esta acción utilizara tus datos para notificarte según preferencias.</div>
                       <div className="flex flex-row gap-2 items-center">
                         <input
-                          htmlFor="terms"
+                          id="terms"
                           type="checkbox"
                           className="border-px border-text/50!"
                           onClick={() => setAcceptedTerms(!acceptedTerms)}
@@ -211,7 +216,6 @@ export default function Alert({ user, internships = [] }) {
             <div className="h-65 flex flex-row gap-5 horizontal-scroll md:mt-6">
               {alertedInternships?.map((internship) => (
                 <div
-                  href={`/internships/${internship.internship.id}`}
                   key={internship.internship.id}
                   className="flex flex-col gap-5 bg-light-neutral text-text/75 p-5 min-w-100 h-fit"
                 >
@@ -229,9 +233,9 @@ export default function Alert({ user, internships = [] }) {
                   </div>
                   <div>
                     <div className="flex flex-row gap-3">
-                      {internship.internship.careers.map((career) => (
+                      {internship.internship.careers.map((career: { color: string; id: string; name: string; bg: string }) => (
                         <span
-                          class="w-fit group flex flex-row gap-5 py-4 justify-between"
+                          className="w-fit group flex flex-row gap-5 py-4 justify-between"
                           style={{ color: `${career?.color}` }}
                         >
                           {career?.name}
@@ -241,7 +245,7 @@ export default function Alert({ user, internships = [] }) {
                   </div>
                   <div className="pt-2 relative flex flex-row justify-between before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
                     <span
-                      class="text-sm opacity-75"
+                      className="text-sm opacity-75"
                       style={{ color: `${internship.internship.timeSinceCreated.color}` }}
                     >
                       {internship.internship.timeSinceCreated.time}
@@ -276,7 +280,7 @@ export default function Alert({ user, internships = [] }) {
           </div>
           <div
             className="grid grid-cols-1 md:grid-cols-2 place-content-start gap-5 min-h-100"
-            disabled={!suscripted}
+            // disabled={!suscripted}
             aria-disabled={!suscripted}
           >
             {/* Available careers */}
@@ -294,7 +298,7 @@ export default function Alert({ user, internships = [] }) {
                     }}
                     disabled={!suscripted}
                     aria-disabled={!suscripted}
-                    class="w-full mb-2 group flex flex-row gap-3 justify-between odd:bg-light-neutral even:bg-light-neutral/30 hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer"
+                    className="w-full mb-2 group flex flex-row gap-3 justify-between odd:bg-light-neutral even:bg-light-neutral/30 hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer"
                     style={{ color: `${career.color}` }}
                   >
                     <span>{career.name}</span>
@@ -310,7 +314,7 @@ export default function Alert({ user, internships = [] }) {
             <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
               <div className="title-md flex flex-row gap-4 items-center">
                 <BellRing
-                  disabled={!suscripted}
+                  // disabled={!suscripted}
                   aria-disabled={!suscripted}
                   className="text-primary-hover  disabled:text-text/50  aria-disabled:text-text/50"
                 />
@@ -318,18 +322,18 @@ export default function Alert({ user, internships = [] }) {
                 <h4>Carreras a alertar</h4>
               </div>
               <ScrollArea className="flex flex-col gap-2 h-70">
-                {suscriptedCareers.map((career) => (
+                {suscriptedCareers.map((career: { id: string; color: string; name: string; bg: string }) => (
                   <button
                     disabled={!suscripted}
                     aria-disabled={!suscripted}
                     onClick={() => {
                       suscriptCareer(career.id, false);
                     }}
-                    class="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
+                    className="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
                   >
                     <span
                       style={{ color: `${career.color}` }}
-                      disabled={!suscripted}
+                      // disabled={!suscripted}
                       aria-disabled={!suscripted}
                     >
                       {career.name}
@@ -340,7 +344,7 @@ export default function Alert({ user, internships = [] }) {
                   </button>
                 ))}
                 {suscriptedCareers.length === 0 && (
-                  <span class="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
+                  <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
                     <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
                       <CirclePlusIcon />
                       Seleccione carreras para alertar

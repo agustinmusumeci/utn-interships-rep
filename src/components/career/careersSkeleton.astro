@@ -3,7 +3,7 @@
 export const prerender = true
 
 export interface CareersProps  {
-    careers: Array<{id: string, name: string, color: string} | null>
+    careers: number
 }
 
 const {careers = 2} = Astro.props as CareersProps;

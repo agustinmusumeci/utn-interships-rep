@@ -14,14 +14,14 @@ export class InternshipRepository {
     this.url = (typeof process !== "undefined" && process.env.SCRAPER_URL) || (import.meta as any).env?.SCRAPER_URL;
   }
 
-  async scrapeInternships(): Promise<{ internships: Array<Internship> }> {
+  async scrapeInternships(): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
     const scraper = new Scraper();
 
     await scraper.init(true);
 
     await scraper.navigate(this.url);
 
-    const raw: Promise<{ interships: Array<Internship> }> = await scraper.evaluate(() => {
+    const raw: string = await scraper.evaluate(() => {
       const container = document.getElementById("a60492");
 
       const content = container?.querySelector(".show-hide")?.textContent;
@@ -41,10 +41,8 @@ export class InternshipRepository {
   }
 
   async getInternships(filter: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
-    let where = {};
+    let where = {} as { OR: Array<any>; internshipCareers: any; created_at: any };
     let order = {};
-
-    console.log(filter.date);
 
     if (filter.text) {
       where["OR"] = [

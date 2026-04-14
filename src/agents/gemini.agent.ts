@@ -24,7 +24,7 @@ export class GeminiAgent extends Agent {
       },
     });
 
-    const raw = JSON.parse(response.text);
+    const raw = JSON.parse(response.text || "{}");
 
     return raw;
   }
