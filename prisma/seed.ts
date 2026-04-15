@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma } from "../prisma/generated/client";
-import { PrismaPg } from "@prisma/adapter-pg";
 import { UploadController } from "../src/controllers/upload.controller";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { CAREERS } from "../src/constants/careers";
 
 const adapter = new PrismaPg({
@@ -31,9 +31,9 @@ export async function main() {
     });
   }
 
-  // const uploader = new UploadController();
+  const uploader = new UploadController();
 
-  // await uploader.uploadData();
+  await uploader.uploadData();
 
   console.log("Seeding finished.");
 }

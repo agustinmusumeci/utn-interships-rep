@@ -6,6 +6,7 @@ import vercel from "@astrojs/vercel";
 import clerk from "@clerk/astro";
 import { esMX } from "@clerk/localizations";
 import react from "@astrojs/react";
+import { dark } from "@clerk/ui/themes";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,6 +20,7 @@ export default defineConfig({
   integrations: [
     clerk({
       localization: esMX,
+      appearance: { theme: dark },
     }),
     react(),
   ],

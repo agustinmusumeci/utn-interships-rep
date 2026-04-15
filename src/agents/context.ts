@@ -19,7 +19,7 @@ export const CONTEXT = `
     - "REFERENTE DE RRHH" → rrhh
     - "HORARIO PARA ENTREVISTA" → interview_timetable
     - "CONOCIMIENTOS" → knowledge
-    - "OTROS REQUISITOS" → requirements
+    - "OTROS REQUISITOS" → requirements (should be extracted from "OTROS REQUISITOS" or any requirement you see as important for that internship)
     - "ASIGNACIÓN ESTÍMULO" → payment (extract only the numeric integer value, remove $ and separators. E.g. "$538.450,00" → 538450)
     - "HORARIO DE TRABAJO" → timetable
     - "PUESTO/ÁREA A CUBRIR" → position
