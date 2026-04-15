@@ -49,25 +49,25 @@ const fmt = (n: any) => new Intl.NumberFormat('es-AR').format(n);
 					</div>
 
 					<div class="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">
-						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
-							<span class="text-3xl font-bold">+ {fmt(internshipsCount)}</span>
-							<span class="text-sm text-text/70">Pasantías</span>
+						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+							<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={internshipsCount}>+ {fmt(internshipsCount)}</span>
+							<span class="text-2xl font-light md:text-sm text-text/70">Pasantías</span>
 						</div>
-						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
-							<span class="text-3xl font-bold">+ {fmt(companiesCount)}</span>
-							<span class="text-sm text-text/70">Empresas</span>
+						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+							<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={companiesCount}>+ {fmt(companiesCount)}</span>
+							<span class="text-2xl font-light md:text-sm text-text/70">Empresas</span>
 						</div>
-						<div class="flex flex-col items-center justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
+						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
 							<div class="flex flex-row gap-2 items-center">
 								<Bell class="mx-auto" stroke-width="2" />
-								<span class="text-3xl font-bold">{fmt(alertsCount)}</span>
+								<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={alertsCount}>{fmt(alertsCount)}</span>
 							</div>
-							<span class="text-sm text-text/70">Alertas enviadas</span>
+							<span class="text-2xl font-light md:text-sm text-text/70">Alertas enviadas</span>
 						</div>
 					</div>
 				</section>
 
-				<div class="flex justify-center">
+				<div class="hidden md:flex justify-center">
 					<Image src={pasantias} alt="BuscoPasantias ilustración" class="w-full max-w-md rounded-md shadow-md" />
 				</div>
 			</div>
@@ -76,3 +76,50 @@ const fmt = (n: any) => new Intl.NumberFormat('es-AR').format(n);
 		</div>
 	</div>
 </Layout>
+<script>
+    function handleCounter() {
+        const counters = document.querySelectorAll(".counter-up")
+        const steps = 100
+
+		counters.forEach((counter) => {
+			const targetNumber = Number(counter.getAttribute("data-target-value") ?? 0);
+			const startNumber = Number(counter.getAttribute("data-start-value") ?? 0);
+			const stepSize = (targetNumber - startNumber) / steps
+
+			function updateCounter(start: number, target: number) {
+				counter.textContent = `+ ${String(start)}` 
+				if (start < target) {
+
+					const nextStart = Math.ceil(start + stepSize)
+
+                    setTimeout(() => {updateCounter(nextStart, target)}, 30)
+                }
+			}
+
+			updateCounter(startNumber, targetNumber)	
+
+        })
+    }
+
+    function handleObserver() {
+        const target = document.querySelector(".counter-up");
+        const options = {};
+
+        // When intersecting
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    handleCounter()
+					// Desuscribimos
+					observer.unobserve(entry.target)
+                }
+            })
+        }, options);
+
+        // Observe the elemnts
+        observer.observe(target);
+
+    }
+
+    window.addEventListener("DOMContentLoaded", handleObserver);
+</script>

@@ -7,9 +7,13 @@ import Footer from "@/components/footer/footer.astro";
 
 type Props = {
 	title?: string
+	description?: string
 }
 
-const {title = "BuscoPasantías | Plataforma de ayuda estudiantil para el trabajo"} = Astro.props as Props
+const defaultTitle = ""
+const defaultDescription = "¡Te damos la bienvenida a BuscoPasantías! · Somos una aplicación que te facilita encontrar pasantías universitarias y alertarte de nuevas oportunidades según tus preferencias · Descubre las mejores oportunidades."
+
+const {title = defaultTitle, description = defaultDescription} = Astro.props as Props
 
 
 const user = await Astro.locals.currentUser()
@@ -32,6 +36,7 @@ if (user) {
 
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<meta name="description" content={description}>
 		<link rel="shortcut icon" href="/icons/favicon.svg" type="image/x-icon">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
