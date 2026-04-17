@@ -142,7 +142,7 @@ if (isAuthenticated  && loggedUser) {
                         </div>
                     </div>
                     <p class="text-sm text-text/50">
-                        {(isAuthenticated && loggedUser && hasNotifications) && "Ante pasantías similares"}
+                        {(isAuthenticated && loggedUser && hasNotifications) && <a class="font-text! underline" href="/alerts">Gestiona tus alertas</a>}
                         {!isAuthenticated || !loggedUser ? <span>Necesitas iniciar sesion</span> : (!hasNotifications) && <span class="underline">Necesitas <a href="/alerts" class="font-text! transition-all">activar las alertas</a>  </span>}
                     </p>
 

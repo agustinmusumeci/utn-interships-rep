@@ -4,15 +4,22 @@ import CareerBadge from "./careerBadge.astro";
 export interface CareersProps  {
     styles?: string,
     careers?: Array<{id: string, name: string, color: string, bg: string} | null>
+    isCard?: boolean
 }
 
-const {styles="", careers = []} = Astro.props as CareersProps;
+const {styles="", careers = [], isCard = false} = Astro.props as CareersProps;
 
+const shouldMarquee = careers.length >= 2 && isCard;
 ---
 
-<div class={"flex flex-row truncate gap-2 " + styles}>
-    {careers.map((career) => (
-       <CareerBadge text={career?.name} color={career?.color} bg={career?.bg}/>
-    ))}
+<div class={"overflow-hidden " + (shouldMarquee ? "marquee-wrapper " : "flex flex-row gap-2 ") + styles}>
+    <div class={shouldMarquee ? "marquee-track flex flex-row gap-2" : "contents"}>
+        {careers.map((career) => (
+            <CareerBadge text={career?.name} color={career?.color} bg={career?.bg}/>
+        ))}
+        {shouldMarquee && careers.map((career) => (
+            <CareerBadge text={career?.name} color={career?.color} bg={career?.bg}/>
+        ))}
+    </div>
     {careers.length === 0 && <CareerBadge text="Desconocida"/>}
 </div>
