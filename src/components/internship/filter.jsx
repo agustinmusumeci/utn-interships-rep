@@ -57,7 +57,7 @@ export default function Filter({ filter }) {
         >
           <AccordionItem value="filter">
             <AccordionTrigger>
-              <div className="mb-2 text-lg font-medium flex flex-row gap-5 items-center border border-text rounded-full px-5 py-2 md:button md:button-outline md:px-0 md:py-0 md:border-none">
+              <div className="mb-0 text-lg font-medium flex flex-row gap-5 items-center border border-text rounded-full px-5 py-2 md:button md:button-outline md:px-0 md:py-0 md:border-none">
                 <ListFilter />
                 <p>Filtros</p>
               </div>
@@ -127,7 +127,7 @@ export default function Filter({ filter }) {
                   <div className="flex flex-col gap-2 w-full">
                     <label for="date">Fecha</label>
                     <select
-                      className=""
+                      className="border-text"
                       name="date"
                       id="date"
                       value={form?.date}
