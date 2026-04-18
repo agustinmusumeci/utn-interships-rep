@@ -60,7 +60,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
     }, 500);
   };
 
-  const handleSumbitCareers = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -110,6 +110,13 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
     }
 
     setLoading(false);
+  };
+
+  const handleDiscardChanges = async () => {
+    setSuscriptedCareers(user?.careers ?? []);
+    setSuscriptedKeywords(user?.keywords ?? []);
+    setToDeleteCareers([]);
+    setToDeleteKeywords([]);
   };
 
   const suscriptCareer = (careerId: string, suscript: boolean) => {
@@ -367,7 +374,6 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
               <ScrollArea className="flex flex-col gap-2 h-70">
                 {suscriptedCareers.map((career: { id: string; color: string; name: string; bg: string }) => (
                   <button
-                    disabled={!suscripted}
                     aria-disabled={!suscripted}
                     onClick={() => {
                       suscriptCareer(career.id, false);
@@ -375,12 +381,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                     key={`suscripted-careers-${career?.id}`}
                     className="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
                   >
-                    <span
-                      style={{ color: `${career.color}` }}
-                      aria-disabled={!suscripted}
-                    >
-                      {career.name}
-                    </span>
+                    <span style={{ color: `${career.color}` }}>{career.name}</span>
                     <span className="text-xl text-text/20 group-hover:text-red-800 transition-all">
                       <CircleX />
                     </span>
@@ -406,12 +407,20 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
               </div>
               <div className="flex flex-col md:flex-row md:items-end gap-5">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="">Nueva palabra</label>
+                  <label
+                    htmlFor="keyword"
+                    aria-disabled={!suscripted}
+                  >
+                    Nueva palabra
+                  </label>
                   <input
+                    aria-disabled={!suscripted}
                     value={keyword}
                     onChange={(e) => {
                       setKeyword(e.target.value);
                     }}
+                    id="keyword"
+                    name="keyword"
                     type="text"
                     maxLength={30}
                   />
@@ -419,6 +428,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                 <button
                   className="button button-outline h-fit"
                   type="button"
+                  aria-disabled={!suscripted}
                   onClick={() => {
                     suscriptKeyword(keyword, true);
                   }}
@@ -432,6 +442,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                 <div className="flex flex-row flex-wrap gap-5">
                   {suscriptedKeywords.map((k: string, i: number) => (
                     <button
+                      aria-disabled={!suscripted}
                       onClick={() => {
                         suscriptKeyword(k, false);
                       }}
@@ -458,7 +469,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
           <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-light-text/10 flex flex-col gap-10 lg:flex-row justify-between">
             <form
               className="flex flex-row gap-5"
-              onSubmit={handleSumbitCareers}
+              onSubmit={handleSumbit}
             >
               <button
                 type="submit"
@@ -474,6 +485,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                 aria-disabled={loading || !suscripted}
                 disabled={loading || !suscripted}
                 className="button button-outline h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
+                onClick={handleDiscardChanges}
               >
                 Descartar
               </button>
