@@ -30,6 +30,8 @@ if (isAuthenticated  && loggedUser) {
     const user = await userService.getUser(loggedUser?.id)
     hasNotifications = user?.suscripted ?? false
 }
+
+console.log(internship)
 ---
 {notFound ?
     <section class="mt-5 flex flex-col md:flex-row gap-5 p-10 bg-light-neutral rounded-xl">

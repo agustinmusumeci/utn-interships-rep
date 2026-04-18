@@ -1,5 +1,4 @@
 import { UserRepository } from "@/repositories/user.repository";
-import { InternshipRepository } from "@/repositories/internship.repository";
 import type { User } from "../../prisma/zod";
 import { InternshipService } from "./internship.service";
 
@@ -10,10 +9,10 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  async getSuscriptedUsers(careers: Array<string>) {
-    const usersData = await this.userRepository.getSuscriptedUsers(careers);
+  async getSuscriptedUsers(careers: Array<string>, keywords: Array<string>) {
+    const usersData = await this.userRepository.getSuscriptedUsers(careers, keywords);
 
-    const users = usersData.map((user) => {
+    const users = usersData.map((user: any) => {
       return this.mapUserToJson(user);
     });
 
@@ -24,7 +23,7 @@ export class UserService {
     try {
       if (!userId) throw new Error("Empty user id");
 
-      const user = await this.userRepository.getUser(userId);
+      const user: any = await this.userRepository.getUser(userId);
 
       if (!user) return {} as User;
 
@@ -45,7 +44,7 @@ export class UserService {
 
       const internshipService = new InternshipService();
 
-      const internships = data.map((el) => {
+      const internships = data.map((el: any) => {
         const internship = {
           userId: el.user_id,
           seen: el.seen,
@@ -118,7 +117,7 @@ export class UserService {
     }
   }
 
-  mapUserToJson(user: User & { userCareers?: any[] }) {
+  mapUserToJson(user: User & { userCareers?: Array<any>; userKeywords: Array<any> }) {
     const newUser = {
       id: user?.id,
       name: user?.name,
@@ -130,6 +129,10 @@ export class UserService {
           name: career?.Career?.name,
           color: career?.Career?.color,
         })) ?? [],
+      keywords:
+        user?.userKeywords?.map((keyword) => {
+          return keyword?.keyword;
+        }) ?? [],
     };
 
     return newUser;

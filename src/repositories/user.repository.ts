@@ -1,12 +1,19 @@
 import prisma from "../lib/prisma";
 
 export class UserRepository {
-  async getSuscriptedUsers(careers: Array<string>) {
-    let where = {} as { OR: Array<{ career_id: string }> };
-    if (careers && careers.length > 0) {
-      where["OR"] = careers.map((c) => ({ career_id: c }));
-    }
-    return await prisma.user.findMany({ where: { suscripted: true }, include: { userCareers: { include: { Career: true }, where: where } } });
+  async getSuscriptedUsers(careers: Array<string>, keywords: Array<string>) {
+    // let whereCareers = {} as { OR: Array<{ career_id: string }> };
+
+    // if (careers && careers.length > 0) {
+    //   whereCareers["OR"] = careers.map((c) => ({ career_id: c }));
+    // }
+
+    // console.log(keywords);
+
+    return await prisma.user.findMany({
+      where: { suscripted: true, OR: [{ userCareers: { some: { career_id: { in: careers } } } }, { userKeywords: { some: { keyword: { in: keywords } } } }] },
+      include: { userCareers: { include: { Career: true }, where: { career_id: { in: careers } } }, userKeywords: { where: { keyword: { in: keywords } } } },
+    });
   }
 
   async getUser(userId: string) {
@@ -85,7 +92,7 @@ export class UserRepository {
   }
 
   async suscribeKeywords(userId: string, toSuscribeKeywords: Array<string>, toDeleteKeywords: Array<string>) {
-    const toSuscribe = toSuscribeKeywords.map((k) => ({ user_id: userId, keyword: k }));
+    const toSuscribe = toSuscribeKeywords.map((k) => ({ user_id: userId, keyword: k.toLowerCase() }));
     await prisma.userKeyword.createMany({ data: toSuscribe, skipDuplicates: true });
 
     // Delete keyword if needed

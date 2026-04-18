@@ -16,7 +16,7 @@ export default function SuscribeAlert({ careers = [], keyword = "", isAuthentica
     debouncerRef.current = setTimeout(async () => {
       const updatedSuscription = !suscripted;
 
-      if (careers.length === 0 || !keyword) {
+      if (careers.length === 0 && !keyword) {
         toast.info("Selecciona filtro", {
           description: "Para poder recibir alertas acordes debes seleccionar los filtros que desees para tus alertas",
           action: { label: "X", onClick: () => console.log("Cerrando toast") },
