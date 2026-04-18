@@ -31,6 +31,20 @@ export const server = {
     },
   }),
 
+  suscribeKeywords: defineAction({
+    input: z.object({
+      id: z.string(),
+      toSuscribeKeywords: z.array(z.string()),
+      toDeleteKeywords: z.array(z.string() || z.null),
+    }),
+    handler: async ({ id, toSuscribeKeywords, toDeleteKeywords }) => {
+      const userController = new UserController();
+
+      const res = await userController.suscribeKeywords(id, toSuscribeKeywords, toDeleteKeywords);
+      return res;
+    },
+  }),
+
   markAlertAsRead: defineAction({
     input: z.object({ id: z.string(), internships: z.array(z.number()) }),
     handler: async ({ id, internships }) => {

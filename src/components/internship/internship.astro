@@ -8,6 +8,7 @@ import { PLACEHOLDER } from "@/constants/placeholders";
 import { InternshipService } from "@/services/internship.service";
 import { Image } from "astro:assets";
 import notFoundImage from '../../../public/images/pasantias-notfound.png';
+import SuscribeAlert from "../alert/suscribe";
 
 
 const {id} = Astro.props;
@@ -15,7 +16,7 @@ const referer = Astro.request.headers.get('Referer');
 const url = referer ? new URL(referer) : Astro.url;
 
 const internshipService = new InternshipService()
-const internship = await internshipService.getInternship(Number(id))
+const internship = await internshipService.getInternship(Number(id)) ?? {}
 const notFound = (!internship || Object.entries(internship)?.length === 0) ? true : false
 
 const { isAuthenticated} = Astro.locals.auth()
@@ -49,8 +50,8 @@ if (isAuthenticated  && loggedUser) {
             <article class="flex flex-col gap-3 w-full">
                 <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10 rounded-xl">
                     <div class="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
-                        <h2 class="title-lg">{internship.position}</h2>
-                        <span class="text-text/50 pb-5">A.R.M {internship.arm}</span>
+                        <h2 class="title-lg">{internship?.position}</h2>
+                        <span class="text-text/50 pb-5">A.R.M {internship?.arm}</span>
                     </div>
                     <div class="mb-3">
                         <Careers careers={internship?.careers}/>
@@ -59,16 +60,16 @@ if (isAuthenticated  && loggedUser) {
                         <div class="flex flex-col gap-3">
                             <p class="flex flex-row gap-2"><House class="text-text/50 w-4"/> {internship?.modality}</p>
                             <p class="flex flex-row gap-2"><MapPin class="text-text/50 w-4"/> {internship?.workplace}</p>
-                            <p class="flex flex-row gap-2"><CircleDollarSign class="text-text/50 w-4"/>{typeof internship.payment === "number" ? `$${internship.payment.toLocaleString()}` : internship.payment}</p>
+                            <p class="flex flex-row gap-2"><CircleDollarSign class="text-text/50 w-4"/>{typeof internship?.payment === "number" ? `$${internship?.payment?.toLocaleString()}` : internship.payment}</p>
                         </div>
                         <div class="flex flex-col gap-3">
                                 <p class="flex flex-row gap-2"><UserRound class="text-text/50 w-4"/> {internship?.interns} Pasante/s</p>
-                                <p class="flex flex-row gap-2"><Building class="text-text/50 w-4"/> {internship.company.name}</p>
+                                <p class="flex flex-row gap-2"><Building class="text-text/50 w-4"/> {internship?.company?.name}</p>
                         </div>  
                     </div>
                     <div class="flex flex-row items-center gap-2">
-                        <p><span class="text-text/50 ">Publicada el </span>{new Date(internship.created_at).toLocaleDateString()}</p>
-                        <span class="opacity-75 text-sm" style={`color: ${internship.timeSinceCreated.color}`}>({internship.timeSinceCreated.time})</span>
+                        <p><span class="text-text/50 ">Publicada el </span>{new Date(internship?.created_at).toLocaleDateString()}</p>
+                        <span class="opacity-75 text-sm" style={`color: ${internship?.timeSinceCreated?.color}`}>({internship?.timeSinceCreated?.time})</span>
                     </div>
                 </div>
                     
@@ -76,37 +77,39 @@ if (isAuthenticated  && loggedUser) {
                     <div>
                         <div>
                             <h3 class="title-md">Requisitos</h3>
-                            <p class="max-w-prose">{internship.requirements} </p>
+                            <p class="max-w-prose">{internship?.requirements} </p>
                         </div>
                         <br>
                         <div>
                             <h4 class="title-sm">Conocimientos necesarios</h4>
-                            <p >{internship.knowledge}</p>
+                            <p >{internship?.knowledge}</p>
                         </div>
                     </div>  
                     <div>
                         <h3 class="title-md">Horarios</h3>
-                        <p>Entrevista {internship.interview_timetable}</p>
-                        <p>Jornada {internship.timetable}</p>
+                        <p>Entrevista {internship?.interview_timetable}</p>
+                        <p>Jornada {internship?.timetable}</p>
                     </div>
                     <div>
                         <h3 class="title-md">Observaciones</h3>
-                        <p><span class="text-text/75">Beneficios:</span> {internship.benefits}</p>
-                        <p><span class="text-text/75">Observaciones:</span> {internship.observations} </p>
-                        <p><span class="text-text/75">Referente RRHH:</span> {internship.rrhh}</p>
+                        <div class="flex flex-col gap-3">
+                            <div><span class="text-text/75">Beneficios: </span> <p>{internship?.benefits}</p></div>
+                            <div><span class="text-text/75">Observaciones: </span> <p>{internship?.observations}</p> </div>
+                            <div><span class="text-text/75">Referente RRHH: </span> <p>{internship?.rrhh}</p></div>
+                        </div>
                     </div>
                     <div>
                         <div class="flex flex-row gap-2 mb-10">
-                            <a target="_blank" aria-disabled={internship.link === PLACEHOLDER.link} class="button button-primary" {...(internship.link !== PLACEHOLDER.link && { href: internship.link })}>
+                            <a target="_blank" aria-disabled={internship?.link === PLACEHOLDER.link} class="button button-primary" {...(internship?.link !== PLACEHOLDER.link && { href: internship?.link })}>
                                 Solicitar
                             </a>
-                            <a target="_blank" aria-disabled={internship.mail === PLACEHOLDER.mail} class="button button-outline" {...(internship.mail !== PLACEHOLDER.mail && { href: `mailto:${internship.mail}` })} >
+                            <a target="_blank" aria-disabled={internship?.mail === PLACEHOLDER.mail} class="button button-outline" {...(internship?.mail !== PLACEHOLDER.mail && { href: `mailto:${internship?.mail}` })} >
                                 Enviar Mail
                             </a>
                         </div>
                         <div class="text-text/50">
-                            <p>Mail: {internship.mail}</p>
-                            <p class="text-wrap truncate hover:underline">Link: <a {...(internship.link !== PLACEHOLDER.link && { href: internship.link })} target="_blank">{internship.link}</a></p>
+                            <p>Mail: {internship?.mail}</p>
+                            <p class="text-wrap truncate hover:underline">Link: <a {...(internship?.link !== PLACEHOLDER.link && { href: internship?.link })} target="_blank">{internship?.link}</a></p>
                         </div>
                     </div>
                 </div>
@@ -117,42 +120,15 @@ if (isAuthenticated  && loggedUser) {
                     <div class="flex flex-row gap-2">
                         <button class="cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all" id="share-button"><Share/></button>
                         <button class="cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all" id="clipboard-button"><Copy/></button>
-                        <a target="_blank" href=`https://www.linkedin.com/shareArticle?mini=true&url=${url}` class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><Linkedin /></a>
-                        <a target="_blank" href=`https://twitter.com/intent/tweet?text=En%20%22BuscoPasantias%22%20encontre%20la%20siguiente%20oferta%20para%20universitarios!&url=${url}` class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><X /></a>
+                        <a target="_blank" href={`https://www.linkedin.com/shareArticle?mini=true&url=${url}`} class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><Linkedin /></a>
+                        <a target="_blank" href={`https://twitter.com/intent/tweet?text=En%20%22BuscoPasantias%22%20encontre%20la%20siguiente%20oferta%20para%20universitarios!&url=${url}`} class="flex items-center cursor-pointer hover:bg-neutral rounded-full px-3 py-2 transition-all"><X /></a>
                     </div>
                 </div>
-                <div class="bg-light-neutral rounded-xl p-9 text-text/20!">
-                    <div class={"flex flex-row gap-2 items-center text-lg mb-5 " + ((isAuthenticated && loggedUser && hasNotifications) ? "text-primary-hover" : "text-text/50")}>
-                        <Bell /> 
-                        <p>Activar alerta</p>
-                        <div
-                            class="switch"
-                            id={(isAuthenticated && loggedUser && hasNotifications) ? "alerts-switch" : "switch"}
-                            aria-checked={false}
-                            data-user-id={loggedUser?.id ?? ""}
-                            data-internship-careers={JSON.stringify(internship?.careers)}
-            
-                            >
-                            <div
-                                class="switch-button"
-                                aria-checked={false}
-                                id={(isAuthenticated && loggedUser && hasNotifications) ? "alerts-switch-button" : "switch-button"}
-                            />
-                                <span class="switch-slider round"></span>
-                        </div>
-                    </div>
-                    <p class="text-sm text-text/50">
-                        {(isAuthenticated && loggedUser && hasNotifications) && <a class="font-text! underline" href="/alerts">Gestiona tus alertas</a>}
-                        {!isAuthenticated || !loggedUser ? <span>Necesitas iniciar sesion</span> : (!hasNotifications) && <span class="underline">Necesitas <a href="/alerts" class="font-text! transition-all">activar las alertas</a>  </span>}
-                    </p>
-
-                </div>
+                <SuscribeAlert careers={internship?.careers?.map((c: any) => {return c?.id}) ?? []} keyword="" isAuthenticated={isAuthenticated} loggedUser={loggedUser} hasNotifications={hasNotifications} styles="bg-light-neutral p-9 [&_.alert-content]:flex-row [&_.alert-content]:items-center [&_.alert-content]:gap-2" client:only />
+                
             </aside>
         </section>
         <script>
-            import { actions } from "astro:actions";
-            import { toast } from "sonner";
-
             const shareButton = document.getElementById("share-button")
             const clipboardButton = document.getElementById("clipboard-button")
 
@@ -173,33 +149,6 @@ if (isAuthenticated  && loggedUser) {
                 }).catch((err) => {
                     console.error('Failed to copy: ', err);
                 })
-            })
-
-            const alertSwitch = document.getElementById("alerts-switch")
-            
-            alertSwitch?.addEventListener("click", async () => {
-                const slider = document.getElementById("alerts-switch-button")
-                const checked = slider?.getAttribute("aria-checked") === "true" ? true : false
-                slider?.setAttribute("aria-checked", String(!checked))
-
-                const id = alertSwitch?.getAttribute("data-user-id") ?? "";
-                const careers = JSON.parse(alertSwitch?.getAttribute("data-internship-careers") ?? []).map((career: any) => (career?.id));
-
-                if (!checked) {
-                    const {data, error} = await actions.suscribeCareers({id: id, toSuscribeCareers:careers, toDeleteCareers:[] })
-
-                    if (data) {
-                            toast.success("Alertas listas", {action: {
-                            label: "X",
-                            onClick: () => console.log("Cerrando toast"),
-                        },})
-                    } else {
-                            toast.error("Error activando alertas", {action: {
-                            label: "X",
-                            onClick: () => console.log("Cerrando toast"),
-                        },})
-                    }
-                }
             })
         </script>
     </>

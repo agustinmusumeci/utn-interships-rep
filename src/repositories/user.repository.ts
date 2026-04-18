@@ -83,4 +83,18 @@ export class UserRepository {
 
     return;
   }
+
+  async suscribeKeywords(userId: string, toSuscribeKeywords: Array<string>, toDeleteKeywords: Array<string>) {
+    const toSuscribe = toSuscribeKeywords.map((k) => ({ user_id: userId, keyword: k }));
+    await prisma.userKeyword.createMany({ data: toSuscribe, skipDuplicates: true });
+
+    // Delete keyword if needed
+    if (toDeleteKeywords && toDeleteKeywords?.length > 0) {
+      const where = { AND: [{ user_id: userId, OR: toDeleteKeywords.map((k) => ({ keyword: k })) }] };
+
+      await prisma.userKeyword.deleteMany({ where: where });
+    }
+
+    return;
+  }
 }

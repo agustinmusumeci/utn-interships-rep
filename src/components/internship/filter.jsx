@@ -3,8 +3,9 @@ import { CAREERS } from "../../constants/careers";
 import { useEffect, useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useDesktopResolution } from "@/hooks/useResolution";
+import SuscribeAlert from "../alert/suscribe";
 
-export default function Filter({ filter }) {
+export default function Filter({ filter, isAuthenticated, loggedUser, hasNotifications }) {
   const [form, setForm] = useState(filter);
   const isDesktop = useDesktopResolution({ resolution: 1024 });
 
@@ -49,6 +50,16 @@ export default function Filter({ filter }) {
 
   return (
     <div className="flex flex-col gap-5 mt-5 mx-2 lg:col-span-1 col-span-full">
+      <div className="mb-5">
+        <SuscribeAlert
+          careers={form?.careers.length === 0 || form?.careers.includes("*") ? [] : form?.careers}
+          keyword={form?.text ?? ""}
+          isAuthenticated={isAuthenticated}
+          loggedUser={loggedUser}
+          hasNotifications={hasNotifications}
+        />
+      </div>
+
       <div>
         <Accordion
           type="single"
@@ -70,7 +81,7 @@ export default function Filter({ filter }) {
               >
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-col gap-2 w-full">
-                    <label for="page" />
+                    <label htmlFor="page" />
                     <input
                       name="page"
                       id="page"
@@ -78,7 +89,7 @@ export default function Filter({ filter }) {
                     />
 
                     <label
-                      for="text"
+                      htmlFor="text"
                       className="text-text/50"
                     >
                       Buscar
@@ -95,7 +106,7 @@ export default function Filter({ filter }) {
                   </div>
                   <div className="flex flex-col gap-2 w-full">
                     <label
-                      for="careers"
+                      htmlFor="careers"
                       className="text-text/50"
                     >
                       Especialidad
@@ -115,7 +126,7 @@ export default function Filter({ filter }) {
                             onChange={() => onCareerToggle(c.id)}
                           />
                           <label
-                            key={c.id}
+                            key={`filter-${c.id}`}
                             className="flex items-center gap-1 cursor-pointer text-text"
                           >
                             {c.name}
@@ -125,7 +136,7 @@ export default function Filter({ filter }) {
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
-                    <label for="date">Fecha</label>
+                    <label htmlFor="date">Fecha</label>
                     <select
                       className="border-text"
                       name="date"

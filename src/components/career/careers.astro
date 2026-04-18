@@ -23,3 +23,20 @@ const shouldMarquee = careers.length >= 2 && isCard;
     </div>
     {careers.length === 0 && <CareerBadge text="Desconocida"/>}
 </div>
+
+<style>
+    .marquee-wrapper {
+        mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    }
+
+    .marquee-track {
+        width: max-content;
+        animation: marquee 10s linear infinite;
+    }
+
+    /* Pausa al hacer hover sobre la card padre */
+    :global(a:hover) .marquee-track {
+        animation-play-state: paused;
+    }
+</style>

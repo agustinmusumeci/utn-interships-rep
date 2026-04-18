@@ -91,6 +91,15 @@ model UserCareer {
   @@id([user_id, career_id]) 
 }
 
+model UserKeyword { 
+  user_id String 
+  keyword String 
+  
+  User User @relation(fields: [user_id], references: [id]) 
+  
+  @@id([user_id, keyword]) 
+}
+
 model UserNotification {
   user_id       String
   internship_id Int

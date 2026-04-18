@@ -24,6 +24,8 @@ export const UserScalarFieldEnumSchema = z.enum(['id','name','mail','suscripted'
 
 export const UserCareerScalarFieldEnumSchema = z.enum(['user_id','career_id']);
 
+export const UserKeywordScalarFieldEnumSchema = z.enum(['user_id','keyword']);
+
 export const UserNotificationScalarFieldEnumSchema = z.enum(['user_id','internship_id','seen']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
@@ -121,6 +123,17 @@ export const UserCareerSchema = z.object({
 })
 
 export type UserCareer = z.infer<typeof UserCareerSchema>
+
+/////////////////////////////////////////
+// USER KEYWORD SCHEMA
+/////////////////////////////////////////
+
+export const UserKeywordSchema = z.object({
+  user_id: z.string(),
+  keyword: z.string(),
+})
+
+export type UserKeyword = z.infer<typeof UserKeywordSchema>
 
 /////////////////////////////////////////
 // USER NOTIFICATION SCHEMA
@@ -274,6 +287,7 @@ export const CompanySelectSchema: z.ZodType<Prisma.CompanySelect> = z.object({
 
 export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z.object({
   userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
+  userKeywords: z.union([z.boolean(),z.lazy(() => UserKeywordFindManyArgsSchema)]).optional(),
   userNotifications: z.union([z.boolean(),z.lazy(() => UserNotificationFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict();
@@ -289,6 +303,7 @@ export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputType
 
 export const UserCountOutputTypeSelectSchema: z.ZodType<Prisma.UserCountOutputTypeSelect> = z.object({
   userCareers: z.boolean().optional(),
+  userKeywords: z.boolean().optional(),
   userNotifications: z.boolean().optional(),
 }).strict();
 
@@ -298,6 +313,7 @@ export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
   mail: z.boolean().optional(),
   suscripted: z.boolean().optional(),
   userCareers: z.union([z.boolean(),z.lazy(() => UserCareerFindManyArgsSchema)]).optional(),
+  userKeywords: z.union([z.boolean(),z.lazy(() => UserKeywordFindManyArgsSchema)]).optional(),
   userNotifications: z.union([z.boolean(),z.lazy(() => UserNotificationFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -320,6 +336,24 @@ export const UserCareerSelectSchema: z.ZodType<Prisma.UserCareerSelect> = z.obje
   career_id: z.boolean().optional(),
   User: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
   Career: z.union([z.boolean(),z.lazy(() => CareerArgsSchema)]).optional(),
+}).strict()
+
+// USER KEYWORD
+//------------------------------------------------------
+
+export const UserKeywordIncludeSchema: z.ZodType<Prisma.UserKeywordInclude> = z.object({
+  User: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
+}).strict();
+
+export const UserKeywordArgsSchema: z.ZodType<Prisma.UserKeywordDefaultArgs> = z.object({
+  select: z.lazy(() => UserKeywordSelectSchema).optional(),
+  include: z.lazy(() => UserKeywordIncludeSchema).optional(),
+}).strict();
+
+export const UserKeywordSelectSchema: z.ZodType<Prisma.UserKeywordSelect> = z.object({
+  user_id: z.boolean().optional(),
+  keyword: z.boolean().optional(),
+  User: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
 }).strict()
 
 // USER NOTIFICATION
@@ -650,6 +684,7 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.strictOb
   mail: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   suscripted: z.union([ z.lazy(() => BoolFilterSchema), z.boolean() ]).optional(),
   userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordListRelationFilterSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationListRelationFilterSchema).optional(),
 });
 
@@ -659,6 +694,7 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
   mail: z.lazy(() => SortOrderSchema).optional(),
   suscripted: z.lazy(() => SortOrderSchema).optional(),
   userCareers: z.lazy(() => UserCareerOrderByRelationAggregateInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordOrderByRelationAggregateInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationOrderByRelationAggregateInputSchema).optional(),
 });
 
@@ -674,6 +710,7 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   mail: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
   suscripted: z.union([ z.lazy(() => BoolFilterSchema), z.boolean() ]).optional(),
   userCareers: z.lazy(() => UserCareerListRelationFilterSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordListRelationFilterSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationListRelationFilterSchema).optional(),
 }));
 
@@ -742,6 +779,50 @@ export const UserCareerScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Us
   NOT: z.union([ z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema), z.lazy(() => UserCareerScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   user_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
   career_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+});
+
+export const UserKeywordWhereInputSchema: z.ZodType<Prisma.UserKeywordWhereInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserKeywordWhereInputSchema), z.lazy(() => UserKeywordWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserKeywordWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserKeywordWhereInputSchema), z.lazy(() => UserKeywordWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  keyword: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  User: z.union([ z.lazy(() => UserScalarRelationFilterSchema), z.lazy(() => UserWhereInputSchema) ]).optional(),
+});
+
+export const UserKeywordOrderByWithRelationInputSchema: z.ZodType<Prisma.UserKeywordOrderByWithRelationInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  keyword: z.lazy(() => SortOrderSchema).optional(),
+  User: z.lazy(() => UserOrderByWithRelationInputSchema).optional(),
+});
+
+export const UserKeywordWhereUniqueInputSchema: z.ZodType<Prisma.UserKeywordWhereUniqueInput> = z.object({
+  user_id_keyword: z.lazy(() => UserKeywordUser_idKeywordCompoundUniqueInputSchema),
+})
+.and(z.strictObject({
+  user_id_keyword: z.lazy(() => UserKeywordUser_idKeywordCompoundUniqueInputSchema).optional(),
+  AND: z.union([ z.lazy(() => UserKeywordWhereInputSchema), z.lazy(() => UserKeywordWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserKeywordWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserKeywordWhereInputSchema), z.lazy(() => UserKeywordWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  keyword: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  User: z.union([ z.lazy(() => UserScalarRelationFilterSchema), z.lazy(() => UserWhereInputSchema) ]).optional(),
+}));
+
+export const UserKeywordOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserKeywordOrderByWithAggregationInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  keyword: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => UserKeywordCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => UserKeywordMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => UserKeywordMinOrderByAggregateInputSchema).optional(),
+});
+
+export const UserKeywordScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserKeywordScalarWhereWithAggregatesInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserKeywordScalarWhereWithAggregatesInputSchema), z.lazy(() => UserKeywordScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserKeywordScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserKeywordScalarWhereWithAggregatesInputSchema), z.lazy(() => UserKeywordScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
+  keyword: z.union([ z.lazy(() => StringWithAggregatesFilterSchema), z.string() ]).optional(),
 });
 
 export const UserNotificationWhereInputSchema: z.ZodType<Prisma.UserNotificationWhereInput> = z.strictObject({
@@ -1091,6 +1172,7 @@ export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.strict
   mail: z.string(),
   suscripted: z.boolean().optional(),
   userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutUserInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordCreateNestedManyWithoutUserInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
@@ -1100,6 +1182,7 @@ export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreat
   mail: z.string(),
   suscripted: z.boolean().optional(),
   userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
@@ -1109,6 +1192,7 @@ export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.strict
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUpdateManyWithoutUserNestedInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUpdateManyWithoutUserNestedInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
@@ -1118,6 +1202,7 @@ export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdat
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
@@ -1173,6 +1258,40 @@ export const UserCareerUpdateManyMutationInputSchema: z.ZodType<Prisma.UserCaree
 export const UserCareerUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyInput> = z.strictObject({
   user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordCreateInputSchema: z.ZodType<Prisma.UserKeywordCreateInput> = z.strictObject({
+  keyword: z.string(),
+  User: z.lazy(() => UserCreateNestedOneWithoutUserKeywordsInputSchema),
+});
+
+export const UserKeywordUncheckedCreateInputSchema: z.ZodType<Prisma.UserKeywordUncheckedCreateInput> = z.strictObject({
+  user_id: z.string(),
+  keyword: z.string(),
+});
+
+export const UserKeywordUpdateInputSchema: z.ZodType<Prisma.UserKeywordUpdateInput> = z.strictObject({
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  User: z.lazy(() => UserUpdateOneRequiredWithoutUserKeywordsNestedInputSchema).optional(),
+});
+
+export const UserKeywordUncheckedUpdateInputSchema: z.ZodType<Prisma.UserKeywordUncheckedUpdateInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordCreateManyInputSchema: z.ZodType<Prisma.UserKeywordCreateManyInput> = z.strictObject({
+  user_id: z.string(),
+  keyword: z.string(),
+});
+
+export const UserKeywordUpdateManyMutationInputSchema: z.ZodType<Prisma.UserKeywordUpdateManyMutationInput> = z.strictObject({
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserKeywordUncheckedUpdateManyInput> = z.strictObject({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const UserNotificationCreateInputSchema: z.ZodType<Prisma.UserNotificationCreateInput> = z.strictObject({
@@ -1540,6 +1659,16 @@ export const BoolFilterSchema: z.ZodType<Prisma.BoolFilter> = z.strictObject({
   not: z.union([ z.boolean(),z.lazy(() => NestedBoolFilterSchema) ]).optional(),
 });
 
+export const UserKeywordListRelationFilterSchema: z.ZodType<Prisma.UserKeywordListRelationFilter> = z.strictObject({
+  every: z.lazy(() => UserKeywordWhereInputSchema).optional(),
+  some: z.lazy(() => UserKeywordWhereInputSchema).optional(),
+  none: z.lazy(() => UserKeywordWhereInputSchema).optional(),
+});
+
+export const UserKeywordOrderByRelationAggregateInputSchema: z.ZodType<Prisma.UserKeywordOrderByRelationAggregateInput> = z.strictObject({
+  _count: z.lazy(() => SortOrderSchema).optional(),
+});
+
 export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = z.strictObject({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
@@ -1592,6 +1721,26 @@ export const UserCareerMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserCare
 export const UserCareerMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserCareerMinOrderByAggregateInput> = z.strictObject({
   user_id: z.lazy(() => SortOrderSchema).optional(),
   career_id: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserKeywordUser_idKeywordCompoundUniqueInputSchema: z.ZodType<Prisma.UserKeywordUser_idKeywordCompoundUniqueInput> = z.strictObject({
+  user_id: z.string(),
+  keyword: z.string(),
+});
+
+export const UserKeywordCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserKeywordCountOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  keyword: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserKeywordMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserKeywordMaxOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  keyword: z.lazy(() => SortOrderSchema).optional(),
+});
+
+export const UserKeywordMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserKeywordMinOrderByAggregateInput> = z.strictObject({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  keyword: z.lazy(() => SortOrderSchema).optional(),
 });
 
 export const UserNotificationUser_idInternship_idCompoundUniqueInputSchema: z.ZodType<Prisma.UserNotificationUser_idInternship_idCompoundUniqueInput> = z.strictObject({
@@ -1904,6 +2053,13 @@ export const UserCareerCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.
   connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
 });
 
+export const UserKeywordCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordCreateNestedManyWithoutUserInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordCreateWithoutUserInputSchema).array(), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserKeywordCreateManyUserInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+});
+
 export const UserNotificationCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserNotificationCreateNestedManyWithoutUserInput> = z.strictObject({
   create: z.union([ z.lazy(() => UserNotificationCreateWithoutUserInputSchema), z.lazy(() => UserNotificationCreateWithoutUserInputSchema).array(), z.lazy(() => UserNotificationUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserNotificationUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => UserNotificationCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserNotificationCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
@@ -1916,6 +2072,13 @@ export const UserCareerUncheckedCreateNestedManyWithoutUserInputSchema: z.ZodTyp
   connectOrCreate: z.union([ z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserCareerCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
   createMany: z.lazy(() => UserCareerCreateManyUserInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => UserCareerWhereUniqueInputSchema), z.lazy(() => UserCareerWhereUniqueInputSchema).array() ]).optional(),
+});
+
+export const UserKeywordUncheckedCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUncheckedCreateNestedManyWithoutUserInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordCreateWithoutUserInputSchema).array(), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserKeywordCreateManyUserInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
 });
 
 export const UserNotificationUncheckedCreateNestedManyWithoutUserInputSchema: z.ZodType<Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput> = z.strictObject({
@@ -1941,6 +2104,20 @@ export const UserCareerUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.
   update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserKeywordUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserKeywordUpdateManyWithoutUserNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordCreateWithoutUserInputSchema).array(), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserKeywordUpsertWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserKeywordUpsertWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserKeywordCreateManyUserInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserKeywordUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserKeywordUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserKeywordUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserKeywordUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserKeywordScalarWhereInputSchema), z.lazy(() => UserKeywordScalarWhereInputSchema).array() ]).optional(),
 });
 
 export const UserNotificationUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserNotificationUpdateManyWithoutUserNestedInput> = z.strictObject({
@@ -1969,6 +2146,20 @@ export const UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema: z.ZodTyp
   update: z.union([ z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserCareerUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserCareerUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => UserCareerScalarWhereInputSchema), z.lazy(() => UserCareerScalarWhereInputSchema).array() ]).optional(),
+});
+
+export const UserKeywordUncheckedUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserKeywordUncheckedUpdateManyWithoutUserNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordCreateWithoutUserInputSchema).array(), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema), z.lazy(() => UserKeywordCreateOrConnectWithoutUserInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => UserKeywordUpsertWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserKeywordUpsertWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => UserKeywordCreateManyUserInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => UserKeywordWhereUniqueInputSchema), z.lazy(() => UserKeywordWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => UserKeywordUpdateWithWhereUniqueWithoutUserInputSchema), z.lazy(() => UserKeywordUpdateWithWhereUniqueWithoutUserInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => UserKeywordUpdateManyWithWhereWithoutUserInputSchema), z.lazy(() => UserKeywordUpdateManyWithWhereWithoutUserInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => UserKeywordScalarWhereInputSchema), z.lazy(() => UserKeywordScalarWhereInputSchema).array() ]).optional(),
 });
 
 export const UserNotificationUncheckedUpdateManyWithoutUserNestedInputSchema: z.ZodType<Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput> = z.strictObject({
@@ -2011,6 +2202,20 @@ export const CareerUpdateOneRequiredWithoutUserCareersNestedInputSchema: z.ZodTy
   upsert: z.lazy(() => CareerUpsertWithoutUserCareersInputSchema).optional(),
   connect: z.lazy(() => CareerWhereUniqueInputSchema).optional(),
   update: z.union([ z.lazy(() => CareerUpdateToOneWithWhereWithoutUserCareersInputSchema), z.lazy(() => CareerUpdateWithoutUserCareersInputSchema), z.lazy(() => CareerUncheckedUpdateWithoutUserCareersInputSchema) ]).optional(),
+});
+
+export const UserCreateNestedOneWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserCreateNestedOneWithoutUserKeywordsInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCreateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserKeywordsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UserCreateOrConnectWithoutUserKeywordsInputSchema).optional(),
+  connect: z.lazy(() => UserWhereUniqueInputSchema).optional(),
+});
+
+export const UserUpdateOneRequiredWithoutUserKeywordsNestedInputSchema: z.ZodType<Prisma.UserUpdateOneRequiredWithoutUserKeywordsNestedInput> = z.strictObject({
+  create: z.union([ z.lazy(() => UserCreateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserKeywordsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UserCreateOrConnectWithoutUserKeywordsInputSchema).optional(),
+  upsert: z.lazy(() => UserUpsertWithoutUserKeywordsInputSchema).optional(),
+  connect: z.lazy(() => UserWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => UserUpdateToOneWithWhereWithoutUserKeywordsInputSchema), z.lazy(() => UserUpdateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserKeywordsInputSchema) ]).optional(),
 });
 
 export const UserCreateNestedOneWithoutUserNotificationsInputSchema: z.ZodType<Prisma.UserCreateNestedOneWithoutUserNotificationsInput> = z.strictObject({
@@ -2657,6 +2862,24 @@ export const UserCareerCreateManyUserInputEnvelopeSchema: z.ZodType<Prisma.UserC
   skipDuplicates: z.boolean().optional(),
 });
 
+export const UserKeywordCreateWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordCreateWithoutUserInput> = z.strictObject({
+  keyword: z.string(),
+});
+
+export const UserKeywordUncheckedCreateWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUncheckedCreateWithoutUserInput> = z.strictObject({
+  keyword: z.string(),
+});
+
+export const UserKeywordCreateOrConnectWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordCreateOrConnectWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserKeywordWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema) ]),
+});
+
+export const UserKeywordCreateManyUserInputEnvelopeSchema: z.ZodType<Prisma.UserKeywordCreateManyUserInputEnvelope> = z.strictObject({
+  data: z.union([ z.lazy(() => UserKeywordCreateManyUserInputSchema), z.lazy(() => UserKeywordCreateManyUserInputSchema).array() ]),
+  skipDuplicates: z.boolean().optional(),
+});
+
 export const UserNotificationCreateWithoutUserInputSchema: z.ZodType<Prisma.UserNotificationCreateWithoutUserInput> = z.strictObject({
   seen: z.boolean().optional(),
   Internship: z.lazy(() => InternshipCreateNestedOneWithoutUserNotificationsInputSchema),
@@ -2693,6 +2916,30 @@ export const UserCareerUpdateManyWithWhereWithoutUserInputSchema: z.ZodType<Pris
   data: z.union([ z.lazy(() => UserCareerUpdateManyMutationInputSchema), z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserInputSchema) ]),
 });
 
+export const UserKeywordUpsertWithWhereUniqueWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUpsertWithWhereUniqueWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserKeywordWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => UserKeywordUpdateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedUpdateWithoutUserInputSchema) ]),
+  create: z.union([ z.lazy(() => UserKeywordCreateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedCreateWithoutUserInputSchema) ]),
+});
+
+export const UserKeywordUpdateWithWhereUniqueWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUpdateWithWhereUniqueWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserKeywordWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => UserKeywordUpdateWithoutUserInputSchema), z.lazy(() => UserKeywordUncheckedUpdateWithoutUserInputSchema) ]),
+});
+
+export const UserKeywordUpdateManyWithWhereWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUpdateManyWithWhereWithoutUserInput> = z.strictObject({
+  where: z.lazy(() => UserKeywordScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => UserKeywordUpdateManyMutationInputSchema), z.lazy(() => UserKeywordUncheckedUpdateManyWithoutUserInputSchema) ]),
+});
+
+export const UserKeywordScalarWhereInputSchema: z.ZodType<Prisma.UserKeywordScalarWhereInput> = z.strictObject({
+  AND: z.union([ z.lazy(() => UserKeywordScalarWhereInputSchema), z.lazy(() => UserKeywordScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => UserKeywordScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => UserKeywordScalarWhereInputSchema), z.lazy(() => UserKeywordScalarWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+  keyword: z.union([ z.lazy(() => StringFilterSchema), z.string() ]).optional(),
+});
+
 export const UserNotificationUpsertWithWhereUniqueWithoutUserInputSchema: z.ZodType<Prisma.UserNotificationUpsertWithWhereUniqueWithoutUserInput> = z.strictObject({
   where: z.lazy(() => UserNotificationWhereUniqueInputSchema),
   update: z.union([ z.lazy(() => UserNotificationUpdateWithoutUserInputSchema), z.lazy(() => UserNotificationUncheckedUpdateWithoutUserInputSchema) ]),
@@ -2714,6 +2961,7 @@ export const UserCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserCreat
   name: z.string(),
   mail: z.string(),
   suscripted: z.boolean().optional(),
+  userKeywords: z.lazy(() => UserKeywordCreateNestedManyWithoutUserInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
@@ -2722,6 +2970,7 @@ export const UserUncheckedCreateWithoutUserCareersInputSchema: z.ZodType<Prisma.
   name: z.string(),
   mail: z.string(),
   suscripted: z.boolean().optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
@@ -2767,6 +3016,7 @@ export const UserUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.UserUpdat
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userKeywords: z.lazy(() => UserKeywordUpdateManyWithoutUserNestedInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
@@ -2775,6 +3025,7 @@ export const UserUncheckedUpdateWithoutUserCareersInputSchema: z.ZodType<Prisma.
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
   userNotifications: z.lazy(() => UserNotificationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
@@ -2805,12 +3056,65 @@ export const CareerUncheckedUpdateWithoutUserCareersInputSchema: z.ZodType<Prism
   internshipCareers: z.lazy(() => InternshipCareerUncheckedUpdateManyWithoutCareerNestedInputSchema).optional(),
 });
 
+export const UserCreateWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserCreateWithoutUserKeywordsInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+  userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutUserInputSchema).optional(),
+  userNotifications: z.lazy(() => UserNotificationCreateNestedManyWithoutUserInputSchema).optional(),
+});
+
+export const UserUncheckedCreateWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutUserKeywordsInput> = z.strictObject({
+  id: z.string(),
+  name: z.string(),
+  mail: z.string(),
+  suscripted: z.boolean().optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
+  userNotifications: z.lazy(() => UserNotificationUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
+});
+
+export const UserCreateOrConnectWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserCreateOrConnectWithoutUserKeywordsInput> = z.strictObject({
+  where: z.lazy(() => UserWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UserCreateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserKeywordsInputSchema) ]),
+});
+
+export const UserUpsertWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserUpsertWithoutUserKeywordsInput> = z.strictObject({
+  update: z.union([ z.lazy(() => UserUpdateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserKeywordsInputSchema) ]),
+  create: z.union([ z.lazy(() => UserCreateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedCreateWithoutUserKeywordsInputSchema) ]),
+  where: z.lazy(() => UserWhereInputSchema).optional(),
+});
+
+export const UserUpdateToOneWithWhereWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserUpdateToOneWithWhereWithoutUserKeywordsInput> = z.strictObject({
+  where: z.lazy(() => UserWhereInputSchema).optional(),
+  data: z.union([ z.lazy(() => UserUpdateWithoutUserKeywordsInputSchema), z.lazy(() => UserUncheckedUpdateWithoutUserKeywordsInputSchema) ]),
+});
+
+export const UserUpdateWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserUpdateWithoutUserKeywordsInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUpdateManyWithoutUserNestedInputSchema).optional(),
+  userNotifications: z.lazy(() => UserNotificationUpdateManyWithoutUserNestedInputSchema).optional(),
+});
+
+export const UserUncheckedUpdateWithoutUserKeywordsInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutUserKeywordsInput> = z.strictObject({
+  id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
+  userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
+  userNotifications: z.lazy(() => UserNotificationUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
+});
+
 export const UserCreateWithoutUserNotificationsInputSchema: z.ZodType<Prisma.UserCreateWithoutUserNotificationsInput> = z.strictObject({
   id: z.string(),
   name: z.string(),
   mail: z.string(),
   suscripted: z.boolean().optional(),
   userCareers: z.lazy(() => UserCareerCreateNestedManyWithoutUserInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
 export const UserUncheckedCreateWithoutUserNotificationsInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutUserNotificationsInput> = z.strictObject({
@@ -2819,6 +3123,7 @@ export const UserUncheckedCreateWithoutUserNotificationsInputSchema: z.ZodType<P
   mail: z.string(),
   suscripted: z.boolean().optional(),
   userCareers: z.lazy(() => UserCareerUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedCreateNestedManyWithoutUserInputSchema).optional(),
 });
 
 export const UserCreateOrConnectWithoutUserNotificationsInputSchema: z.ZodType<Prisma.UserCreateOrConnectWithoutUserNotificationsInput> = z.strictObject({
@@ -2893,6 +3198,7 @@ export const UserUpdateWithoutUserNotificationsInputSchema: z.ZodType<Prisma.Use
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUpdateManyWithoutUserNestedInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
 export const UserUncheckedUpdateWithoutUserNotificationsInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutUserNotificationsInput> = z.strictObject({
@@ -2901,6 +3207,7 @@ export const UserUncheckedUpdateWithoutUserNotificationsInputSchema: z.ZodType<P
   mail: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   suscripted: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   userCareers: z.lazy(() => UserCareerUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
+  userKeywords: z.lazy(() => UserKeywordUncheckedUpdateManyWithoutUserNestedInputSchema).optional(),
 });
 
 export const InternshipUpsertWithoutUserNotificationsInputSchema: z.ZodType<Prisma.InternshipUpsertWithoutUserNotificationsInput> = z.strictObject({
@@ -3118,6 +3425,10 @@ export const UserCareerCreateManyUserInputSchema: z.ZodType<Prisma.UserCareerCre
   career_id: z.string(),
 });
 
+export const UserKeywordCreateManyUserInputSchema: z.ZodType<Prisma.UserKeywordCreateManyUserInput> = z.strictObject({
+  keyword: z.string(),
+});
+
 export const UserNotificationCreateManyUserInputSchema: z.ZodType<Prisma.UserNotificationCreateManyUserInput> = z.strictObject({
   internship_id: z.number().int(),
   seen: z.boolean().optional(),
@@ -3133,6 +3444,18 @@ export const UserCareerUncheckedUpdateWithoutUserInputSchema: z.ZodType<Prisma.U
 
 export const UserCareerUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<Prisma.UserCareerUncheckedUpdateManyWithoutUserInput> = z.strictObject({
   career_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordUpdateWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUpdateWithoutUserInput> = z.strictObject({
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordUncheckedUpdateWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUncheckedUpdateWithoutUserInput> = z.strictObject({
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+});
+
+export const UserKeywordUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<Prisma.UserKeywordUncheckedUpdateManyWithoutUserInput> = z.strictObject({
+  keyword: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 });
 
 export const UserNotificationUpdateWithoutUserInputSchema: z.ZodType<Prisma.UserNotificationUpdateWithoutUserInput> = z.strictObject({
@@ -3526,6 +3849,68 @@ export const UserCareerFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UserCareerF
   where: UserCareerWhereUniqueInputSchema, 
 }).strict();
 
+export const UserKeywordFindFirstArgsSchema: z.ZodType<Prisma.UserKeywordFindFirstArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereInputSchema.optional(), 
+  orderBy: z.union([ UserKeywordOrderByWithRelationInputSchema.array(), UserKeywordOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserKeywordWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserKeywordScalarFieldEnumSchema, UserKeywordScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserKeywordFindFirstOrThrowArgsSchema: z.ZodType<Prisma.UserKeywordFindFirstOrThrowArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereInputSchema.optional(), 
+  orderBy: z.union([ UserKeywordOrderByWithRelationInputSchema.array(), UserKeywordOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserKeywordWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserKeywordScalarFieldEnumSchema, UserKeywordScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserKeywordFindManyArgsSchema: z.ZodType<Prisma.UserKeywordFindManyArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereInputSchema.optional(), 
+  orderBy: z.union([ UserKeywordOrderByWithRelationInputSchema.array(), UserKeywordOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserKeywordWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: z.union([ UserKeywordScalarFieldEnumSchema, UserKeywordScalarFieldEnumSchema.array() ]).optional(),
+}).strict();
+
+export const UserKeywordAggregateArgsSchema: z.ZodType<Prisma.UserKeywordAggregateArgs> = z.object({
+  where: UserKeywordWhereInputSchema.optional(), 
+  orderBy: z.union([ UserKeywordOrderByWithRelationInputSchema.array(), UserKeywordOrderByWithRelationInputSchema ]).optional(),
+  cursor: UserKeywordWhereUniqueInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserKeywordGroupByArgsSchema: z.ZodType<Prisma.UserKeywordGroupByArgs> = z.object({
+  where: UserKeywordWhereInputSchema.optional(), 
+  orderBy: z.union([ UserKeywordOrderByWithAggregationInputSchema.array(), UserKeywordOrderByWithAggregationInputSchema ]).optional(),
+  by: UserKeywordScalarFieldEnumSchema.array(), 
+  having: UserKeywordScalarWhereWithAggregatesInputSchema.optional(), 
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict();
+
+export const UserKeywordFindUniqueArgsSchema: z.ZodType<Prisma.UserKeywordFindUniqueArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereUniqueInputSchema, 
+}).strict();
+
+export const UserKeywordFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UserKeywordFindUniqueOrThrowArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereUniqueInputSchema, 
+}).strict();
+
 export const UserNotificationFindFirstArgsSchema: z.ZodType<Prisma.UserNotificationFindFirstArgs> = z.object({
   select: UserNotificationSelectSchema.optional(),
   include: UserNotificationIncludeSchema.optional(),
@@ -3909,6 +4294,60 @@ export const UserCareerUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.UserCaree
 
 export const UserCareerDeleteManyArgsSchema: z.ZodType<Prisma.UserCareerDeleteManyArgs> = z.object({
   where: UserCareerWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserKeywordCreateArgsSchema: z.ZodType<Prisma.UserKeywordCreateArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  data: z.union([ UserKeywordCreateInputSchema, UserKeywordUncheckedCreateInputSchema ]),
+}).strict();
+
+export const UserKeywordUpsertArgsSchema: z.ZodType<Prisma.UserKeywordUpsertArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereUniqueInputSchema, 
+  create: z.union([ UserKeywordCreateInputSchema, UserKeywordUncheckedCreateInputSchema ]),
+  update: z.union([ UserKeywordUpdateInputSchema, UserKeywordUncheckedUpdateInputSchema ]),
+}).strict();
+
+export const UserKeywordCreateManyArgsSchema: z.ZodType<Prisma.UserKeywordCreateManyArgs> = z.object({
+  data: z.union([ UserKeywordCreateManyInputSchema, UserKeywordCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserKeywordCreateManyAndReturnArgsSchema: z.ZodType<Prisma.UserKeywordCreateManyAndReturnArgs> = z.object({
+  data: z.union([ UserKeywordCreateManyInputSchema, UserKeywordCreateManyInputSchema.array() ]),
+  skipDuplicates: z.boolean().optional(),
+}).strict();
+
+export const UserKeywordDeleteArgsSchema: z.ZodType<Prisma.UserKeywordDeleteArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  where: UserKeywordWhereUniqueInputSchema, 
+}).strict();
+
+export const UserKeywordUpdateArgsSchema: z.ZodType<Prisma.UserKeywordUpdateArgs> = z.object({
+  select: UserKeywordSelectSchema.optional(),
+  include: UserKeywordIncludeSchema.optional(),
+  data: z.union([ UserKeywordUpdateInputSchema, UserKeywordUncheckedUpdateInputSchema ]),
+  where: UserKeywordWhereUniqueInputSchema, 
+}).strict();
+
+export const UserKeywordUpdateManyArgsSchema: z.ZodType<Prisma.UserKeywordUpdateManyArgs> = z.object({
+  data: z.union([ UserKeywordUpdateManyMutationInputSchema, UserKeywordUncheckedUpdateManyInputSchema ]),
+  where: UserKeywordWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserKeywordUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.UserKeywordUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ UserKeywordUpdateManyMutationInputSchema, UserKeywordUncheckedUpdateManyInputSchema ]),
+  where: UserKeywordWhereInputSchema.optional(), 
+  limit: z.number().optional(),
+}).strict();
+
+export const UserKeywordDeleteManyArgsSchema: z.ZodType<Prisma.UserKeywordDeleteManyArgs> = z.object({
+  where: UserKeywordWhereInputSchema.optional(), 
   limit: z.number().optional(),
 }).strict();
 

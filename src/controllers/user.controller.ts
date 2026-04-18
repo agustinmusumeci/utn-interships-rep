@@ -24,7 +24,17 @@ export class UserController {
       return { message: "Carreras suscriptas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
-      return { message: "Error activando las alertar - Intente más tarde", ok: true, error: e };
+      return { message: "Error activando las alertas de carreras - Intente más tarde", ok: true, error: e };
+    }
+  }
+
+  async suscribeKeywords(userId: string, toSuscribeKeywords: Array<string>, toDeleteKeywords: Array<string>) {
+    try {
+      await this.userService.suscribeKeywords(userId, toSuscribeKeywords, toDeleteKeywords);
+      return { message: "Keywords suscriptas correctamente", ok: true, error: undefined };
+    } catch (e) {
+      console.log(e);
+      return { message: "Error activando las alertas de keywords - Intente más tarde", ok: true, error: e };
     }
   }
 }

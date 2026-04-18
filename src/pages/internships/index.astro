@@ -6,11 +6,22 @@ import Internships from "../../components/internship/internships.astro";
 import InternshipsSkeleton from "../../components/internship/internshipsSkeleton.astro";
 import { PARAMS } from "../../constants/params";
 import Warning from "@/components/ui/warning"
+import { UserService } from "@/services/user.service";
 
 const searchParams = Astro.url.searchParams
 const pathname = Astro.url.pathname
 
 const params = Object.fromEntries(PARAMS.map((key) => [key, searchParams.get(key)]));
+const { isAuthenticated} = Astro.locals.auth()
+const loggedUser = await Astro.locals.currentUser()
+let hasNotifications = false;
+
+if (isAuthenticated  && loggedUser) {
+    const userService = new UserService()
+    
+    const user = await userService.getUser(loggedUser?.id)
+    hasNotifications = user?.suscripted ?? false
+}
 
 const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], page: params?.page ? Number(params?.page) : 0}
 ---
@@ -28,11 +39,10 @@ const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], p
                 <Warning title="Por el momento solo hay pasantías de UTN FRC" client:load/>
             </div>
             <div class="grid lg:grid-cols-5 grid-cols-3 gap-10">
-
-                <Filter filter={filteredParams} client:only>
+                <Filter filter={filteredParams} isAuthenticated={isAuthenticated} loggedUser={loggedUser} hasNotifications={hasNotifications} client:only>
                     <FilterSkeleton slot="fallback"/>
                 </Filter>
-                
+
                 <Internships searchParams={searchParams.toString()} pathname={pathname} params={filteredParams} server:defer>
                         <InternshipsSkeleton slot="fallback"/>
                 </Internships>

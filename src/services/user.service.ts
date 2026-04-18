@@ -109,6 +109,15 @@ export class UserService {
     }
   }
 
+  async suscribeKeywords(userId: string, toSuscribeKeywords: Array<string>, toDeleteKeywords: Array<string>) {
+    try {
+      return await this.userRepository.suscribeKeywords(userId, toSuscribeKeywords, toDeleteKeywords);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  }
+
   mapUserToJson(user: User & { userCareers?: any[] }) {
     const newUser = {
       id: user?.id,

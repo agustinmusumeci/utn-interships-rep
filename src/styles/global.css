@@ -190,21 +190,6 @@ input[type="checkbox"]:checked::before {
   @apply hover:text-primary-hover transition-all;
 }
 
-.marquee-wrapper {
-  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-}
-
-.marquee-track {
-  width: max-content;
-  animation: marquee 10s linear infinite;
-}
-
-/* Pausa al hacer hover sobre la card padre */
-:global(a:hover) .marquee-track {
-  animation-play-state: paused;
-}
-
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -237,10 +222,6 @@ input[type="checkbox"]:checked::before {
   background-color: #ccc;
   -webkit-transition: 0.4s;
   transition: 0.4s;
-}
-
-.switch-slider {
-  @apply hover:bg-primary-hover;
 }
 
 .switch-slider:before {
