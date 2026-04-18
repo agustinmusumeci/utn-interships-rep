@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import Warning from "../ui/warning";
 import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, KeyRound, LoaderIcon, UniversityIcon } from "lucide-react";
 import alertasNotFound from "../../../public/images/alertas-notfound.png";
+import PageTitle from "../ui/page-title";
 
 export default function Alert({ user, internships = [] }: { user: any; internships: any[] }) {
   const userCareersIds = new Set(user ? user?.careers?.map((c: { id: string }) => c?.id) : []);
@@ -329,172 +330,192 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
               )}
             </div>
           </div>
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 place-content-start gap-5 min-h-100"
-            aria-disabled={!suscripted}
-          >
-            {/* Available careers */}
-            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
-              <div className="title-md flex flex-row gap-4 items-center">
-                <UniversityIcon />
-
-                <h4>Carreras disponibles</h4>
-              </div>
-              <ScrollArea className="h-70">
-                {availableCareers.map((career) => (
-                  <button
-                    onClick={() => {
-                      suscriptCareer(career.id, true);
-                    }}
-                    disabled={!suscripted}
-                    key={`available-careers-${career?.id}`}
-                    aria-disabled={!suscripted}
-                    className="w-full mb-2 group flex flex-row gap-3 justify-between odd:bg-light-neutral even:bg-light-neutral/30 hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer"
-                    style={{ color: `${career.color}` }}
-                  >
-                    <span>{career.name}</span>
-                    <span className="text-xl text-text/20 group-hover:text-primary-hover transition-all">
-                      <CirclePlusIcon />
-                    </span>
-                  </button>
-                ))}
-              </ScrollArea>
+          <div>
+            <div className="mt-10">
+              <PageTitle
+                title="Configuración"
+                description="Customiza parámetros para tener alertas personalizadas según tus preferencias."
+              />
             </div>
-
-            {/* Suscripted careers */}
-            <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
-              <div className="title-md flex flex-row gap-4 items-center">
-                <BellRing
-                  aria-disabled={!suscripted}
-                  className="text-primary-hover  disabled:text-text/50  aria-disabled:text-text/50"
-                />
-
-                <h4>Carreras a alertar</h4>
-              </div>
-              <ScrollArea className="flex flex-col gap-2 h-70">
-                {suscriptedCareers.map((career: { id: string; color: string; name: string; bg: string }) => (
-                  <button
-                    aria-disabled={!suscripted}
-                    onClick={() => {
-                      suscriptCareer(career.id, false);
-                    }}
-                    key={`suscripted-careers-${career?.id}`}
-                    className="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
-                  >
-                    <span style={{ color: `${career.color}` }}>{career.name}</span>
-                    <span className="text-xl text-text/20 group-hover:text-red-800 transition-all">
-                      <CircleX />
-                    </span>
-                  </button>
-                ))}
-                {suscriptedCareers.length === 0 && (
-                  <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
-                    <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
-                      <CirclePlusIcon />
-                      Seleccione carreras para alertar
-                    </span>
-                  </span>
-                )}
-              </ScrollArea>
-            </div>
-          </div>
-          <div className="bg-light-neutral/50 h-fit md:h-fit w-full rounded-xl p-8">
-            <div className="flex flex-col gap-2 h-fit">
-              <div className="title-md flex flex-row gap-4 items-center">
-                <KeyRound />
-
-                <h4>Palabras clave</h4>
-              </div>
-              <div className="flex flex-col md:flex-row md:items-end gap-5">
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="keyword"
-                    aria-disabled={!suscripted}
-                  >
-                    Nueva palabra
-                  </label>
-                  <input
-                    aria-disabled={!suscripted}
-                    value={keyword}
-                    onChange={(e) => {
-                      setKeyword(e.target.value);
-                    }}
-                    id="keyword"
-                    name="keyword"
-                    type="text"
-                    maxLength={30}
-                  />
+            <div className="flex flex-col gap-5">
+              <div>
+                <div>
+                  <h3 className="title-md">Carreras</h3>
                 </div>
-                <button
-                  className="button button-outline h-fit"
-                  type="button"
+                <div
+                  className="grid grid-cols-1 md:grid-cols-2 place-content-start gap-5 min-h-100"
                   aria-disabled={!suscripted}
-                  onClick={() => {
-                    suscriptKeyword(keyword, true);
-                  }}
                 >
-                  Añadir
-                  <CirclePlusIcon />
-                </button>
-              </div>
-              {/* Current keywords */}
-              <div className="h-fit mt-8">
-                <div className="flex flex-row flex-wrap gap-5">
-                  {suscriptedKeywords.map((k: string, i: number) => (
-                    <button
-                      aria-disabled={!suscripted}
-                      onClick={() => {
-                        suscriptKeyword(k, false);
-                      }}
-                      className="flex flex-row items-center justify-between gap-5 bg-light-neutral group px-5 py-2 hover:bg-neutral transition-all rounded-full text-text"
-                      key={`keywords-${k}-${i}`}
-                    >
-                      <p className="text-start mr-10">{k}</p>
-                      <CircleX className=" text-text/40 transition-all" />
-                    </button>
-                  ))}
-                </div>
+                  {/* Available careers */}
+                  <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
+                    <div className="title-sm flex flex-row gap-4 items-center">
+                      <UniversityIcon />
 
-                {suscriptedKeywords?.length === 0 && (
-                  <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
-                    <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
-                      <CirclePlusIcon />
-                      Agregue palabras clave
-                    </span>
-                  </span>
-                )}
+                      <h4>Disponibles</h4>
+                    </div>
+                    <ScrollArea className="h-70">
+                      {availableCareers.map((career) => (
+                        <button
+                          onClick={() => {
+                            suscriptCareer(career.id, true);
+                          }}
+                          disabled={!suscripted}
+                          key={`available-careers-${career?.id}`}
+                          aria-disabled={!suscripted}
+                          className="w-full mb-2 group flex flex-row gap-3 justify-between odd:bg-light-neutral even:bg-light-neutral/30 hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer"
+                          style={{ color: `${career.color}` }}
+                        >
+                          <span>{career.name}</span>
+                          <span className="text-xl text-text/20 group-hover:text-primary-hover transition-all">
+                            <CirclePlusIcon />
+                          </span>
+                        </button>
+                      ))}
+                    </ScrollArea>
+                  </div>
+
+                  {/* Suscripted careers */}
+                  <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
+                    <div className="title-sm flex flex-row gap-4 items-center">
+                      <BellRing
+                        aria-disabled={!suscripted}
+                        className="text-primary-hover  disabled:text-text/50  aria-disabled:text-text/50"
+                      />
+
+                      <h4>Suscriptas</h4>
+                    </div>
+                    <ScrollArea className="flex flex-col gap-2 h-70">
+                      {suscriptedCareers.map((career: { id: string; color: string; name: string; bg: string }) => (
+                        <button
+                          aria-disabled={!suscripted}
+                          onClick={() => {
+                            suscriptCareer(career.id, false);
+                          }}
+                          key={`suscripted-careers-${career?.id}`}
+                          className="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
+                        >
+                          <span style={{ color: `${career.color}` }}>{career.name}</span>
+                          <span className="text-xl text-text/20 group-hover:text-red-800 transition-all">
+                            <CircleX />
+                          </span>
+                        </button>
+                      ))}
+                      {suscriptedCareers.length === 0 && (
+                        <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
+                          <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
+                            <CirclePlusIcon />
+                            Seleccione carreras para alertar
+                          </span>
+                        </span>
+                      )}
+                    </ScrollArea>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-light-text/10 flex flex-col gap-10 lg:flex-row justify-between">
-            <form
-              className="flex flex-row gap-5"
-              onSubmit={handleSumbit}
-            >
-              <button
-                type="submit"
-                aria-disabled={loading || !suscripted}
-                disabled={loading || !suscripted}
-                className="button button-primary min-w-fit h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
-              >
-                {loading && <LoaderIcon className="animate-spin" />}
-                Guardar configuración
-              </button>
-              <button
-                type="button"
-                aria-disabled={loading || !suscripted}
-                disabled={loading || !suscripted}
-                className="button button-outline h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
-                onClick={handleDiscardChanges}
-              >
-                Descartar
-              </button>
-            </form>
-            <div className="flex flex-row items-center text-light-text/50 font-light">
-              <p className="max-w-prose flex flex-row items-start gap-5">
-                <Info className="w-20" />
-                Los cambios se aplicaran al instante a su configuración de alertas. Las pasantías al coincidir con alguno de parámtros generaran un mail que se enviara a su dirección.
-              </p>
+              <div className="mt-5">
+                <div>
+                  <h3 className="title-md">Filtros</h3>
+                </div>
+                <div className="bg-light-neutral/50 h-fit md:h-fit w-full rounded-xl p-8">
+                  <div className="flex flex-col gap-2 h-fit">
+                    <div className="title-sm flex flex-row gap-4 items-center">
+                      <KeyRound />
+
+                      <h4>Palabras clave</h4>
+                    </div>
+                    <div className="flex flex-col md:flex-row md:items-end gap-5">
+                      <div className="flex flex-col gap-2">
+                        <label
+                          htmlFor="keyword"
+                          aria-disabled={!suscripted}
+                        >
+                          Nueva palabra
+                        </label>
+                        <input
+                          aria-disabled={!suscripted}
+                          value={keyword}
+                          onChange={(e) => {
+                            setKeyword(e.target.value);
+                          }}
+                          id="keyword"
+                          name="keyword"
+                          type="text"
+                          maxLength={30}
+                        />
+                      </div>
+                      <button
+                        className="button button-outline h-fit"
+                        type="button"
+                        aria-disabled={!suscripted}
+                        onClick={() => {
+                          suscriptKeyword(keyword, true);
+                        }}
+                      >
+                        Añadir
+                        <CirclePlusIcon />
+                      </button>
+                    </div>
+                    {/* Current keywords */}
+                    <div className="h-fit mt-8">
+                      <div className="flex flex-row flex-wrap gap-5">
+                        {suscriptedKeywords.map((k: string, i: number) => (
+                          <button
+                            aria-disabled={!suscripted}
+                            onClick={() => {
+                              suscriptKeyword(k, false);
+                            }}
+                            className="flex flex-row items-center justify-between gap-5 bg-light-neutral group px-5 py-2 hover:bg-neutral transition-all rounded-full text-text"
+                            key={`keywords-${k}-${i}`}
+                          >
+                            <p className="text-start mr-10">{k}</p>
+                            <CircleX className=" text-text/40 transition-all" />
+                          </button>
+                        ))}
+                      </div>
+
+                      {suscriptedKeywords?.length === 0 && (
+                        <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
+                          <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
+                            <CirclePlusIcon />
+                            Agregue palabras clave
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-light-text/10 flex flex-col gap-10 lg:flex-row justify-between">
+                <form
+                  className="flex flex-row gap-5"
+                  onSubmit={handleSumbit}
+                >
+                  <button
+                    type="submit"
+                    aria-disabled={loading || !suscripted}
+                    disabled={loading || !suscripted}
+                    className="button button-primary min-w-fit h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
+                  >
+                    {loading && <LoaderIcon className="animate-spin" />}
+                    Guardar configuración
+                  </button>
+                  <button
+                    type="button"
+                    aria-disabled={loading || !suscripted}
+                    disabled={loading || !suscripted}
+                    className="button button-outline h-fit px-3 py-2 border border-gray-200 cursor-pointer rounded-full"
+                    onClick={handleDiscardChanges}
+                  >
+                    Descartar
+                  </button>
+                </form>
+                <div className="flex flex-row items-center text-light-text/50 font-light">
+                  <p className="max-w-prose flex flex-row items-start gap-5">
+                    <Info className="w-20" />
+                    Los cambios se aplicaran al instante a su configuración de alertas. Las pasantías al coincidir con alguno de parámtros generaran un mail que se enviara a su dirección.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

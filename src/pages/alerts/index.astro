@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Alert from "../../components/alert/alert";
 import { UserService } from "@/services/user.service";
+import PageTitle from "@/components/ui/page-title";
 
 const { isAuthenticated} = Astro.locals.auth()
 const loggedUser = await Astro.locals.currentUser()
@@ -19,14 +20,7 @@ const internships = await userService.getUserNotifications(userId)
 
 <Layout title="Alertas | BuscoPasantías">
     <section class="container mt-5">
-        <div class="flex flex-row items-center gap-5 mb-10">
-                <div class="h-32 md:h-24 w-1 bg-primary-hover rounded-full"></div>
-                <div >
-                    <h2 class="title-lg">Alertas</h2>
-                    <p class="text-text/50 max-w-prose">Administre sus criterios para notificar ante nuevas pasantías mediante Mail.</p>
-                    
-                </div>  
-        </div>
+        <PageTitle title="Alertas" description="Explore sus alertas de pasantías y customice preferencias para alertas personalizadas." />
 
         <Alert user={user} internships={internships} client:load/>
     </section>
