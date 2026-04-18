@@ -5,17 +5,24 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import Warning from "../ui/warning";
-import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, LoaderIcon, UniversityIcon } from "lucide-react";
+import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, KeyRound, LoaderIcon, UniversityIcon } from "lucide-react";
 import alertasNotFound from "../../../public/images/alertas-notfound.png";
 
 export default function Alert({ user, internships = [] }: { user: any; internships: any[] }) {
   const userCareersIds = new Set(user ? user?.careers?.map((c: { id: string }) => c?.id) : []);
   const [suscripted, setSuscripted] = useState(user?.suscripted ?? false);
+
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+
   const [alertedInternships, setAlertedInternships] = useState(internships ?? []);
   const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career?.id)) ?? []);
+
   const [suscriptedCareers, setSuscriptedCareers] = useState(user?.careers ?? []);
   const [toDeleteCareers, setToDeleteCareers] = useState<typeof CAREERS>([]);
+  const [suscriptedKeywords, setSuscriptedKeywords] = useState(user?.keywords ?? []);
+  const [toDeleteKeywords, setToDeleteKeywords] = useState<Array<string>>([]);
+
+  const [keyword, setKeyword] = useState("");
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -57,23 +64,44 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await actions.suscribeCareers({
-      id: user?.id,
-      toSuscribeCareers: suscriptedCareers.map((c: { id: string }) => c?.id),
-      toDeleteCareers: toDeleteCareers.map((c: { id: string }) => c?.id),
-    });
+    const [{ data: careersData, error: careersError }, { data: keywordsData, error: keywordsError }] = await Promise.all([
+      actions.suscribeCareers({
+        id: user?.id,
+        toSuscribeCareers: suscriptedCareers.map((c: { id: string }) => c?.id),
+        toDeleteCareers: toDeleteCareers.map((c: { id: string }) => c?.id),
+      }),
+      actions.suscribeKeywords({ id: user?.id, toSuscribeKeywords: suscriptedKeywords, toDeleteKeywords: toDeleteKeywords }),
+    ]);
 
-    if (error) {
-      toast.error(error.message, {
+    if (careersError) {
+      toast.error(careersError.message, {
         action: {
           label: "X",
           onClick: () => console.log("Cerrando toast"),
         },
       });
 
-      console.error(error);
+      console.error(careersError);
     } else {
-      toast.success(data.message, {
+      toast.success(careersData.message, {
+        action: {
+          label: "X",
+          onClick: () => console.log("Cerrando toast"),
+        },
+      });
+    }
+
+    if (keywordsError) {
+      toast.error(keywordsError.message, {
+        action: {
+          label: "X",
+          onClick: () => console.log("Cerrando toast"),
+        },
+      });
+
+      console.error(keywordsError);
+    } else {
+      toast.success(keywordsData.message, {
         action: {
           label: "X",
           onClick: () => console.log("Cerrando toast"),
@@ -95,6 +123,21 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
       setSuscriptedCareers(suscriptedCareers.filter((c: { id: string }) => c.id !== careerId));
       setAvailableCareers([...availableCareers, career]);
       setToDeleteCareers([...toDeleteCareers, career]);
+    }
+  };
+
+  const suscriptKeyword = (keyword: string, suscript: boolean) => {
+    if (suscript) {
+      if (!suscriptedKeywords.includes(keyword) && keyword) {
+        setSuscriptedKeywords([...suscriptedKeywords, keyword]);
+        setToDeleteKeywords((prev) => [...prev.filter((el) => el !== keyword)]);
+        setKeyword("");
+      }
+    } else {
+      if (!toDeleteKeywords.includes(keyword) && keyword) {
+        setToDeleteKeywords([...toDeleteKeywords, keyword]);
+        setSuscriptedKeywords((prev: Array<string>) => [...prev.filter((el) => el !== keyword)]);
+      }
     }
   };
 
@@ -281,7 +324,6 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
           </div>
           <div
             className="grid grid-cols-1 md:grid-cols-2 place-content-start gap-5 min-h-100"
-            // disabled={!suscripted}
             aria-disabled={!suscripted}
           >
             {/* Available careers */}
@@ -298,6 +340,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                       suscriptCareer(career.id, true);
                     }}
                     disabled={!suscripted}
+                    key={`available-careers-${career?.id}`}
                     aria-disabled={!suscripted}
                     className="w-full mb-2 group flex flex-row gap-3 justify-between odd:bg-light-neutral even:bg-light-neutral/30 hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer"
                     style={{ color: `${career.color}` }}
@@ -315,7 +358,6 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
             <div className="flex flex-col gap-2 min-h-100 bg-light-neutral/50 rounded-xl p-8">
               <div className="title-md flex flex-row gap-4 items-center">
                 <BellRing
-                  // disabled={!suscripted}
                   aria-disabled={!suscripted}
                   className="text-primary-hover  disabled:text-text/50  aria-disabled:text-text/50"
                 />
@@ -330,11 +372,11 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                     onClick={() => {
                       suscriptCareer(career.id, false);
                     }}
+                    key={`suscripted-careers-${career?.id}`}
                     className="w-full mb-2 group flex flex-row gap-3 justify-between bg-[#292929]/50  hover:bg-neutral transition-all items-center px-5 py-4 rounded-lg cursor-pointer relative before:absolute before:h-full before:w-1 before:bg-primary before:left-0 before:rounded-bl-full before:rounded-tl-full"
                   >
                     <span
                       style={{ color: `${career.color}` }}
-                      // disabled={!suscripted}
                       aria-disabled={!suscripted}
                     >
                       {career.name}
@@ -355,7 +397,65 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
               </ScrollArea>
             </div>
           </div>
-          <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-text/25 flex flex-col gap-10 lg:flex-row justify-between">
+          <div className="bg-light-neutral/50 h-fit md:h-fit w-full rounded-xl p-8">
+            <div className="flex flex-col gap-2 h-fit">
+              <div className="title-md flex flex-row gap-4 items-center">
+                <KeyRound />
+
+                <h4>Palabras clave</h4>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-end gap-5">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="">Nueva palabra</label>
+                  <input
+                    value={keyword}
+                    onChange={(e) => {
+                      setKeyword(e.target.value);
+                    }}
+                    type="text"
+                    maxLength={30}
+                  />
+                </div>
+                <button
+                  className="button button-outline h-fit"
+                  type="button"
+                  onClick={() => {
+                    suscriptKeyword(keyword, true);
+                  }}
+                >
+                  Añadir
+                  <CirclePlusIcon />
+                </button>
+              </div>
+              {/* Current keywords */}
+              <div className="h-fit mt-8">
+                <div className="flex flex-row flex-wrap gap-5">
+                  {suscriptedKeywords.map((k: string, i: number) => (
+                    <button
+                      onClick={() => {
+                        suscriptKeyword(k, false);
+                      }}
+                      className="flex flex-row items-center justify-between gap-5 bg-light-neutral group px-5 py-2 hover:bg-neutral transition-all rounded-full text-text"
+                      key={`keywords-${k}-${i}`}
+                    >
+                      <p className="text-start mr-10">{k}</p>
+                      <CircleX className=" text-text/40 transition-all" />
+                    </button>
+                  ))}
+                </div>
+
+                {suscriptedKeywords?.length === 0 && (
+                  <span className="group flex flex-row gap-3 justify-between odd:bg-neutral items-center px-5 py-4 rounded-lg cursor-pointer border-text/20 border-2 border-dotted">
+                    <span className="flex flex-row gap-5 text-xl text-text/40 items-center">
+                      <CirclePlusIcon />
+                      Agregue palabras clave
+                    </span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="my-20 relative before:absolute before:w-full before:-top-10 before:h-px before:bg-light-text/10 flex flex-col gap-10 lg:flex-row justify-between">
             <form
               className="flex flex-row gap-5"
               onSubmit={handleSumbitCareers}
@@ -381,8 +481,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
             <div className="flex flex-row items-center text-light-text/50 font-light">
               <p className="max-w-prose flex flex-row items-start gap-5">
                 <Info className="w-20" />
-                Los cambios se aplicaran al instante a su configuración de alertas. Las pasantías al coincidir con algunas de las carreras seleccionadas generaran un mail que se enviara a su
-                dirección.
+                Los cambios se aplicaran al instante a su configuración de alertas. Las pasantías al coincidir con alguno de parámtros generaran un mail que se enviara a su dirección.
               </p>
             </div>
           </div>

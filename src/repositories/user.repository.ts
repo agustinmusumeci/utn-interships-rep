@@ -2,14 +2,6 @@ import prisma from "../lib/prisma";
 
 export class UserRepository {
   async getSuscriptedUsers(careers: Array<string>, keywords: Array<string>) {
-    // let whereCareers = {} as { OR: Array<{ career_id: string }> };
-
-    // if (careers && careers.length > 0) {
-    //   whereCareers["OR"] = careers.map((c) => ({ career_id: c }));
-    // }
-
-    // console.log(keywords);
-
     return await prisma.user.findMany({
       where: { suscripted: true, OR: [{ userCareers: { some: { career_id: { in: careers } } } }, { userKeywords: { some: { keyword: { in: keywords } } } }] },
       include: { userCareers: { include: { Career: true }, where: { career_id: { in: careers } } }, userKeywords: { where: { keyword: { in: keywords } } } },
@@ -25,6 +17,7 @@ export class UserRepository {
             Career: true,
           },
         },
+        userKeywords: true,
       },
     });
   }
