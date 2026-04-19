@@ -6,12 +6,10 @@ import Linkedin from "../svg/linkedin.astro";
 import X from "../svg/x.astro";
 import { PLACEHOLDER } from "@/constants/placeholders";
 import { InternshipService } from "@/services/internship.service";
-import { Image } from "astro:assets";
-import notFoundImage from '../../../public/images/pasantias-notfound.png';
 import SuscribeAlert from "../alert/suscribe";
+import NotFound from "../404/notFound.astro";
 
-
-const {id} = Astro.props;
+const { id } = Astro.props;
 const referer = Astro.request.headers.get('Referer');
 const url = referer ? new URL(referer) : Astro.url;
 
@@ -30,22 +28,9 @@ if (isAuthenticated  && loggedUser) {
     const user = await userService.getUser(loggedUser?.id)
     hasNotifications = user?.suscripted ?? false
 }
-
-console.log(internship)
 ---
 {notFound ?
-    <section class="mt-5 flex flex-col md:flex-row gap-5 p-10 bg-light-neutral rounded-xl">
-       <div class="flex flex-row items-start md:items-center gap-10 col-span-4 bg-light-neutral p-5 rounded-xl">
-                <div>
-                    <Image src={notFoundImage} alt="Pasantía no encontrada" />
-                </div>
-                <div class="flex flex-col gap-5">
-                    <p class="title-md">Lo sentimos</p>     
-                    <p class="text-text/50">¡La pasantía que buscabas ya no existe o nunca existio!</p>
-                    <a class="button button-outline" href="/internships">Volver <MoveRight class="w-4 ml-2" /></a>
-                </div>
-            </div>
-    </section> 
+    <NotFound title="!Ups! Lo sentimos" description="Parece que la pasantía que buscabas ya no existe o nunca existió" action="/internships" />
     :
     <>
         <section class="mt-5 flex flex-col md:flex-row gap-5">
