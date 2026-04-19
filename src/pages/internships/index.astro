@@ -27,7 +27,7 @@ if (isAuthenticated  && loggedUser) {
 const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], page: params?.page ? Number(params?.page) : 0}
 ---
 
-<Layout>
+<Layout title="Pasantías disponibles | BuscoPasantías" description="Explora todas las pasantías de diversas carreras y especialidades universitarias para encontrar la adecuada para vos!">
     <section class="container min-h-dvh mt-5 mb-20">
         <PageTitle title="Pasantías disponibles" description="Explora las pasantías disponibles para ti" />
 

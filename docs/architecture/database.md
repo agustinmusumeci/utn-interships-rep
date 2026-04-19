@@ -6,6 +6,7 @@ erDiagram
   User ||--o{ UserCareer : "Suscripted to"
   Career ||--o{ UserCareer : "Includes"
   User ||--o{ UserNotification : "HasMany"
+  User ||--o{ UserKeyword : "HasMany"
   Internship ||--o{ UserNotification : "Generates"
 ```
 
@@ -17,4 +18,5 @@ erDiagram
 - **InternshipCareer** — N:M relation between internships and careers.
 - **User** — Registered vía Clerk.
 - **UserCareer** — Careers of intertest of the registered users.
+- **UserKeyword** — Keywords of intertest of the registered users for custom recomendations.
 - **UserNotification** — Log of sent alerts to the users with 'seen' flag.
