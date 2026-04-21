@@ -8,6 +8,7 @@ import Warning from "../ui/warning";
 import { ArrowUpRight, BellRing, CheckCheck, CirclePlusIcon, CircleX, Info, KeyRound, LoaderIcon, UniversityIcon } from "lucide-react";
 import alertasNotFound from "../../../public/images/alertas-notfound.png";
 import PageTitle from "../ui/page-title";
+import Careers from "../career/careers";
 
 export default function Alert({ user, internships = [] }: { user: any; internships: any[] }) {
   const userCareersIds = new Set(user ? user?.careers?.map((c: { id: string }) => c?.id) : []);
@@ -284,22 +285,18 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                   </div>
                   <div>
                     <div className="flex flex-row gap-3"></div>
-                    <div className="pt-2 relative flex flex-row justify-between items-center before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
+                    <div className="pt-2 relative flex flex-row gap-20 justify-between items-center before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
                       <span
-                        className="text-sm opacity-75"
+                        className="text-sm opacity-75 shrink-0"
                         style={{ color: `${internship.internship.timeSinceCreated.color}` }}
                       >
                         {internship.internship.timeSinceCreated.time}
                       </span>
-                      <div className="flex flex-row items-center gap-2">
-                        {internship.internship.careers.map((career: { color: string; id: string; name: string; bg: string }) => (
-                          <span
-                            className="w-fit group flex flex-row gap-1 py-1 px-4 justify-between rounded-md"
-                            style={{ color: `${career?.color}`, backgroundColor: `${career?.bg}` }}
-                          >
-                            {career?.name}
-                          </span>
-                        ))}
+                      <div className="flex flex-row items-center gap-2 overflow-hidden">
+                        <Careers
+                          careers={internship.internship.careers}
+                          isCard={true}
+                        />
                       </div>
                     </div>
                     <span>

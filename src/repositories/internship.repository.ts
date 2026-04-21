@@ -40,11 +40,11 @@ export class InternshipRepository {
     return res;
   }
 
-  async getInternships(filter: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
+  async getInternships(filter?: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
     let where = {} as { OR: Array<any>; internshipCareers: any; created_at: any };
     let order = {};
 
-    if (filter.text) {
+    if (filter?.text) {
       where["OR"] = [
         { knowledge: { contains: filter.text, mode: "insensitive" } },
         { modality: { contains: filter.text, mode: "insensitive" } },
@@ -53,19 +53,19 @@ export class InternshipRepository {
       ];
     }
 
-    if (filter.careers && filter.careers?.length > 0 && !filter.careers.includes("*")) {
+    if (filter?.careers && filter?.careers?.length > 0 && !filter?.careers.includes("*")) {
       where["internshipCareers"] = {
         some: {
           career_id: {
-            in: filter.careers,
+            in: filter?.careers,
           },
         },
       };
     }
 
-    if (filter.time) {
+    if (filter?.time) {
       order = {
-        created_at: filter.time?.toLocaleLowerCase(),
+        created_at: filter?.time?.toLocaleLowerCase(),
       };
     } else {
       order = {
@@ -73,10 +73,10 @@ export class InternshipRepository {
       };
     }
 
-    if (filter.date && filter.date !== "*") {
+    if (filter?.date && filter?.date !== "*") {
       const currentDate = new Date();
 
-      const dateToFilter = new Date(currentDate.getTime() - Number(filter.date) * 24 * 60 * 60 * 1000);
+      const dateToFilter = new Date(currentDate.getTime() - Number(filter?.date) * 24 * 60 * 60 * 1000);
 
       where["created_at"] = { gte: dateToFilter };
     }

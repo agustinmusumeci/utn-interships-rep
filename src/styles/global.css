@@ -275,9 +275,27 @@ input[type="checkbox"]:checked::before {
   @apply bg-text/50 rounded-full;
 }
 
-/* Hover en el desplazador */
+/* Hover in the scroll */
 .horizontal-scroll::-webkit-scrollbar-thumb:hover {
   @apply bg-text/40;
+}
+
+.marquee-wrapper {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  --marquee-play-state: running;
+}
+
+.marquee-track {
+  width: max-content;
+  animation: marquee 15s linear infinite;
+  animation-play-state: var(--marquee-play-state);
+}
+
+/* TODO: Fix this because is not working  */
+/* On card hover, marquee stops */
+:global(a:hover) .marquee-wrapper {
+  --marquee-play-state: paused;
 }
 
 /* lmfao gtfo white theme */

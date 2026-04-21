@@ -106,7 +106,7 @@ export class InternshipService {
       rrhh: !internship?.rrhh ? PLACEHOLDER.rrhh : internship?.rrhh,
       interview_timetable: internship?.interview_timetable,
       knowledge: internship?.knowledge,
-      requirements: internship?.requirements ? PLACEHOLDER.requirements : internship?.requirements,
+      requirements: !internship?.requirements ? PLACEHOLDER.requirements : internship?.requirements,
       payment: !internship?.payment || internship?.payment === 0 ? PLACEHOLDER.payment : internship?.payment,
       timetable: internship?.timetable,
       position: !internship?.position ? PLACEHOLDER.position : internship?.position,
