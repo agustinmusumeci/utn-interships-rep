@@ -1,43 +1,29 @@
 import type { InternshipWhereUniqueInput } from "prisma/generated/models";
 import type { Internship } from "../../prisma/zod";
-import { GeminiAgent } from "../agents/gemini.agent";
 import { INTERNSHIPS_PER_PAGE } from "../constants/paginations";
 import prisma from "../lib/prisma";
-import { Scraper } from "../lib/scraper";
 import dotenv from "dotenv";
+import { UTNScraper } from "@/services/utn.scraper.service";
 dotenv.config({ path: "/.env" });
 
 export class InternshipRepository {
-  url: string;
+  constructor() {}
 
-  constructor() {
-    this.url = (typeof process !== "undefined" && process.env.SCRAPER_URL) || (import.meta as any).env?.SCRAPER_URL;
-  }
+  async scrapeInternships(): Promise<Array<Internship & { careers: Array<string> }>> {
+    // Scrapers available
+    const UTN_SCRAPER = new UTNScraper();
 
-  async scrapeInternships(): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
-    const scraper = new Scraper();
+    const scrapers = [UTN_SCRAPER];
 
-    await scraper.init(true);
+    const internships: Array<Internship & { careers: Array<string> }> = [];
 
-    await scraper.navigate(this.url);
+    for (let scraper of scrapers) {
+      const data = await scraper.scrapeInternships();
 
-    const raw: string = await scraper.evaluate(() => {
-      const container = document.getElementById("a60492");
+      internships.push(...data);
+    }
 
-      const content = container?.querySelector(".show-hide")?.textContent;
-
-      return content;
-    });
-
-    await scraper.close();
-
-    const agent = new GeminiAgent();
-
-    const res = await agent.sumbitContent(raw);
-
-    console.log("agent: ", res);
-
-    return res;
+    return internships;
   }
 
   async getInternships(filter?: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number }) {
@@ -135,8 +121,6 @@ export class InternshipRepository {
     >,
   ) {
     try {
-      console.log("uploadInternships: ", internships);
-
       const updatedInternships = await prisma.$transaction(async (tx) => {
         // Select all the internships that already exists before the upload
         const preExisting = await tx.internship.findMany({
@@ -154,9 +138,11 @@ export class InternshipRepository {
           skipDuplicates: true,
         });
 
-        // Select only the ones that were created
+        // Select only the ones that were created on the past hour
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+
         const created = await tx.internship.findMany({
-          where: { arm: { notIn: Array.from(preExistingARMS) } },
+          where: { arm: { notIn: Array.from(preExistingARMS) }, created_at: { gte: oneHourAgo } },
         });
 
         // Create relation between internships and careers
@@ -186,8 +172,6 @@ export class InternshipRepository {
           ...i,
           careers: careersHash[i.arm] ?? [],
         }));
-
-        // console.log(updatedInternships);
 
         return updatedInternships;
       });

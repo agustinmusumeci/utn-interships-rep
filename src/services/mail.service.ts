@@ -1,4 +1,4 @@
-import type { Notificator } from "../interfaces/interface.notificator";
+import type { Notificator } from "../interfaces/notificator.interface";
 import dotenv from "dotenv";
 dotenv.config({ path: "/.env" });
 

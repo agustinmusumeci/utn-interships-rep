@@ -11,7 +11,7 @@ export class InternshipService {
     this.internshipRepository = new InternshipRepository();
   }
 
-  async scrapeInternships(): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
+  async scrapeInternships(): Promise<Array<Internship & { careers: Array<string> }>> {
     return await this.internshipRepository.scrapeInternships();
   }
 

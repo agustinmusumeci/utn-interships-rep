@@ -1,6 +1,6 @@
 import puppeteer, { Browser as PBrowser, Page } from "puppeteer";
 
-export class Scraper {
+export class WebScraper {
   #browser: undefined | PBrowser;
   #page: undefined | Page;
 

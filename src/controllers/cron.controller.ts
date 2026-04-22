@@ -54,6 +54,7 @@ export class CronController {
       const careersSet: Set<string> = new Set();
       const keywordsSet: Set<string> = new Set();
 
+      // Fields where to look for keywords
       const fieldsToAnalyze = ["knowledge", "requirements", "position"];
 
       // Analize the new internships
