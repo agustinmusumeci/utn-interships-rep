@@ -34,7 +34,7 @@ export default function SuscribeAlert({ careers = [], keyword = "", isAuthentica
           }),
           actions.suscribeKeywords({
             id: loggedUser?.id,
-            toSuscribeKeywords: [keyword],
+            toSuscribeKeywords: keyword ? [keyword] : [],
             toDeleteKeywords: [],
           }),
         ]);
