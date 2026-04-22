@@ -68,6 +68,7 @@ export class InternshipService {
   mapInternship(
     internship: Internship & {
       Company: { name: string; id: string };
+      University: { name: string; id: string };
       internshipCareers: Array<{ career_id: string; Career: { name: string; color: string; bg: string } }>;
     },
   ) {
@@ -118,6 +119,7 @@ export class InternshipService {
       mail: !internship?.mail ? PLACEHOLDER.mail : internship?.mail,
       observations: !internship?.observations ? "-" : internship?.observations,
       company: { id: internship?.Company?.id, name: !internship?.Company?.name ? PLACEHOLDER.company : internship?.Company?.name },
+      university: { id: internship?.university_id ?? "", name: internship?.University?.name },
       careers: internship?.internshipCareers?.map((career) => ({
         id: career?.career_id,
         name: career?.Career?.name,

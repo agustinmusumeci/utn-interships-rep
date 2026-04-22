@@ -79,6 +79,7 @@ export class InternshipRepository {
       skip: (filter?.page ?? 0) * INTERNSHIPS_PER_PAGE,
       include: {
         Company: true,
+        University: true,
         internshipCareers: {
           include: {
             Career: true,
@@ -104,6 +105,7 @@ export class InternshipRepository {
       where: where,
       include: {
         Company: true,
+        University: true,
         internshipCareers: {
           include: {
             Career: true,
