@@ -2,6 +2,7 @@
 erDiagram
   Company ||--o{ Internship : "HasMany"
   Internship ||--o{ InternshipCareer : "HasMany"
+  Internship ||--o{ University : "Includes"
   Career ||--o{ InternshipCareer : "Includes"
   User ||--o{ UserCareer : "Suscripted to"
   Career ||--o{ UserCareer : "Includes"
@@ -15,6 +16,7 @@ erDiagram
 - **Company** — Companies that offers the internships.
 - **Internship** — Published and available internship.
 - **Career** — Current asked careers of the internships (Sistemas, Civil, etc.).
+- **University** — Available universities.
 - **InternshipCareer** — N:M relation between internships and careers.
 - **User** — Registered vía Clerk.
 - **UserCareer** — Careers of intertest of the registered users.
