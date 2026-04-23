@@ -1,26 +1,27 @@
 import { GoogleGenAI } from "@google/genai";
 import type { GoogleGenAI as GoogleGenAIType } from "@google/genai";
-import { INTERSHIP_RESPONSE_SCHEMA } from "../schemas/intership.response.schema";
 import { Agent } from "./agent";
 import type { Internship } from "../../prisma/zod";
 import dotenv from "dotenv";
+import getContext from "./context";
+import getInternshipResponseSchema from "@/schemas/intership.response.schema";
 dotenv.config({ path: "/.env" });
 
 export class GeminiAgent extends Agent {
-  #ai: GoogleGenAIType;
+  private ai: GoogleGenAIType;
 
   constructor() {
     super();
-    this.#ai = new GoogleGenAI({ apiKey: (typeof process !== "undefined" && process.env.GEMINI_API_KEY) || (import.meta as any).env?.GEMINI_API_KEY });
+    this.ai = new GoogleGenAI({ apiKey: (typeof process !== "undefined" && process.env.GEMINI_API_KEY) || (import.meta as any).env?.GEMINI_API_KEY });
   }
 
-  async sumbitContent(content: string): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
-    const response = await this.#ai.models.generateContent({
+  async sumbitContent(content: string, university: string): Promise<{ internships: Array<Internship & { careers: Array<string> }> }> {
+    const response = await this.ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: `${this.context} Content:${content}`,
+      contents: `${getContext(university)} Content:${content}`,
       config: {
         responseMimeType: "application/json",
-        responseJsonSchema: INTERSHIP_RESPONSE_SCHEMA,
+        responseJsonSchema: getInternshipResponseSchema(university),
       },
     });
 

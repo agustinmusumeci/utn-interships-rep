@@ -54,6 +54,7 @@ model Career {
 
   internshipCareers InternshipCareer[]
   userCareers UserCareer[]
+  universityCareers UniversityCareer[]
 }
 
 model University {
@@ -61,15 +62,25 @@ model University {
   name String
 
   internships Internship[]
+  careers UniversityCareer[]
 }
 
 model InternshipCareer {
   internship_id Int
-  career_id    String 
-  Internship Internship @relation(fields: [internship_id], references: [id])  
-  Career Career @relation(fields: [career_id], references: [id])  
+  career_id     String 
+  Internship    Internship @relation(fields: [internship_id], references: [id])  
+  Career        Career @relation(fields: [career_id], references: [id])  
 
   @@id([internship_id, career_id]) 
+}
+
+model UniversityCareer {
+  university_id   String
+  career_id       String
+
+  University      University @relation(fields: [university_id],references: [id])
+  Career          Career @relation(fields: [career_id],references: [id])
+  @@id([university_id, career_id])  
 }
 
 model Company {

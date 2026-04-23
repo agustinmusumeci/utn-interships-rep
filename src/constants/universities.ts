@@ -1,4 +1,4 @@
-export const UNIVERSITIES = [
-  { id: "UTNFRC", name: "Universidad Tecnológica Nacional FRC" },
-  { id: "UNC", name: "Universidad Nacional de Córdoba" },
-];
+export enum Universities {
+  UTNFRC = "UTNFRC",
+  UNC = "UNC",
+}

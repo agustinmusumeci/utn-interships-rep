@@ -1,25 +1,27 @@
 import type { Scraper } from "@/interfaces/scraper.interface";
-import { WebScraper } from "@/lib/scraper";
+import { WebScraper } from "@/lib/webScraper";
 import type { Internship } from "prisma/zod";
 import dotenv from "dotenv";
 import { GeminiAgent } from "@/agents/gemini.agent";
+import { Universities } from "@/constants/universities";
 dotenv.config({ path: "/.env" });
 
 export class UTNScraper implements Scraper {
   private url: string;
+  university: string = Universities.UTNFRC;
 
   constructor() {
     this.url = (typeof process !== "undefined" && process.env.UTN_SCRAPER_URL) || (import.meta as any).env?.UTN_SCRAPER_URL;
   }
 
   async scrapeInternships(): Promise<Array<Internship>> {
-    const scraper = new WebScraper();
+    const webScraper = new WebScraper();
 
-    await scraper.init(true);
+    await webScraper.init(true);
 
-    await scraper.navigate(this.url);
+    await webScraper.navigate(this.url);
 
-    const raw: string = await scraper.evaluate(() => {
+    const raw: string = await webScraper.evaluate(() => {
       const container = document.getElementById("a60492");
 
       const content = container?.querySelector(".show-hide")?.textContent;
@@ -27,12 +29,16 @@ export class UTNScraper implements Scraper {
       return content;
     });
 
-    await scraper.close();
+    await webScraper.close();
 
     const agent = new GeminiAgent();
 
-    const res = await agent.sumbitContent(raw);
+    const res = await agent.sumbitContent(raw, this.university);
 
     return res.internships;
+  }
+
+  getUniversity(): string {
+    return this.university;
   }
 }

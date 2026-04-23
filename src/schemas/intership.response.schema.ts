@@ -1,56 +1,62 @@
-import { CAREERS } from "../constants/careers";
+import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
 
-export const INTERSHIP_RESPONSE_SCHEMA = {
-  type: "object",
-  properties: {
-    internships: {
-      type: "array",
-      items: {
-        type: "object",
-        required: [
-          "arm",
-          "company_id",
-          "city",
-          "rrhh",
-          "interview_timetable",
-          "knowledge",
-          "requirements",
-          "payment",
-          "timetable",
-          "position",
-          "benefits",
-          "interns",
-          "workplace",
-          "modality",
-          "link",
-          "mail",
-        ],
-        properties: {
-          arm: { type: "string", description: "ARM number, e.g. '28/26'" },
-          company_id: { type: "string", description: "Company name, uppercase, no accents" },
-          city: { type: "string", description: "City name, uppercase, no accents" },
-          rrhh: { type: "string", description: "HR contact name" },
-          interview_timetable: { type: "string", description: "Interview schedule" },
-          knowledge: { type: "string", description: "Required knowledge/skills" },
-          requirements: { type: "string", description: "Other requirements" },
-          payment: { type: "integer", description: "Numeric salary only, no $ or separators. '$538.450,00' → 538450" },
-          timetable: { type: "string", description: "Work schedule" },
-          position: { type: "string", description: "Job position or area" },
-          benefits: { type: "string", description: "Benefits offered, empty string if none" },
-          interns: { type: "integer", description: "Number of interns required" },
-          workplace: { type: "string", description: "Physical work address" },
-          modality: { type: "string", description: "PRESENCIAL, HIBRIDA, or REMOTO" },
-          link: { type: "string", description: "URL to apply, empty string if not present" },
-          mail: { type: "string", description: "Email to send CV, empty string if not present" },
-          careers: {
-            type: "array",
-            description: "Students of which career are needed. They should match one (or more than one) of the followings careers with uppercase, no accents: " + `${CAREERS.join(", ")}.`,
+export default function getInternshipResponseSchema(univerity: string) {
+  const CAREERS = UNIVERSITIES_CAREERS.find((u) => u.id === univerity)?.careers ?? [];
+
+  const INTERSHIP_RESPONSE_SCHEMA = {
+    type: "object",
+    properties: {
+      internships: {
+        type: "array",
+        items: {
+          type: "object",
+          required: [
+            "arm",
+            "company_id",
+            "city",
+            "rrhh",
+            "interview_timetable",
+            "knowledge",
+            "requirements",
+            "payment",
+            "timetable",
+            "position",
+            "benefits",
+            "interns",
+            "workplace",
+            "modality",
+            "link",
+            "mail",
+          ],
+          properties: {
+            arm: { type: "string", description: "ARM number, e.g. '28/26'" },
+            company_id: { type: "string", description: "Company name, uppercase, no accents" },
+            city: { type: "string", description: "City name, uppercase, no accents" },
+            rrhh: { type: "string", description: "HR contact name" },
+            interview_timetable: { type: "string", description: "Interview schedule" },
+            knowledge: { type: "string", description: "Required knowledge/skills" },
+            requirements: { type: "string", description: "Other requirements" },
+            payment: { type: "integer", description: "Numeric salary only, no $ or separators. '$538.450,00' → 538450" },
+            timetable: { type: "string", description: "Work schedule" },
+            position: { type: "string", description: "Job position or area" },
+            benefits: { type: "string", description: "Benefits offered, empty string if none" },
+            interns: { type: "integer", description: "Number of interns required" },
+            workplace: { type: "string", description: "Physical work address" },
+            modality: { type: "string", description: "PRESENCIAL, HIBRIDA, or REMOTO" },
+            link: { type: "string", description: "URL to apply, empty string if not present" },
+            mail: { type: "string", description: "Email to send CV, empty string if not present" },
+            careers: {
+              type: "array",
+              description: "Students of which career are needed. They should match one (or more than one) of the followings careers with uppercase, no accents: " + `${CAREERS.join(", ")}.`,
+            },
+            observations: { type: "string", description: "In case the payment, or any other field requires some extra information, specify it here, otherwise empty string" },
           },
-          observations: { type: "string", description: "In case the payment, or any other field requires some extra information, specify it here, otherwise empty string" },
+          additionalProperties: false,
         },
-        additionalProperties: false,
       },
     },
-  },
-  required: ["internships"],
-};
+    required: ["internships"],
+  };
+
+  return INTERSHIP_RESPONSE_SCHEMA;
+}

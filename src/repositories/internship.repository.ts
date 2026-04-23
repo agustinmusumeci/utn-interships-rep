@@ -18,7 +18,7 @@ export class InternshipRepository {
     const internships: Array<Internship & { careers: Array<string> }> = [];
 
     for (let scraper of scrapers) {
-      const data = await scraper.scrapeInternships();
+      const data = (await scraper.scrapeInternships()).map((el) => ({ ...el, university_id: scraper.getUniversity() }));
 
       internships.push(...data);
     }
