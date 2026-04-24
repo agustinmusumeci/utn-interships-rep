@@ -3,7 +3,7 @@ import { ArrowUpRight } from "@lucide/astro";
 import Careers from "../career/careers";
 
 const {internship} = Astro.props;
-
+console.log(internship)
 ---
 <a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl border border-muted" href={`/internships/${internship?.id}`} data-astro-prefetch>
     <article class="flex flex-col gap-2 p-4">
@@ -15,7 +15,6 @@ const {internship} = Astro.props;
         <div class="flex flex-row items-center pt-4 justify-between border-t border-muted/15 pt">
             <span class="text-sm opacity-75" style={`color: ${internship.timeSinceCreated.color}`}>{internship.timeSinceCreated.time}</span>
             <Careers styles="max-w-70" careers={internship?.careers} isCard={true} client:load/>
-            <!-- <Careers styles="max-w-70" careers={internship?.careers} isCard={true}/> -->
         </div>
     </article>
 </a>

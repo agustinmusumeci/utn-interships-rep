@@ -21,14 +21,14 @@ export async function main() {
         where: { id: career.id },
         update: {
           name: career.name,
-          color: career.bg,
-          bg: career.name,
+          color: career.color,
+          bg: career.bg,
         },
         create: {
           id: univerity.id,
           name: career.name,
-          color: career.bg,
-          bg: career.name,
+          color: career.color,
+          bg: career.bg,
         },
       });
     }
