@@ -25,7 +25,7 @@ export async function main() {
           bg: career.bg,
         },
         create: {
-          id: univerity.id,
+          id: career.id,
           name: career.name,
           color: career.color,
           bg: career.bg,
@@ -49,9 +49,9 @@ export async function main() {
     await prisma.universityCareer.createMany({ data: univerity.careers.map((c) => ({ university_id: univerity.id, career_id: c.id })) ?? [], skipDuplicates: true });
   }
 
-  const uploader = new UploadController();
+  // const uploader = new UploadController();
 
-  await uploader.uploadData();
+  // await uploader.uploadData();
 
   console.log("Seeding finished.");
 }

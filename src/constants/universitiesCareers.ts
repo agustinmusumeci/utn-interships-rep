@@ -13,6 +13,8 @@ export const UNIVERSITIES_CAREERS = [
       { id: "METALURGICA", name: "Ing. Metalúrgica", color: "#4A9A96", bg: "#EAF8F7" },
       { id: "QUIMICA", name: "Ing. Química", color: "#2F8B28", bg: "#E7F9E9" },
       { id: "SISTEMAS", name: "Ing. en Sistemas", color: "#2F35D8", bg: "#E6E9FF" },
+      { id: "ANALISTA", name: "Analista en Sistemas", color: "#C2255C", bg: "#FFE1E0" },
+      { id: "HIGIENE", name: "Lic. en Hig. y Seg.", color: "#0C8599", bg: "#B8F7E4" },
     ],
   },
   { id: Universities.UNC, name: "Universidad Nacional de Córdoba", careers: [] },

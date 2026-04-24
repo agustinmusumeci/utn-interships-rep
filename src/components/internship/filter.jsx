@@ -111,7 +111,7 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
                       onInput={onChange}
                     />
                   </div>
-                  <div className="flex flex-col gap-2 w-full">
+                  <div className="flex flex-col gap-0 w-full">
                     <label
                       htmlFor="careers"
                       className="text-text/50"
@@ -165,7 +165,12 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
-                    <label htmlFor="date">Fecha</label>
+                    <label
+                      htmlFor="date"
+                      className="text-text/50"
+                    >
+                      Fecha
+                    </label>
                     <select
                       className="border-text"
                       name="date"
@@ -181,7 +186,12 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
                     </select>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
-                    <label htmlFor="time">Tiempo</label>
+                    <label
+                      htmlFor="time"
+                      className="text-text/50"
+                    >
+                      Tiempo
+                    </label>
                     <select
                       className=""
                       name="time"
