@@ -1,6 +1,7 @@
 import { actions } from "astro:actions";
 import { useState, useRef } from "react";
-import { CAREERS } from "../../constants/careers";
+import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
+// import { CAREERS } from "../../constants/careers";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -11,16 +12,19 @@ import PageTitle from "../ui/page-title";
 import Careers from "../career/careers";
 
 export default function Alert({ user, internships = [] }: { user: any; internships: any[] }) {
+  // Parse all the careers and suscripted careers
+  const careers = UNIVERSITIES_CAREERS.flatMap((u) => u.careers);
   const userCareersIds = new Set(user ? user?.careers?.map((c: { id: string }) => c?.id) : []);
+
   const [suscripted, setSuscripted] = useState(user?.suscripted ?? false);
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [alertedInternships, setAlertedInternships] = useState(internships ?? []);
-  const [availableCareers, setAvailableCareers] = useState(CAREERS.filter((career) => !userCareersIds.has(career?.id)) ?? []);
+  const [availableCareers, setAvailableCareers] = useState(careers.filter((career) => !userCareersIds.has(career?.id)) ?? []);
 
   const [suscriptedCareers, setSuscriptedCareers] = useState(user?.careers ?? []);
-  const [toDeleteCareers, setToDeleteCareers] = useState<typeof CAREERS>([]);
+  const [toDeleteCareers, setToDeleteCareers] = useState<Array<{ id: string; name: string; color: string; bg: string }>>([]);
   const [suscriptedKeywords, setSuscriptedKeywords] = useState(user?.keywords ?? []);
   const [toDeleteKeywords, setToDeleteKeywords] = useState<Array<string>>([]);
 
@@ -122,7 +126,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
   };
 
   const suscriptCareer = (careerId: string, suscript: boolean) => {
-    const career = CAREERS.find((c) => c.id === careerId);
+    const career = careers.find((c) => c.id === careerId);
     if (!career) return;
 
     if (suscript) {

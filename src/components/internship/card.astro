@@ -3,7 +3,6 @@ import { ArrowUpRight } from "@lucide/astro";
 import Careers from "../career/careers";
 
 const {internship} = Astro.props;
-console.log(internship)
 ---
 <a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl border border-muted" href={`/internships/${internship?.id}`} data-astro-prefetch>
     <article class="flex flex-col gap-2 p-4">
