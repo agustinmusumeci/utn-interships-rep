@@ -1,5 +1,5 @@
 import { ListFilter } from "lucide-react";
-import { CAREERS } from "../../constants/careers";
+import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
 import { useEffect, useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useDesktopResolution } from "@/hooks/useResolution";
@@ -18,10 +18,11 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
 
   const onCareerToggle = (careerId) => {
     setForm((prev) => {
-      const already = prev.careers.includes(careerId);
+      const isCareerSelected = prev.careers.includes(careerId);
+
       return {
         ...prev,
-        careers: already ? prev.careers.filter((c) => c !== careerId) : [...prev.careers?.filter((c) => c !== "*"), careerId],
+        careers: isCareerSelected ? prev.careers.filter((c) => c !== careerId) : [...prev.careers?.filter((c) => c !== "*"), careerId],
       };
     });
   };
@@ -29,7 +30,7 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
   useEffect(() => {
     const url = new URL(window.location);
 
-    const { careers, ...rest } = form;
+    const { careers, universities, ...rest } = form;
 
     Object.entries(rest).forEach(([key, value]) => {
       if (value) {
@@ -43,6 +44,12 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
       url.searchParams.set("careers", careers.join(","));
     } else {
       url.searchParams.delete("careers");
+    }
+
+    if (universities.length > 0) {
+      url.searchParams.set("universities", universities.join(","));
+    } else {
+      url.searchParams.delete("universities");
     }
 
     window.history.replaceState({}, "", url);
@@ -109,30 +116,52 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
                       htmlFor="careers"
                       className="text-text/50"
                     >
-                      Especialidad
+                      Universidades
                     </label>
-                    <div className="flex flex-col flex-wrap gap-3">
+                    <div>
                       <input
                         type="hidden"
                         name="careers"
                         value={form?.careers?.length > 0 ? form?.careers?.join(",") : "*"}
                       />
-                      {CAREERS.map((c) => (
-                        <div className="flex flex-row items-center gap-2 font-light">
-                          <input
-                            type="checkbox"
-                            value={c.id}
-                            checked={form?.careers?.includes(c.id)}
-                            onChange={() => onCareerToggle(c.id)}
-                          />
-                          <label
-                            key={`filter-${c.id}`}
-                            className="flex items-center gap-1 cursor-pointer text-text"
-                          >
-                            {c.name}
-                          </label>
-                        </div>
-                      ))}
+                      {UNIVERSITIES_CAREERS?.map(
+                        (u) =>
+                          u?.careers?.length > 0 && (
+                            <Accordion
+                              type="single"
+                              collapsible
+                              defaultValue={`${u.id}`}
+                              key={u.id}
+                            >
+                              <AccordionItem value={`${u.id}`}>
+                                <AccordionTrigger className="text-sm font-thin">{u.name}</AccordionTrigger>
+                                <AccordionContent>
+                                  <div className="flex flex-col gap-2">
+                                    {u.careers.map((c) => (
+                                      <div
+                                        className="flex flex-row items-center gap-2 font-light"
+                                        key={c.id}
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          value={c.id}
+                                          checked={form?.careers?.includes(c.id)}
+                                          onChange={() => onCareerToggle(c.id)}
+                                        />
+                                        <label
+                                          key={`filter-${c.id}`}
+                                          className="flex items-center gap-1 cursor-pointer text-text"
+                                        >
+                                          {c.name}
+                                        </label>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
+                          ),
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
@@ -152,7 +181,7 @@ export default function Filter({ filter, isAuthenticated, loggedUser, hasNotific
                     </select>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
-                    <label for="time">Tiempo</label>
+                    <label htmlFor="time">Tiempo</label>
                     <select
                       className=""
                       name="time"

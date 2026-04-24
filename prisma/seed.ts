@@ -2,7 +2,6 @@ import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
 import { PrismaClient, Prisma } from "../prisma/generated/client";
 import { UploadController } from "../src/controllers/upload.controller";
 import { PrismaPg } from "@prisma/adapter-pg";
-import type { Career } from "./zod";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -14,24 +13,6 @@ const prisma = new PrismaClient({
 
 export async function main() {
   console.log("Starting to seed...");
-
-  // for (const career of CAREERS) {
-  //   await prisma.career.upsert({
-  //     where: { id: career.id },
-  //     update: {
-  //       name: career.name,
-  //       color: career.color,
-  //       bg: career.bg,
-  //     },
-  //     create: {
-  //       id: career.id,
-  //       name: career.name,
-  //       color: career.color,
-  //       bg: career.bg,
-  //     },
-  //   });
-  // }
-  const careersSet: Set<Career> = new Set();
 
   for (const univerity of UNIVERSITIES_CAREERS) {
     for (const career of univerity.careers) {
@@ -67,6 +48,10 @@ export async function main() {
     // Add UniversityCareer tuples
     await prisma.universityCareer.createMany({ data: univerity.careers.map((c) => ({ university_id: univerity.id, career_id: c.id })) ?? [], skipDuplicates: true });
   }
+
+  const uploader = new UploadController();
+
+  await uploader.uploadData();
 
   console.log("Seeding finished.");
 }
