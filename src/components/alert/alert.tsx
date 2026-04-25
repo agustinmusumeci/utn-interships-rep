@@ -1,7 +1,6 @@
 import { actions } from "astro:actions";
 import { useState, useRef } from "react";
 import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
-// import { CAREERS } from "../../constants/careers";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -273,18 +272,18 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
               {alertedInternships?.map((internship) => (
                 <div
                   key={internship.internship.id}
-                  className="flex flex-col gap-5 bg-light-neutral text-text/75 p-5 min-w-100 h-fit"
+                  className="relative flex flex-col gap-5 bg-light-neutral text-text/75 p-5 min-w-100 h-fit rounded-xl"
                 >
-                  <div className="">
+                  <div>
                     <a
                       href={`/internships/${internship.internship.id}`}
-                      className="flex flex-row justify-between items-start gap-10 hover:underline hover:text-primary-hover transition-all"
+                      className="relative flex flex-row justify-between items-start gap-10 hover:underline hover:text-primary-hover transition-all mt-5"
                     >
-                      <div className="flex flex-row gap-5 items-center mb-10 overflow-hidden">
-                        <h4 className="font-semibold text-xl truncate line-clamp-1">{internship.internship.position}</h4>
+                      <div className="flex flex-row gap-5 items-center mb-10 overflow-hidden w-full grow">
                         <div className="w-1 h-1 p-1 rounded-full bg-primary-hover"></div>
+                        <h4 className="font-semibold text-lg truncate line-clamp-1">{internship.internship.position}</h4>
                       </div>
-                      <ArrowUpRight className="w-30" />
+                      <ArrowUpRight className="w-fit h-7" />
                     </a>
                   </div>
                   <div>

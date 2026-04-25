@@ -1,0 +1,88 @@
+---
+import { UserService } from "@/services/user.service";
+import Careers from "../career/careers";
+import { House, CircleDollarSign, MoveRight } from "@lucide/astro";
+import SaveInternship from "./saveInternship";
+import NotFound from "../404/notFound.astro";
+
+interface Props {
+  userId: string;
+}
+
+const { userId } = Astro.props as Props;
+
+const userService = new UserService();
+
+const internships = await userService.getSavedInternships(userId);
+---
+
+<section class="flex flex-col gap-5">
+  {
+    internships?.map((internship) => (
+      <div class="relative flex flex-col gap-5 bg-light-neutral text-text/75 p-5 w-full h-fit rounded-xl">
+        <div class="relative flex flex-row justify-between items-center">
+          <a
+            href={`/internships/${internship.id}`}
+            class=" flex flex-row items-center justify-between gap-5 hover:underline hover:text-primary-hover transition-all truncate"
+          >
+            <h5 class="font-semibold text-text text-md md:text-2xl truncate line-clamp-1">{internship.position}</h5>
+          </a>
+          <SaveInternship
+            styles=""
+            userId={userId}
+            internshipId={internship?.id}
+            isInternshipSaved={true}
+            client:load
+          />
+        </div>
+        <div class="hidden md:flex">
+          <p>{internship.requirements}</p>
+        </div>
+        <div class="flex flex-col gap-2 mb-9">
+          <p class="flex flex-row gap-2 items-center">
+            <House class="text-text/50 w-4" />
+            {internship.company.name}
+          </p>
+          <p class="flex flex-row gap-2 items-center">
+            <CircleDollarSign class="text-text/50 w-4" />
+            {typeof internship?.payment === "number" ? `$${internship?.payment?.toLocaleString()}` : internship.payment}
+          </p>
+        </div>
+        <div>
+          <div class="flex flex-row gap-3" />
+          <div class="pt-2 relative flex flex-row gap-20 justify-between items-center before:absolute before:-top-1/2 before:h-px before:w-full before:bg-text/20">
+            <span
+              class="text-sm opacity-75 shrink-0"
+              style={{ color: `${internship.timeSinceCreated.color}` }}
+            >
+              {internship.timeSinceCreated.time}
+            </span>
+            <div class="flex flex-row items-center gap-2 overflow-hidden">
+              <Careers
+                styles="max-w-100"
+                careers={internship.careers}
+                isCard={true}
+              />
+            </div>
+          </div>
+          <span>
+            <a
+              class="flex flex-row gap-5 text-primary-hover/50 hover:underline cursor-pointer"
+              href={`/internships/${internship.id}`}
+            />
+          </span>
+        </div>
+      </div>
+    ))
+  }
+  {
+    internships?.length === 0 && (
+      <NotFound
+        title="No tienes nada guardado"
+        description="No tienes pasantías guardadas aún. ¡Ve y guarda algunas!"
+        action="/internships"
+        actionLabel="Ver pasantías"
+      />
+    )
+  }
+</section>

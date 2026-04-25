@@ -41,7 +41,7 @@ export class UserRepository {
       where["internship_id"] = internshipId;
     }
 
-    return await prisma.userSaveInternship.findMany({ where: where });
+    return await prisma.userSaveInternship.findMany({ where: where, include: { Internship: { include: { Company: true, University: true, internshipCareers: { include: { Career: true } } } } } });
   }
 
   async createNotifications(notifications: Array<{ user_id: string; internship_id: number; seen: boolean }>) {

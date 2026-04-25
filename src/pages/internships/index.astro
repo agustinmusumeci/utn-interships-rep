@@ -25,15 +25,13 @@ if (isAuthenticated  && loggedUser) {
 }
 
 const filteredParams = {...params, careers: params?.careers?.split(",") ?? [], universities: !params?.universities && [],  page: params?.page ? Number(params?.page) : 0}
-
-console.log(filteredParams)
 ---
 
 <Layout title="Pasantías disponibles | BuscoPasantías" description="Explora todas las pasantías de diversas carreras y especialidades universitarias para encontrar la adecuada para vos!">
     <section class="container min-h-dvh mt-5 mb-20">
-        <PageTitle title="Pasantías disponibles" description="Explora las pasantías disponibles para ti" />
+        <PageTitle title="Pasantías disponibles" description="¡Explora todas las pasantías de diversas especialidades universitarias para encontrar la adecuada para vos!" />
 
-        <div class="mb-0 md:mb-10 w-fit">
+        <div class="mb-5 md:mb-10 w-fit">
             <Warning title="Por el momento solo hay pasantías de UTN FRC" client:load/>
         </div>
         <div class="grid lg:grid-cols-5 grid-cols-3 gap-10">

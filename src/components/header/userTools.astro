@@ -2,7 +2,7 @@
 import { UserService } from "@/services/user.service";
 import {MAXIMUM_DISPLAY_NOTIFICATIONS} from "../../constants/notifications"
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components'
-import { Bell } from '@lucide/astro'
+import { Bell, Bookmark } from '@lucide/astro'
 
 const user = await Astro.locals.currentUser()
 
@@ -28,7 +28,10 @@ if (user) {
         </div>
     </Show>
     <Show when="signed-in">       
-        <a href="/alerts" class="relative cursor-pointer">
+        <a href="/internships/saved">
+            <Bookmark/>
+        </a>
+        <a href="/alerts" class="relative">
             <Bell />
             {
                 notifications > 0 &&
@@ -40,7 +43,7 @@ if (user) {
         </div>
     </Show>
 
-    <!-- Mobile hamburger menu -->
+    <!-- Hamburger menu -->
     <details class="relative md:hidden details-hamburger">
         <summary class="p-2 rounded-md cursor-pointer flex items-center" aria-label="Abrir menú">
             <span class="hamburger" aria-hidden="true">

@@ -73,7 +73,17 @@ export class UserService {
 
   async getSavedInternships(userId: string, internshipId?: number) {
     try {
-      const res = await this.userRepository.getSavedInternships(userId, internshipId);
+      const data = await this.userRepository.getSavedInternships(userId, internshipId);
+
+      if (!data || data?.length === 0) return [];
+
+      const internshipService = new InternshipService();
+
+      const res = data.map((i) => {
+        const internship = internshipService.mapInternship(i?.Internship);
+
+        return internship;
+      });
 
       return res;
     } catch (e) {

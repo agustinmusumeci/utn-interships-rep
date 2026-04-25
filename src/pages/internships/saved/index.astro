@@ -1,0 +1,33 @@
+---
+import PageTitle from "@/components/ui/page-title";
+import Saved from "@/components/internship/saved.astro";
+import Layout from "../../../layouts/Layout.astro";
+import SavedSkeleton from "@/components/internship/savedSkeleton.astro";
+
+const { isAuthenticated } = Astro.locals.auth();
+const loggedUser = await Astro.locals.currentUser();
+
+if (!loggedUser || !isAuthenticated) {
+  Astro.redirect("/");
+}
+
+const userId = loggedUser?.id;
+---
+
+<Layout
+  title="Mis Pasantías Guardadas | BuscoPasantías"
+  description="Explora todas las pasantías de diversas carreras y especialidades universitarias para encontrar la adecuada para vos!"
+>
+  <section class="container mt-5 mb-20">
+    <PageTitle
+      title="Mis pasantías"
+      description="Las pasantías que fueron guardadas por ti."
+    />
+    <Saved
+      userId={userId}
+      server:defer
+    >
+      <SavedSkeleton slot="fallback" />
+    </Saved>
+  </section>
+</Layout>
