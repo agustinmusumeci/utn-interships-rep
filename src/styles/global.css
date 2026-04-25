@@ -186,6 +186,10 @@ input[type="checkbox"]:checked::before {
   @apply border-text/25 text-text/50 hover:bg-transparent;
 }
 
+.button-ghost {
+  @apply hover:bg-neutral transition-all;
+}
+
 .nav-link {
   @apply hover:text-primary-hover transition-all;
 }

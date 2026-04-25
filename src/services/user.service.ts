@@ -71,6 +71,18 @@ export class UserService {
     }
   }
 
+  async getSavedInternships(userId: string, internshipId?: number) {
+    try {
+      const res = await this.userRepository.getSavedInternships(userId, internshipId);
+
+      return res;
+    } catch (e) {
+      console.log(e);
+
+      return [];
+    }
+  }
+
   async createNotification(userId: string, internships: Array<number>) {
     const notifications = internships.map((id) => ({
       user_id: userId,
@@ -81,12 +93,24 @@ export class UserService {
     return await this.userRepository.createNotifications(notifications);
   }
 
+  async saveInternship(internshipId: number, userId: string, saved: boolean = true) {
+    try {
+      await this.userRepository.saveInternship(internshipId, userId, saved);
+      return { message: "Pasantía guardada correctamente", ok: true, error: undefined };
+    } catch (e) {
+      console.log(e);
+
+      return { message: "Error guardando la pasantía - Intente más tarde", ok: false, error: e instanceof Error ? e?.message : String(e) };
+    }
+  }
+
   async markNotificationAsRead(userId: string, internships: Array<number>) {
     try {
       await this.userRepository.markNotificationAsRead(userId, internships);
       return internships;
     } catch (e) {
-      return [];
+      console.log(e);
+      return;
     }
   }
 

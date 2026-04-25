@@ -41,8 +41,10 @@ model Internship {
 
   Company             Company @relation(fields: [company_id], references: [id])  
   University          University? @relation(fields: [university_id], references: [id])  
+
   internshipCareers   InternshipCareer[]
   userNotifications   UserNotification[]
+  userSaved           UserSaveInternship[]
   @@index([arm], type: Hash)
 }
 
@@ -99,6 +101,7 @@ model User {
   userCareers UserCareer[]
   userKeywords UserKeyword[]
   userNotifications UserNotification[]
+  userSaveInternships UserSaveInternship[]
 }
 
 model UserCareer {
@@ -118,6 +121,15 @@ model UserKeyword {
   User User @relation(fields: [user_id], references: [id]) 
   
   @@id([user_id, keyword]) 
+}
+
+model UserSaveInternship {
+  user_id         String
+  internship_id   Int
+
+  User            User @relation(fields: [user_id], references: [id])
+  Internship      Internship @relation(fields: [internship_id], references: [id])
+  @@id([user_id, internship_id])
 }
 
 model UserNotification {

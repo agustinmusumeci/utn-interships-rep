@@ -4,9 +4,13 @@ import CareersSkeleton from "../career/careersSkeleton.astro";
 <div class="flex flex-col md:flex-row gap-5 mt-5 text-transparent!">
     <div class="flex flex-col gap-3 w-full" aria-hidden="true">
             <div class="mb-3 flex flex-col gap-2 bg-light-neutral p-10 animate-pulse rounded-xl">
-                <div class="flex flex-col md:flex-row gap-0 md:gap-2 items-start md:items-center">
-                    <span class="bg-skeleton animate-pulse title-lg w-fit rounded-sm">Loading Position</span>
-                    <span class="bg-skeleton animate-pulse w-fit mb-2 rounded-sm">A.R.M XX/XX</span>
+                <div class="relative">
+                    <div class="flex flex-col gap-4 items-start">
+                        <span class="bg-skeleton animate-pulse w-fit mb-2 rounded-sm">A.R.M XX/XX</span>
+                        <span class="bg-skeleton animate-pulse title-lg w-fit rounded-sm">Loading Position</span>
+                    </div>
+                    <div class="absolute top-0 right-0 w-25 h-6 bg-skeleton animate-pulse rounded-md"></div>
+
                 </div>
                 <div class="mb-3">
                     <CareersSkeleton careers={2}/>
@@ -97,8 +101,8 @@ import CareersSkeleton from "../career/careersSkeleton.astro";
             </div>
             <div class="flex flex-col gap-5 w-full md:w-fit h-fit p-10 bg-light-neutral animate-pulse rounded-xl">
                 <div class="flex flex-row gap-2">
-                    <span class="text-lg font-bold h-6  bg-skeleton animate-pulse rounded-sm">Loading alerts </span>
-                    <span class="text-lg font-bold w-12.5 h-6.25 bg-skeleton animate-pulse rounded-full"></span>
+                    <span class="text-lg font-bold h-6  bg-skeleton animate-pulse rounded-sm">Loading alerts..</span>
+                    <span class="text-lg font-bold w-13 h-6.25 bg-skeleton animate-pulse rounded-full"></span>
                 </div>
                 <span class="text-lg font-bold w-full h-4 bg-skeleton animate-pulse rounded-sm"></span>
             </div>

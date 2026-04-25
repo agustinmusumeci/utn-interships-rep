@@ -45,6 +45,20 @@ export const server = {
     },
   }),
 
+  saveInternship: defineAction({
+    input: z.object({
+      internshipId: z.number(),
+      userId: z.string(),
+      saved: z.boolean(),
+    }),
+    handler: async ({ internshipId, userId, saved }) => {
+      const userService = new UserService();
+
+      const res = await userService.saveInternship(internshipId, userId, saved);
+      return res;
+    },
+  }),
+
   markAlertAsRead: defineAction({
     input: z.object({ id: z.string(), internships: z.array(z.number()) }),
     handler: async ({ id, internships }) => {

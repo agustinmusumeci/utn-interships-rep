@@ -14,7 +14,7 @@ export class UserController {
       return { message: "Alertas activadas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
-      return { message: "Error activando las alertar - Intente más tarde", ok: true, error: e };
+      return { message: "Error activando las alertar - Intente más tarde", ok: false, error: e instanceof Error ? e.message : String(e) };
     }
   }
 
@@ -24,7 +24,7 @@ export class UserController {
       return { message: "Carreras suscriptas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
-      return { message: "Error activando las alertas de carreras - Intente más tarde", ok: true, error: e };
+      return { message: "Error activando las alertas de carreras - Intente más tarde", ok: false, error: e instanceof Error ? e.message : String(e) };
     }
   }
 
@@ -34,7 +34,7 @@ export class UserController {
       return { message: "Keywords suscriptas correctamente", ok: true, error: undefined };
     } catch (e) {
       console.log(e);
-      return { message: "Error activando las alertas de keywords - Intente más tarde", ok: true, error: e };
+      return { message: "Error activando las alertas de keywords - Intente más tarde", ok: false, error: e instanceof Error ? e.message : String(e) };
     }
   }
 }
