@@ -1,125 +1,161 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import { Bell, MoveRight } from "@lucide/astro";
-import pasantias from "../../public/images/pasantias.png"
-import { Image } from 'astro:assets';
+import pasantias from "../../public/images/pasantias.png";
+import { Image } from "astro:assets";
 import prisma from "../lib/prisma";
 
 const user = await Astro.locals.currentUser();
 const name = user?.fullName;
 
 // Rompemos un poquito la arquitectura layered para no agregar boilerplate :P
-const [internshipsCount, companiesCount, alertsCount] = await Promise.all([
-	prisma.internship.count(),
-	prisma.company.count(),
-	prisma.userNotification.count(),
-])
+const [internshipsCount, companiesCount, alertsCount] = await Promise.all([prisma.internship.count(), prisma.company.count(), prisma.userNotification.count()]);
 
-const fmt = (n: any) => new Intl.NumberFormat('es-AR').format(n);
+const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
 ---
 
 <Layout>
-	<div class="bg-grid min-h-dvh pt-20 pb-20">
-		<div class="container lg:gap-24">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-				<section>
-					<div class="text-primary-hover mb-3">
-						<p>ESTADO: {user ? "SESIÓN INICIADA" : "SIN INICIAR SESIÓN"}</p>
-					</div>
-					<h1 class="title-2xl">BuscoPasantías</h1>
-					{user && <p class="text-light-text mb-2">¡Bienvenido/a <span class="text-primary-hover">{name}</span>!</p>}
+  <div class="bg-grid min-h-dvh pt-20 pb-20">
+    <div class="container lg:gap-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <section>
+          {
+            user && (
+              <div class="rounded-full w-fit mb-20 px-10 py-2 bg-neutral border-[0.5px] border-primary-hover">
+                <span class="text-light-text mb-10">
+                  ¡Bienvenido/a <span class="text-primary-hover">{name}</span>!
+                </span>
+              </div>
+            )
+          }
 
-					<div class="mb-6">
-						<p class="max-w-prose">
-							La aplicación número 1 en pasantías con convenios universitarios de Argentina.
-						</p>
-						<br>
-						<p>
-							 Encontra posiciones reales y actuales, gestioná alertas personalizadas y postulate con confianza y de forma más fácil.
-						</p>
-					</div>
+          <div class="flex flex-col gap-2">
+            <h2 class="italic title-xl mb-0!">Si te dicen</h2>
+            <h1 class="title-2xl text-primary-hover mb-0!">BuscoPasantías</h1>
+            <h2 class="italic title-xl mb-0">... ya las encontraste</h2>
+          </div>
 
-					<div class="flex flex-col sm:flex-row gap-3 sm:items-center">
-						<a href="/internships" class="button button-primary mr-3">
-							Ver pasantías <MoveRight class="w-4 ml-2" />
-						</a>
-						<a href="/terms-and-conditions" class="button button-outline">
-							Términos y condiciones
-						</a>
-					</div>
+          <div class="mb-6">
+            <p class="max-w-prose"> La aplicación número 1 en pasantías con convenios universitarios de Argentina. </p>
+            <br />
+            <p>
+              Encontrá posiciones reales, actuales y pensadas para estudiantes como vos. Configurá alertas personalizadas para que las oportunidades lleguen solas, y postulate de forma más fácil, con
+              más información y con la confianza de saber que cada empresa está validada por tu universidad.
+            </p>
+          </div>
 
-					<div class="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">
-						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
-							<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={internshipsCount}>+ {fmt(internshipsCount)}</span>
-							<span class="text-2xl font-light md:text-sm text-text/70">Pasantías</span>
-						</div>
-						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
-							<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={companiesCount}>+ {fmt(companiesCount)}</span>
-							<span class="text-2xl font-light md:text-sm text-text/70">Empresas</span>
-						</div>
-						<div class="flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-light-neutral/60 backdrop-blur-2xl rounded-xl p-5 text-center">
-							<div class="flex flex-row gap-2 items-center">
-								<Bell class="mx-auto" stroke-width="2" />
-								<span class="counter-up text-3xl font-bold" data-start-value={0} data-target-value={alertsCount}>{fmt(alertsCount)}</span>
-							</div>
-							<span class="text-2xl font-light md:text-sm text-text/70">Alertas enviadas</span>
-						</div>
-					</div>
-				</section>
+          <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+            <a
+              href="/internships"
+              class="button button-primary mr-3"
+            >
+              Ver pasantías <MoveRight class="w-4 ml-2" />
+            </a>
+            <a
+              href="/terms-and-conditions"
+              class="button button-outline"
+            >
+              Términos y condiciones
+            </a>
+          </div>
 
-				<div class="hidden md:flex justify-center">
-					<Image src={pasantias} alt="BuscoPasantias ilustración" class="w-full max-w-md rounded-md shadow-md" />
-				</div>
-			</div>
+          <div class="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <article class="relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-neutral/60 backdrop-blur-2xl rounded-xl p-8 text-center">
+              <div class="glow-orb"></div>
 
-			
-		</div>
-	</div>
+              <span
+                class="counter-up text-3xl font-bold"
+                data-start-value={0}
+                data-target-value={internshipsCount}
+                >+ {fmt(internshipsCount)}</span
+              >
+              <span class="text-2xl font-light md:text-sm text-text/70">Pasantías</span>
+            </article>
+            <article class="relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-neutral/60 backdrop-blur-2xl rounded-xl p-8 text-center">
+              <div class="glow-orb"></div>
+
+              <span
+                class="counter-up text-3xl font-bold"
+                data-start-value={0}
+                data-target-value={companiesCount}
+                >+ {fmt(companiesCount)}</span
+              >
+              <span class="text-2xl font-light md:text-sm text-text/70">Empresas</span>
+            </article>
+            <article class="relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center bg-neutral/60 backdrop-blur-2xl rounded-xl p-8 text-center">
+              <div class="glow-orb"></div>
+
+              <div class="flex flex-row gap-2 items-center">
+                <Bell
+                  class="mx-auto"
+                  stroke-width="2"
+                />
+                <span
+                  class="counter-up text-3xl font-bold"
+                  data-start-value={0}
+                  data-target-value={alertsCount}
+                  >{fmt(alertsCount)}</span
+                >
+              </div>
+              <span class="text-2xl font-light md:text-sm text-text/70">Alertas enviadas</span>
+            </article>
+          </div>
+        </section>
+
+        <div class="hidden md:flex justify-center">
+          <Image
+            src={pasantias}
+            alt="BuscoPasantias ilustración"
+            class="w-full max-w-md rounded-md shadow-md"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
 <script>
-    function handleCounter() {
-        const counters = document.querySelectorAll(".counter-up")
-        const steps = 100
+  function handleCounter() {
+    const counters = document.querySelectorAll(".counter-up");
+    const steps = 100;
 
-		counters.forEach((counter) => {
-			const targetNumber = Number(counter.getAttribute("data-target-value") ?? 0);
-			const startNumber = Number(counter.getAttribute("data-start-value") ?? 0);
-			const stepSize = (targetNumber - startNumber) / steps
+    counters.forEach((counter) => {
+      const targetNumber = Number(counter.getAttribute("data-target-value") ?? 0);
+      const startNumber = Number(counter.getAttribute("data-start-value") ?? 0);
+      const stepSize = (targetNumber - startNumber) / steps;
 
-			function updateCounter(start: number, target: number) {
-				counter.textContent = `+ ${String(start)}` 
-				if (start < target) {
+      function updateCounter(start: number, target: number) {
+        counter.textContent = `+ ${String(start)}`;
+        if (start < target) {
+          const nextStart = Math.ceil(start + stepSize);
 
-					const nextStart = Math.ceil(start + stepSize)
+          setTimeout(() => {
+            updateCounter(nextStart, target);
+          }, 30);
+        }
+      }
 
-                    setTimeout(() => {updateCounter(nextStart, target)}, 30)
-                }
-			}
+      updateCounter(startNumber, targetNumber);
+    });
+  }
 
-			updateCounter(startNumber, targetNumber)	
+  function handleObserver() {
+    const target = document.querySelector(".counter-up");
+    const options = {};
 
-        })
-    }
+    // When intersecting
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          handleCounter();
+          // Desuscribimos
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
 
-    function handleObserver() {
-        const target = document.querySelector(".counter-up");
-        const options = {};
+    // Observe the elemnts
+    observer.observe(target);
+  }
 
-        // When intersecting
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    handleCounter()
-					// Desuscribimos
-					observer.unobserve(entry.target)
-                }
-            })
-        }, options);
-
-        // Observe the elemnts
-        observer.observe(target);
-
-    }
-
-    window.addEventListener("DOMContentLoaded", handleObserver);
+  window.addEventListener("DOMContentLoaded", handleObserver);
 </script>
