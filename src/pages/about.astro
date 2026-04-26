@@ -1,29 +1,73 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-
+import { ShieldCheck, BrainCircuit, Code, Quote } from "@lucide/astro";
 ---
-<Layout title="Acerca de | BuscoPasantías" description="Busco pasantías es un proyecto un proyecto startup de código accesible creado por estudiantes de la Universidad Tecnológica Nacional Regiona Córdoba que busca fomentar y facilitar el acceso a las pasantías a los universitarios.">
 
-    <main class="container mt-20 ">
-        <div class="mb-20">
-            <h2 class="title-xl">¿Quienes somos?</h2>
-            <p class="max-w-prose">Busco pasantías es un proyecto startup de código accesible creado por estudiantes la Universidad Tecnológica Nacional Regiona Córdoba.</p>
-            <br>
-            <p class="max-w-prose">Su objectivo es centralizar las pasantías de las carreras universitarias y facilitar su acceso y disposición a los estudiantes que buscan empezar su camino profesional.</p>
+<Layout
+  title="Acerca de | BuscoPasantías"
+  description="Busco pasantías es un proyecto un proyecto startup de código accesible creado por estudiantes de la Universidad Tecnológica Nacional Regiona Córdoba que busca fomentar y facilitar el acceso a las pasantías a los universitarios."
+>
+  <main class="relative overflow-hidden">
+    <div class="glow-orb"></div>
+
+    <div class="container flex flex-col gap-10 mt-20 mb-10">
+      <div>
+        <h2 class="title-xl flex flex-col">
+          <span class="italic font-display!"> Acerca de </span>
+          <span class="text-primary-hover font-display!"> BuscoPasantías </span>
+        </h2>
+        <p class="max-w-prose text-light-text/75"> Una iniciativa académica diseñada para cerrar la brecha entre el talento universitario y el ecosistema de profesionales. </p>
+
+        <div class="text-light-text/95 mt-10">
+          <h4 class="title-lg font-medium! text-white/90">¿Quienes somos?</h4>
+          <div class="max-w-prose">
+            <p
+              >"BuscoPasantías" es un proyecto startup de código accesible impulsada y creada por estudiantes la <span class="font-bold underline"
+                >Universidad Tecnológica Nacional Regional Córdoba.</span
+              > Nuestra misión es simple pero ambiciosa: eliminar la fricción en la búsqueda de oportunidades.</p
+            >
+            <br />
+            <p>Buscamos centralizar las pasantías de todas las universidades y facilitar su acceso y disposición a los estudiantes que buscan empezar su camino profesional.</p>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <article class="p-10 bg-light-neutral rounded-lg shadow-sm">
-                <h3 class="title-md font-semibold mb-2">Confianza</h3>
-                <p class="text-sm text-text/70">La información proviene de fuentes públicas y se presenta de forma agregada para ayudarte a encontrar oportunidades.</p>
-            </article>
-            <article class="p-10 bg-light-neutral rounded-lg shadow-sm">
-                <h3 class="title-md font-semibold mb-2">Alertas inteligentes</h3>
-                <p class="text-sm text-text/70">Configura tus preferencias y recibe notificaciones cuando aparezcan pasantías que coincidan con tu perfil.</p>
-            </article>
-            <article class="p-10 bg-light-neutral rounded-lg shadow-sm">
-                <h3 class="title-md font-semibold mb-2">Proyecto abierto</h3>
-                <p class="text-sm text-text/70">El código del proyecto es público, desarrollado por Agustín Musumeci, y su uso se rige por los términos publicados.</p>
-            </article>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
+        <article class="relative p-10 hover:bg-neutral bg-neutral/50 rounded-xl transition-all border-b-2 border-primary-hover/75 hover:border-primary-hover">
+          <div class="flex flex-col gap-3">
+            <ShieldCheck class="text-primary-hover" />
+            <h3 class="title-md font-semibold mb-2 text-white/95">Confianza</h3>
+          </div>
+          <p class="text-sm text-text/70"
+            >La información proviene de fuentes públicas y portales universitarios oficiales. Cada dato esta curado y con información agregada para ayudarte a encontrar oportunidades.</p
+          >
+        </article>
+        <article class="relative p-10 hover:bg-neutral bg-neutral/50 rounded-xl transition-all border-b-2 border-primary-hover/75 hover:border-primary-hover">
+          <div class="flex flex-col gap-3">
+            <BrainCircuit class="text-primary-hover" />
+            <h3 class="title-md font-semibold mb-2 text-white/95">Alertas inteligentes</h3>
+            <p class="text-sm text-white/50">
+              Configura tus preferencias y recibe notificaciones cuando una pasantía coincida con tu perfil académico y tus intereses técnicos. No busques, deja que las oportunidades lleguen.
+            </p>
+          </div>
+        </article>
+
+        <article class="relative p-10 hover:bg-neutral bg-neutral/50 rounded-xl transition-all border-b-2 border-primary-hover/75 hover:border-primary-hover">
+          <div class="flex flex-col gap-3">
+            <Code class="text-primary-hover" />
+            <h3 class="title-md font-semibold mb-2 text-white/95">Proyecto abierto</h3>
+          </div>
+          <p class="text-sm text-text/70"
+            >Creemos en la transparencia. El código de la plataforma es público y desarrollado integramente por Agustín Musumeci, y su uso se rige por los términos publicados.</p
+          >
+        </article>
+      </div>
+      <div class="flex flex-col gap-2 justify-center items-center max-w-prose mx-auto my-20">
+        <Quote class="text-primary-hover/65" />
+        <div class="italic!">
+          <h3 class="title-md text-center">"La centralización de la información es el primer paso para facilitar oportunidades a todos"</h3>
+          <p class="text-light-text/50 text-center">- BuscoPasantías</p>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </Layout>

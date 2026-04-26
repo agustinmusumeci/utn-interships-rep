@@ -2,18 +2,32 @@
 import { ArrowUpRight } from "@lucide/astro";
 import Careers from "../career/careers";
 
-const {internship} = Astro.props;
+const { internship } = Astro.props;
 ---
-<a class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl border border-muted" href={`/internships/${internship?.id}`} data-astro-prefetch>
-    <article class="flex flex-col gap-2 p-4">
-        <div class="flex flex-row justify-between text-white/50">
-            <p class="text-sm bg-neutral/50 rounded-md px-3 py-1 border border-muted">A.R.M {internship?.arm}</p>
-            <ArrowUpRight/>
-        </div>
-        <h3 class="text-2xl font-semibold mb-5 mt-2 truncate line-clamp-1">{internship?.position}</h3>
-        <div class="flex flex-row items-center pt-4 justify-between border-t border-muted/15 pt">
-            <span class="text-sm opacity-75" style={`color: ${internship.timeSinceCreated.color}`}>{internship.timeSinceCreated.time}</span>
-            <Careers styles="max-w-70" careers={internship?.careers} isCard={true} client:load/>
-        </div>
-    </article>
+
+<a
+  class="relative h-fit w-full bg-light-neutral hover:bg-neutral transition-all rounded-xl border border-muted"
+  href={`/internships/${internship?.id}`}
+  data-astro-prefetch
+>
+  <article class="flex flex-col gap-2 p-4">
+    <div class="flex flex-row justify-between text-white/50">
+      <p class="text-sm bg-neutral/50 rounded-md px-3 py-1 border border-muted">A.R.M {internship?.arm}</p>
+      <ArrowUpRight />
+    </div>
+    <h3 class="text-2xl font-semibold mb-5 mt-2 truncate line-clamp-1">{internship?.position}</h3>
+    <div class="flex flex-row items-center pt-4 justify-between border-t border-muted/15 pt">
+      <span
+        class="text-sm opacity-75"
+        style={`color: ${internship.timeSinceCreated.color}`}
+        >{internship.timeSinceCreated.time}</span
+      >
+      <Careers
+        styles="max-w-50 md:max-w-70"
+        careers={internship?.careers}
+        isCard={true}
+        client:load
+      />
+    </div>
+  </article>
 </a>

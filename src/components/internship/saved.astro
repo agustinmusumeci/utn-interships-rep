@@ -23,9 +23,9 @@ const internships = await userService.getSavedInternships(userId);
         <div class="relative flex flex-row justify-between items-center">
           <a
             href={`/internships/${internship.id}`}
-            class=" flex flex-row items-center justify-between gap-5 hover:underline hover:text-primary-hover transition-all truncate"
+            class="group flex flex-row items-center justify-between gap-5 hover:underline hover:text-primary-hover transition-all truncate font-semibold font-display! text-text text-md md:text-2xl line-clamp-1"
           >
-            <h5 class="font-semibold text-text text-md md:text-2xl truncate line-clamp-1">{internship.position}</h5>
+            {internship.position}
           </a>
           <SaveInternship
             styles=""
