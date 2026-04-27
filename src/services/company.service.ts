@@ -11,4 +11,22 @@ export class CompanyService {
   async uploadCompanies(companies: Array<Company>) {
     return await this.companyRepository.uploadCompanies(companies);
   }
+
+  normalizeKey(name: string): string {
+    return name
+      .toUpperCase()
+      .normalize("NFC")
+      .replace(/[^A-Z0-9\s]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  normalizeName(name: string): string {
+    return name
+      .toUpperCase()
+      .normalize("NFC")
+      .replace(/[\u2013\u2014\u2212]/g, "-")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 }

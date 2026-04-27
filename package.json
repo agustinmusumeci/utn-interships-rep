@@ -11,7 +11,8 @@
     "postinstall": "prisma generate",
     "build": "prisma generate && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "admin": "node ./src/scripts/admin/index.js"
   },
   "dependencies": {
     "@astrojs/preact": "^5.0.2",

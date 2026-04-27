@@ -24,12 +24,15 @@ export class UploadController {
         companiesHash.add(companyId);
       }
 
-      const companies = [...companiesHash].map((c) => ({
-        id: String(c),
-        name: String(c),
+      const companies = [...companiesHash].map((c: any) => ({
+        id: String(companyService.normalizeKey(c)),
+        name: String(companyService.normalizeName(c)),
       }));
 
-      await companyService.uploadCompanies(companies);
+      console.log(companies);
+
+      const res = await companyService.uploadCompanies(companies);
+      console.log(res);
       const newInternships = await internshipService.uploadInternships(internships);
 
       console.log("Updated data succesfully", newInternships);
