@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "/.env" });
 
 export async function GET({ params, request }: { params: Record<string, string>; request: Request }) {
+  // Bearer Token check
   if (request.headers.get("Authorization") !== `Bearer ${import.meta.env.CRON_SECRET}`) {
     return new Response(null, {
       status: 401,
