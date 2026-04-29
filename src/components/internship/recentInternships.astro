@@ -1,0 +1,30 @@
+---
+import { InternshipService } from "@/services/internship.service";
+import { ArrowUpRight } from "@lucide/astro";
+
+const internshipService = new InternshipService();
+const mostRecentInternships = await internshipService.getInternships({ careers: [], time: "DESC", page: 0 });
+const threeMostRecentInternships = mostRecentInternships.data.slice(0, 3);
+---
+
+<div class="flex flex-col gap-4">
+  {
+    threeMostRecentInternships?.length > 0 &&
+      threeMostRecentInternships?.map((internship) => (
+        <a
+          href={`/internships/${internship.id}`}
+          class="flex flex-row items-center justify-between bg-light-neutral rounded-xl p-5 border border-white/20! hover:bg-neutral transition-all"
+        >
+          <div>
+            <span class="font-semibold">{internship.position}</span>
+            <div class="font-light text-sm">
+              <span class="text-light-text/75">
+                {internship.company.name} • {internship.city}
+              </span>
+            </div>
+          </div>
+          <ArrowUpRight />
+        </a>
+      ))
+  }
+</div>

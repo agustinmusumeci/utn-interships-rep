@@ -161,7 +161,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .button {
-  @apply rounded-full px-4 py-2 flex flex-row gap-4 items-center w-fit;
+  @apply rounded-full px-4 py-2 flex flex-row gap-4 items-center w-fit text-sm;
 }
 
 .button-primary {
@@ -292,11 +292,10 @@ input[type="checkbox"]:checked::before {
 
 .marquee-track {
   width: max-content;
-  animation: marquee 15s linear infinite;
+  animation: marquee 10s linear infinite;
   animation-play-state: var(--marquee-play-state);
 }
 
-/* Orb de glow con movimiento suave */
 .glow-orb {
   position: absolute;
   inset: 0;
