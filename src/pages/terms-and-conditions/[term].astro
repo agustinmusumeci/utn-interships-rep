@@ -1,0 +1,22 @@
+---
+import { TERMS_PAGES } from "@/constants/termsPages";
+import TermsLayout from "./termsLayout.astro";
+
+const { term } = Astro.params;
+const page = TERMS_PAGES.find((p) => p.term === term);
+
+if (!page) return Astro.redirect("/404");
+
+const { content, title, id } = page;
+---
+
+<TermsLayout>
+  <section class="bg-light-neutral p-10 rounded-xl">
+    <h2 class="title-lg">{id}. {title}</h2>
+    <div>
+      <p class="text-text max-w-prose">
+        {content}
+      </p>
+    </div>
+  </section>
+</TermsLayout>

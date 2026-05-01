@@ -7,7 +7,10 @@ async function rateLimitMiddleware(context: any, next: any) {
     return next();
   }
 
-  const ip = context.request.headers.get("x-forwarded-for") ?? context.clientAddress ?? "unknown";
+  const ip =
+    context.request.headers.get("x-forwarded-for") ??
+    context.clientAddress ??
+    "unknown";
 
   const { message, ok } = rateLimiter.checkIp(ip);
 
