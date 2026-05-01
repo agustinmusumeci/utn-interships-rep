@@ -216,7 +216,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                           Acepto los{" "}
                           <a
                             className="font-text! underline"
-                            href="/terms-and-conditions"
+                            href="/terminos-y-condiciones"
                             target="_blank"
                           >
                             términos y condiciones
@@ -276,7 +276,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                 >
                   <div>
                     <a
-                      href={`/internships/${internship.internship.id}`}
+                      href={`/pasantias/${internship.internship.id}`}
                       className="relative flex flex-row justify-between items-start gap-10 hover:underline hover:text-primary-hover transition-all mt-5"
                     >
                       <div className="flex flex-row gap-5 items-center mb-10 overflow-hidden w-full grow">
@@ -305,7 +305,7 @@ export default function Alert({ user, internships = [] }: { user: any; internshi
                     <span>
                       <a
                         className="flex flex-row gap-5 text-primary-hover/50 hover:underline cursor-pointer"
-                        href={`/internships/${internship.internship.id}`}
+                        href={`/pasantias/${internship.internship.id}`}
                       ></a>
                     </span>
                   </div>

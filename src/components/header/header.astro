@@ -4,43 +4,78 @@ import UserToolsSkeleton from "./userToolsSkeleton.astro";
 import InfoMenu from "./info-menu.tsx";
 import Icon from "../svg/icon.astro";
 ---
+
 <header class="h-20 bg-neutral">
-    <div class="container h-full flex flex-row justify-between items-center">
-        <div class="flex flex-row items-center gap-10">
-            <h1 class="hidden font-bold text-xl" aria-hidden="true">
-                BuscoPasantías   
-            </h1>	
-            <a href="/">
-                <Icon />	
-            </a>
-            <nav>
-                <ul class="hidden md:flex flex-row gap-5 items-center ">
-                    <li><a href="/" class="nav-link">Inicio</a></li>
-                    <li><a href="/internships" class="nav-link">Pasantías</a></li>
-                    <li class="relative">
-                        <InfoMenu client:load />
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        
-    <UserTools>
-        <UserToolsSkeleton slot="fallback"/>
-    </UserTools>
-       		
+  <div class="container h-full flex flex-row justify-between items-center">
+    <div class="flex flex-row items-center gap-10">
+      <h1 class="hidden font-bold text-xl" aria-hidden="true">
+        BuscoPasantías
+      </h1>
+      <a href="/">
+        <Icon />
+      </a>
+      <nav>
+        <ul class="hidden md:flex flex-row gap-5 items-center">
+          <li><a href="/" class="nav-link">Inicio</a></li>
+          <li><a href="/pasantias" class="nav-link">Pasantías</a></li>
+          <li class="relative">
+            <InfoMenu client:load />
+          </li>
+        </ul>
+      </nav>
     </div>
+
+    <UserTools>
+      <UserToolsSkeleton slot="fallback" />
+    </UserTools>
+  </div>
 </header>
 
 <!-- Hamburger menu styles -->
- <style>
-        details.details-hamburger summary::-webkit-details-marker { display: none; }
-        .hamburger{width:28px;height:20px;display:inline-block;position:relative}
-        .hamburger .bar{display:block;position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .25s ease,opacity .2s ease}
-        .hamburger .bar:nth-child(1){top:0}
-        .hamburger .bar:nth-child(2){top:9px}
-        .hamburger .bar:nth-child(3){bottom:0}
-        details[open] .hamburger .bar:nth-child(1){transform:translateY(9px) rotate(45deg)}
-        details[open] .hamburger .bar:nth-child(2){opacity:0;transform:scaleX(0)}
-        details[open] .hamburger .bar:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
-        details.details-hamburger summary{background:transparent;border:none;padding:0}
+<style>
+  details.details-hamburger summary::-webkit-details-marker {
+    display: none;
+  }
+  .hamburger {
+    width: 28px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+  }
+  .hamburger .bar {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease;
+  }
+  .hamburger .bar:nth-child(1) {
+    top: 0;
+  }
+  .hamburger .bar:nth-child(2) {
+    top: 9px;
+  }
+  .hamburger .bar:nth-child(3) {
+    bottom: 0;
+  }
+  details[open] .hamburger .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  details[open] .hamburger .bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  details[open] .hamburger .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  details.details-hamburger summary {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
 </style>

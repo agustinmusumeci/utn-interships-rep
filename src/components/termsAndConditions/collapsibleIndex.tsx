@@ -22,7 +22,7 @@ export default function CollapsibleIndex({ prefix, currentURI }: { prefix: strin
           <Accordion type="single" collapsible defaultValue="index" >
             <AccordionItem value="index">
               <AccordionTrigger className="[&>*:first-child]:flex! button button-ghost bg-light-neutral/50 w-full! rounded-full px-5 py-3"
-              >Navegación</AccordionTrigger>
+              >Navegación<nav></nav></AccordionTrigger>
 
               <AccordionContent className="mt-5">
                 <Index currentURI={currentURI} prefix={prefix} />

@@ -22,7 +22,7 @@ const internships = await userService.getSavedInternships(userId);
       <div class="relative flex flex-col gap-5 bg-light-neutral text-text/75 p-5 w-full h-fit rounded-xl">
         <div class="relative flex flex-row justify-between items-center">
           <a
-            href={`/internships/${internship.id}`}
+            href={`/pasantias/${internship.id}`}
             class="group flex flex-row items-center justify-between gap-5 hover:underline hover:text-primary-hover transition-all truncate font-semibold font-display! text-text text-md md:text-2xl line-clamp-1"
           >
             {internship.position}
@@ -45,7 +45,9 @@ const internships = await userService.getSavedInternships(userId);
           </p>
           <p class="flex flex-row gap-2 items-center">
             <CircleDollarSign class="text-text/50 w-4" />
-            {typeof internship?.payment === "number" ? `$${internship?.payment?.toLocaleString()}` : internship.payment}
+            {typeof internship?.payment === "number"
+              ? `$${internship?.payment?.toLocaleString()}`
+              : internship.payment}
           </p>
         </div>
         <div>
@@ -68,7 +70,7 @@ const internships = await userService.getSavedInternships(userId);
           <span>
             <a
               class="flex flex-row gap-5 text-primary-hover/50 hover:underline cursor-pointer"
-              href={`/internships/${internship.id}`}
+              href={`/pasantias/${internship.id}`}
             />
           </span>
         </div>

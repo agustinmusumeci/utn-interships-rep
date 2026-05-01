@@ -8,7 +8,11 @@ import RecentInternshipsSkeleton from "@/components/internship/recentInternships
 import { UNIVERSITIES_CAREERS } from "@/constants/universitiesCareers";
 
 // We broke the architecture and acoplate the system in order to avoid boilerplate :P
-const [internshipsCount, companiesCount, alertsCount] = await Promise.all([prisma.internship.count(), prisma.company.count(), prisma.userNotification.count()]);
+const [internshipsCount, companiesCount, alertsCount] = await Promise.all([
+  prisma.internship.count(),
+  prisma.company.count(),
+  prisma.userNotification.count(),
+]);
 
 const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
 ---
@@ -24,50 +28,85 @@ const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
         </div>
 
         <div class="text-light-text/90 text-center w-full! md:max-w-[650px]">
-          <p class="text-lg"> La aplicación número 1 en pasantías con convenios universitarios de Argentina. </p>
+          <p class="text-lg">
+            La aplicación número 1 en pasantías con convenios universitarios de
+            Argentina.
+          </p>
         </div>
 
         <div class="flex flex-col items-center gap-3 w-full! md:w-[645px]!">
           <FindInternship client:load />
-          <div class="hidden md:flex flex-row flex-wrap items-center gap-2 md:gap-5">
+          <div
+            class="hidden md:flex flex-row flex-wrap items-center gap-2 md:gap-5"
+          >
             <a
-              href={`/internships?text=power+bi`}
+              href={`/pasantias?text=power+bi`}
               class="rounded-md bg-light-neutral hover:bg-neutral transition-all text-light-text/80 px-5 py-1 border border-white/25!"
               >Power BI</a
             >
             <a
-              href={`/internships?text=excel`}
+              href={`/pasantias?text=excel`}
               class="rounded-md bg-light-neutral hover:bg-neutral transition-all text-light-text/80 px-5 py-1 border border-white/25!"
               >Excel</a
             >
             <a
-              href={`/internships?text=desarrollo`}
+              href={`/pasantias?text=desarrollo`}
               class="rounded-md bg-light-neutral hover:bg-neutral transition-all text-light-text/80 px-5 py-1 border border-white/25!"
               >Desarrollo</a
             >
             <a
-              href={`/internships?text=it`}
+              href={`/pasantias?text=it`}
               class="rounded-md bg-light-neutral hover:bg-neutral transition-all text-light-text/80 px-5 py-1 border border-white/25!"
               >IT</a
             >
           </div>
 
-          <div class="overflow-hidden! flex md:hidden marquee-wrapper max-w-full">
-            <div class="fmarquee-track flex flex-row gap-2 marquee-track text-nowrap!">
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Power BI</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Excel</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Desarrollo</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">IT</span>
+          <div
+            class="overflow-hidden! flex md:hidden marquee-wrapper max-w-full"
+          >
+            <div
+              class="fmarquee-track flex flex-row gap-2 marquee-track text-nowrap!"
+            >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Power BI</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Excel</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Desarrollo</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >IT</span
+              >
 
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Power BI</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Excel</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">Desarrollo</span>
-              <span class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!">IT</span>
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Power BI</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Excel</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >Desarrollo</span
+              >
+              <span
+                class="rounded-md bg-light-neutral text-light-text/80 px-5 py-1 border border-white/25!"
+                >IT</span
+              >
             </div>
           </div>
         </div>
 
-        <div class="mt-10 md:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4 border border-white/20! rounded-xl bg-neutral">
+        <div
+          class="mt-10 md:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4 border border-white/20! rounded-xl bg-neutral"
+        >
           <article
             class="border-b md:border-r md:border-b-0 border-white/20 relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center rounded-xl p-8 md:p-8"
           >
@@ -79,7 +118,9 @@ const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
               data-target-value={internshipsCount}
               >+ {fmt(internshipsCount)}</span
             >
-            <span class="text-2xl font-light md:text-sm text-text/70">Pasantías</span>
+            <span class="text-2xl font-light md:text-sm text-text/70"
+              >Pasantías</span
+            >
           </article>
           <article
             class="border-b md:border-r md:border-b-0 border-white/20 relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center rounded-xl p-6 md:p-8 text-center"
@@ -89,36 +130,35 @@ const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
             <span
               class="counter-up text-3xl font-bold"
               data-start-value={0}
-              data-target-value={companiesCount}
-              >+ {fmt(companiesCount)}</span
+              data-target-value={companiesCount}>+ {fmt(companiesCount)}</span
             >
-            <span class="text-2xl font-light md:text-sm text-text/70">Empresas</span>
+            <span class="text-2xl font-light md:text-sm text-text/70"
+              >Empresas</span
+            >
           </article>
-          <article class="relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center backdrop-blur-2xl rounded-xl p-6 md:p-8 text-center">
+          <article
+            class="relative overflow-hidden flex flex-row gap-5 md:gap-0 md:flex-col items-center justify-start md:justify-center backdrop-blur-2xl rounded-xl p-6 md:p-8 text-center"
+          >
             <!-- <div class="glow-orb"></div> -->
 
             <div class="flex flex-row gap-2 items-center">
-              <Bell
-                class="mx-auto"
-                stroke-width="2"
-              />
+              <Bell class="mx-auto" stroke-width="2" />
               <span
                 class="counter-up text-3xl font-bold"
                 data-start-value={0}
-                data-target-value={alertsCount}
-                >{fmt(alertsCount)}</span
+                data-target-value={alertsCount}>{fmt(alertsCount)}</span
               >
             </div>
-            <span class="text-2xl font-light md:text-sm text-text/70">Alertas enviadas</span>
+            <span class="text-2xl font-light md:text-sm text-text/70"
+              >Alertas enviadas</span
+            >
           </article>
         </div>
 
         <div class="w-full! md:w-[645px]! flex flex-col gap-5 mt-8">
           <div class="flex flex-row items-center justify-between">
             <p class="text-light-text font-semibold">Pasantías recientes</p>
-            <a
-              class="button button-outline"
-              href="/internships"
+            <a class="button button-outline" href="/pasantias"
               >Ver todas
               <MoveRight class="w-4 ml-2" />
             </a>
@@ -131,7 +171,13 @@ const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
         <div class="mt-8 flex flex-col items-center">
           <h4 class="title-lg text-center">Universidades disponibles</h4>
           <div class="flex flex-col md:flex-row flex-wrap items-center gap-5">
-            {UNIVERSITIES_CAREERS.map((university) => <span class="px-5 py-2 rounded-md bg-light-neutral">{university.name}</span>)}
+            {
+              UNIVERSITIES_CAREERS.map((university) => (
+                <span class="px-5 py-2 rounded-md bg-light-neutral">
+                  {university.name}
+                </span>
+              ))
+            }
           </div>
         </div>
       </section>
@@ -143,8 +189,12 @@ const fmt = (n: any) => new Intl.NumberFormat("es-AR").format(n);
         const steps = 100;
 
         counters.forEach((counter) => {
-          const targetNumber = Number(counter.getAttribute("data-target-value") ?? 0);
-          const startNumber = Number(counter.getAttribute("data-start-value") ?? 0);
+          const targetNumber = Number(
+            counter.getAttribute("data-target-value") ?? 0,
+          );
+          const startNumber = Number(
+            counter.getAttribute("data-start-value") ?? 0,
+          );
           const stepSize = (targetNumber - startNumber) / steps;
 
           function updateCounter(start: number, target: number) {

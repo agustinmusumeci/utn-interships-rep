@@ -1,7 +1,7 @@
 import { MoveRight, Search } from "lucide-react";
 import { useState } from "react";
 
-export default function FindInternship({}) {
+export default function FindInternship({ }) {
   const [toFind, setToFind] = useState("");
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,9 +14,9 @@ export default function FindInternship({}) {
     e.preventDefault();
 
     if (toFind) {
-      window.location.href = `/internships?text=${toFind}`;
+      window.location.href = `/pasantias?text=${toFind}`;
     } else {
-      window.location.href = `/internships`;
+      window.location.href = `/pasantias`;
     }
   };
 

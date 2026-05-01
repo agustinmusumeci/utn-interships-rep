@@ -16,7 +16,7 @@ export default function InfoMenu() {
             <ul className="flex flex-col gap-1">
               <li>
                 <a
-                  href="/about"
+                  href="/acerca"
                   className="block rounded-md px-3 py-2 text-sm hover:bg-light-neutral hover:text-primary-hover! transition-all"
                 >
                   Acerca de
@@ -24,7 +24,7 @@ export default function InfoMenu() {
               </li>
               <li>
                 <a
-                  href="/terms-and-conditions"
+                  href="/terminos-y-condiciones"
                   className="block rounded-md px-3 py-2 text-sm hover:bg-light-neutral hover:text-primary-hover! transition-all"
                 >
                   Términos y condiciones

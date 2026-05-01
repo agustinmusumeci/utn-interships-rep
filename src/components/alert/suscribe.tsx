@@ -98,9 +98,9 @@ export default function SuscribeAlert({ careers = [], keyword = "", isAuthentica
           onClick={
             isAuthenticated && loggedUser && hasNotifications
               ? async () => {
-                  await handleAlertSuscription();
-                }
-              : () => {}
+                await handleAlertSuscription();
+              }
+              : () => { }
           }
           data-internship-careers={JSON.stringify(careers)}
         >
@@ -116,7 +116,7 @@ export default function SuscribeAlert({ careers = [], keyword = "", isAuthentica
         {isAuthenticated && loggedUser && hasNotifications && (
           <a
             className="group font-text! "
-            href="/alerts"
+            href="/alertas"
           >
             Gestiona tus <span className="text-primary-hover/75 underline  group-hover:text-primary-hover transition-all">alertas</span>
           </a>
@@ -128,7 +128,7 @@ export default function SuscribeAlert({ careers = [], keyword = "", isAuthentica
             <span className="underline">
               Necesitas{" "}
               <a
-                href="/alerts"
+                href="/alertas"
                 className="font-text! transition-all"
               >
                 activar las alertas
