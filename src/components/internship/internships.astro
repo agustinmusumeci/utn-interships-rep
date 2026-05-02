@@ -6,32 +6,37 @@ import Pagination from "../pagination/pagination.astro";
 import NotFound from "../404/notFound.astro";
 
 type Props = {
-    searchParams: string,
-    pathname: string,
-    params: {careers: Array<string> | undefined, text?:string, time?:string, date?:string, page: number}
-    
-}
+  searchParams: string;
+  pathname: string;
+  params: { careers: Array<string> | undefined; text?: string; time?: string; date?: string; page: number };
+};
 
-const {searchParams, pathname, params} = Astro.props as Props;
+const { searchParams, pathname, params } = Astro.props as Props;
 
-const internshipService = new InternshipService()
-const {data, pages} = await internshipService.getInternships(params) 
+const internshipService = new InternshipService();
+const { data, pages } = await internshipService.getInternships(params);
 ---
-<>
-    <InternshipsGrid>
-        {data?.map((internship) => (
-            <Card
-                internship={internship}
-            />
-        ))}
-        {
-        data?.length === 0 
-        && 
-        <NotFound styles="col-span-full" title="Ningún resultado coincide" description="¡No te pongas nervisioso/a! Comprueba los filtros usados o prueba nuevos." action="/internships" actionLabel="Nueva búsqueda"/>
-            
-        }
-    </InternshipsGrid>
-    
-    <Pagination pages={pages} page={params.page} searchParams={searchParams} pathname={pathname}/>
-</>
 
+<>
+  <InternshipsGrid>
+    {data?.map((internship) => <Card internship={internship} />)}
+    {
+      data?.length === 0 && (
+        <NotFound
+          styles="col-span-full"
+          title="Ningún resultado coincide"
+          description="¡No te pongas nervisioso/a! Comprueba los filtros usados o prueba nuevos."
+          action="/pasantias"
+          actionLabel="Nueva búsqueda"
+        />
+      )
+    }
+  </InternshipsGrid>
+
+  <Pagination
+    pages={pages}
+    page={params.page}
+    searchParams={searchParams}
+    pathname={pathname}
+  />
+</>

@@ -45,9 +45,7 @@ const internships = await userService.getSavedInternships(userId);
           </p>
           <p class="flex flex-row gap-2 items-center">
             <CircleDollarSign class="text-text/50 w-4" />
-            {typeof internship?.payment === "number"
-              ? `$${internship?.payment?.toLocaleString()}`
-              : internship.payment}
+            {typeof internship?.payment === "number" ? `$${internship?.payment?.toLocaleString()}` : internship.payment}
           </p>
         </div>
         <div>
@@ -82,7 +80,7 @@ const internships = await userService.getSavedInternships(userId);
       <NotFound
         title="No tienes nada guardado"
         description="No tienes pasantías guardadas aún. ¡Ve y guarda algunas!"
-        action="/internships"
+        action="/pasantias"
         actionLabel="Ver pasantías"
       />
     )
