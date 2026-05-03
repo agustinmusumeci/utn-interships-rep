@@ -6,7 +6,7 @@ export class WebScraper {
   #browser: undefined | PBrowser;
   #page: undefined | Page;
 
-  async init(headless: boolean = false) {
+  async init(headless: boolean = true) {
     const isVercel = (typeof process !== "undefined" && process.env.VERCEL_ENV) || (import.meta as any).env?.VERCEL_ENV;
 
     let puppeteer: any,

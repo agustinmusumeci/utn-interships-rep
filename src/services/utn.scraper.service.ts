@@ -31,13 +31,11 @@ export class UTNScraper implements Scraper {
 
     await webScraper.close();
 
-    // const agent = new GeminiAgent();
+    const agent = new GeminiAgent();
 
-    // const res = await agent.sumbitContent(raw, this.university);
+    const res = await agent.sumbitContent(raw, this.university);
 
-    console.log(raw);
-    return {};
-    // return res.internships;
+    return res.internships;
   }
 
   getUniversity(): string {
