@@ -29,18 +29,15 @@ export class UploadController {
         name: String(companyService.normalizeName(c)),
       }));
 
-      console.log(companies);
-
-      const res = await companyService.uploadCompanies(companies);
-      console.log(res);
+      await companyService.uploadCompanies(companies);
       const newInternships = await internshipService.uploadInternships(internships);
 
       console.log("Updated data succesfully", newInternships);
 
       return { internships: newInternships, companies: companies };
     } catch (e) {
-      console.log(e);
-      return { internships: [], companies: [] };
+      console.error("Upload of data failed: ", e);
+      throw e;
     }
   }
 }
