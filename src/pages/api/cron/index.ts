@@ -30,8 +30,8 @@ export async function GET({ params, request }: { params: Record<string, string>;
       }),
     );
   } else {
-    console.log("Cron error: ", error);
-    return new Response(null, {
+    console.error("Cron error: ", error);
+    return new Response(JSON.stringify({ message: error.message }), {
       status: 500,
       statusText: "Internal server error",
     });

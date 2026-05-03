@@ -1,11 +1,37 @@
-import puppeteer, { Browser as PBrowser, Page } from "puppeteer";
+import { Browser as PBrowser, Page } from "puppeteer-core";
+import dotenv from "dotenv";
+dotenv.config({ path: "/.env" });
 
 export class WebScraper {
   #browser: undefined | PBrowser;
   #page: undefined | Page;
 
   async init(headless: boolean = false) {
-    const browser = await puppeteer.launch({ headless: headless });
+    const isVercel = (typeof process !== "undefined" && process.env.VERCEL_ENV) || (import.meta as any).env?.VERCEL_ENV;
+
+    let puppeteer: any,
+      launchOptions: any = {
+        headless: headless,
+      };
+
+    if (JSON.parse(isVercel)) {
+      // Vercel: Use puppeteer-core with downloaded Chromium binary
+      const chromium = (await import("@sparticuz/chromium")).default;
+      puppeteer = await import("puppeteer-core");
+
+      const executablePath = await chromium.executablePath();
+
+      launchOptions = {
+        ...launchOptions,
+        args: chromium.args,
+        executablePath,
+      };
+    } else {
+      // Local: Use regular puppeteer with bundled Chromium
+      puppeteer = await import("puppeteer");
+    }
+
+    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
 
     this.#browser = browser;

@@ -90,7 +90,7 @@ export class CronController {
       }
     } catch (e) {
       console.error(e);
-      return e;
+      throw e;
     }
   }
 }
